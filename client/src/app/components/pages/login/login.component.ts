@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Employee } from 'src/app/models/employee';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -43,7 +44,10 @@ export class LoginComponent {
             return;
           }
           if(response.message === 'Successfully Login'){
-            this.router.navigate(['/admin'])
+            const roles = this.getRolesFromToken(response.token)
+            if(roles.includes('admin')){
+              this.router.navigate(['admin']);
+            }
           }
         },
         (error) => {
@@ -51,5 +55,10 @@ export class LoginComponent {
           console.error(error);
         }
       );
+  }
+
+  private getRolesFromToken(token: string): string[] {
+    const decodedToken: any = jwt_decode(token);
+    return decodedToken.roles;
   }
 }

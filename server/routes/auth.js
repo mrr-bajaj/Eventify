@@ -13,7 +13,7 @@ router.post('/signup', async (req, res) => {
       return res.send({error: 'Email already registered'})
     }
     const hashedPassword = await bcrypt.hash(empPassword, 10);
-    const employee = new Employee({ empEmail,empName, empPassword: hashedPassword });
+    const employee = new Employee({ empEmail,empName, empPassword: hashedPassword,roles:['user'] });
     await employee.save();
     res.status(201).json({ message: 'Employee registered successfully' });
   } catch (error) {
@@ -33,8 +33,8 @@ router.post('/login', async (req, res) => {
       if (!isPasswordValid) {
         return res.send({ error: 'Invalid password' });
       } else {
-        // const token = jwt.sign({ employeeId: employee._id }, 'secret-key', { expiresIn: '1h' });
-        res.status(200).json({ message: 'Successfully Login' });
+        const token = jwt.sign({ employeeId: employee._id,roles:employee.roles }, 'secret-key', { expiresIn: '1h' });
+        res.status(200).json({ message: 'Successfully Login',token });
       }
     }
   } catch (error) {
