@@ -1,0 +1,22 @@
+<div class="login-container">
+  <h1>Register</h1>
+  <form (ngSubmit)="signup(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="empName">Name:</label>
+      <input type="text" class="form-control" id="empName" name="empName" ngModel required>
+    </div>
+    <div class="form-group">
+      <label for="empEmail">Email:</label>
+      <input type="email" class="form-control" email id="empEmail" name="empEmail" #email="ngModel" ngModel required>
+      <span class="help_block" *ngIf="(!email.valid && email.touched) || validEmail">Please enter a valid email address!</span>
+      <span class="help_block" *ngIf="existingEmail">Email Already Registered!</span>
+    </div>
+    <div class="form-group">
+      <label for="empPassword">Password:</label>
+      <input type="password" class="form-control" id="empPassword" name="empPassword" ngModel required>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Sign Up</button>
+  </form>
+  <p>Already Registered? <span><a routerLink="/login">Login</a></span> here</p>
+</div>
+
