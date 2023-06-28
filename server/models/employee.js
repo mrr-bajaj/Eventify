@@ -4,7 +4,7 @@ const employeeSchema = new mongoose.Schema({
   empEmail: { type: String, required: true, unique: true },
   empPassword: { type: String, required: true },
   empName: { type: String, required: true },
-  role: {type: String}
+  roles: {type: [String],default:'user'}
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);
