@@ -23,6 +23,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
+import { EventCardComponent } from './components/pages/shared/event-card/event-card.component';
 
 
 
@@ -37,7 +38,8 @@ import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-
     EmployeesComponent,
     SidebarComponent,
     HeaderComponent,
-    AdminRolesComponent
+    AdminRolesComponent,
+    EventCardComponent
   ],
   imports: [
     BrowserModule,
