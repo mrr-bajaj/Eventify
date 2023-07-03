@@ -1,28 +1,28 @@
 <div class="container card">
   <div class="row">
     <div class="col-md-2">
-      <img src="/assets/images/kongsberg_logo.png" height="100%" width="80%" alt="Image">
+      <img [src]="eventImageURL" height="100%" width="80%" alt="Image">
     </div>
     <div class="col-md-5 card-body">
       <div class="row card-title">
         <div class="col-md-12">
-          <h3>Event 1</h3>
+          <h3>{{event.eventName}}</h3>
         </div>
       </div>
       <div class="row card-text">
         <div class="col-md-12">
-          <p>This is the description of event 1</p>
+          <p>{{ event.eventDescription }}</p>
         </div>
       </div>
       <div class="row">
         <div class="col-md-3">
-          <span class="border border-primary p-2 rounded-5">25th Aug 2023</span>
+          <span class="border border-primary p-2 rounded-5">{{event.eventDate}}</span>
         </div>
         <div class="col-md-2">
-          <span class="border border-success p-2 rounded-5">5:00 PM</span>
+          <span class="border border-success p-2 rounded-5">{{formattedStartTime}}</span>
         </div>
         <div class="col-md-3">
-          <span class="border border-info p-2 rounded-5">Training Room</span>
+          <span class="border border-info p-2 rounded-5">{{event.eventLocation}}</span>
         </div>
       </div>
     </div>

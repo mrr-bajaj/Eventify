@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Create Event</h1>
+  <form (ngSubmit)="onSubmit(eventForm)" #eventForm="ngForm">
+    <div class="form-group">
+      <label for="eventName">Name:</label>
+      <input type="text" class="form-control" id="eventName" ngModel name="eventName" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea class="form-control" id="description" ngModel name="eventDescription" rows="3" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="eventDate">Date:</label>
+      <input type="date" class="form-control" id="eventDate" ngModel name="eventDate" required>
+    </div>
+    <div class="form-group">
+      <label for="startTime">Start Time:</label>
+      <input type="time" class="form-control" id="startTime" ngModel name="eventStartTime" required>
+    </div>
+    <div class="form-group">
+      <label for="endTime">End Time::</label>
+      <input type="time" class="form-control" id="endTime" ngModel name="eventEndTime" required>
+    </div>
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input type="text" class="form-control" id="location" ngModel name="eventLocation" required>
+    </div>
+    <div class="form-group">
+      <label for="eventType">Type:</label>
+      <input type="text" class="form-control" id="eventType" ngModel name="eventType" required>
+    </div>
+    <div class="form-group">
+      <label for="image">Image:</label>
+      <input type="file" class="form-control-file form-img" id="image" (change)="onImageChange($event)" name="eventImage" ngModel accept="image/*" required>
+    </div>
+    <div class="form-group d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary mx-2" [disabled]="!eventForm.valid">Create</button>
+      <button type="button" class="btn btn-primary mx-2" (click)="onReset()">Reset</button>
+    </div>
+  </form>
+</div>
