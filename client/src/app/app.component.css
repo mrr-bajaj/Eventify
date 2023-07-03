@@ -1,3 +1,7 @@
 p {
   font-family: Lato;
 }
+
+.container-fluid{
+  padding: 0;
+}
