@@ -15,4 +15,5 @@
 .main-content {
   flex: 85%;
   background-color: white;
+  padding: 0;
 }
