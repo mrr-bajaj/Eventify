@@ -7,6 +7,7 @@ import { DashboardComponent } from './components/pages/admin/dashboard/dashboard
 import { EventsComponent } from './components/pages/admin/events/events.component';
 import { EmployeesComponent } from './components/pages/admin/employees/employees.component';
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
+import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
       {path:'dashboard',component:DashboardComponent},
       {path:'events',component:EventsComponent},
       {path:'employees',component:EmployeesComponent},
-      {path: 'admin-roles', component: AdminRolesComponent}
+      {path: 'admin-roles', component: AdminRolesComponent},
+      {path: 'add-event', component: AddEventComponent}
   ]}
 ];
 

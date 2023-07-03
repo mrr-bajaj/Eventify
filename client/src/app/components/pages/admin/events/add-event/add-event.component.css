@@ -1,0 +1,27 @@
+.container {
+  background-color: lightgrey;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 5%;
+  padding: 20px;
+}
+.form-group{
+  margin-top: 5px;
+}
+h1 {
+  text-align: center;
+}
+
+label{
+  font-weight: bold;
+  font-size: larger;
+  margin-bottom: 5px;
+}
+
+.form-img{
+  margin-left: 10px;
+}
+
+input.ng-invalid.nd-touched{
+  border: 1px solid red;
+}

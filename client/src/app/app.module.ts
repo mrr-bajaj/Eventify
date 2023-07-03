@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
 import { EventCardComponent } from './components/pages/shared/event-card/event-card.component';
+import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
 
 
 
@@ -39,7 +40,8 @@ import { EventCardComponent } from './components/pages/shared/event-card/event-c
     SidebarComponent,
     HeaderComponent,
     AdminRolesComponent,
-    EventCardComponent
+    EventCardComponent,
+    AddEventComponent
   ],
   imports: [
     BrowserModule,
