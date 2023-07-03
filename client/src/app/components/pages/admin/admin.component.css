@@ -9,11 +9,11 @@
   flex: 15%;
   background-color: #f1f1f1;
   padding-right: 0;
-  height: 100vh;
 }
 
 /* Main column */
 .main-content {
   flex: 85%;
   background-color: white;
+  padding: 0;
 }
