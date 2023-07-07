@@ -1,17 +1,22 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { EventModel } from 'src/app/models/event';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
+  
+  private baseUrl = 'http://localhost:3000/api/events';
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
   events:EventModel[] = [];
 
-  addEvent(event:EventModel){
+  addEvent(event:any): Observable<any>{
     this.events.push(event);
+    return this.http.post(`${this.baseUrl}/add-event`,event);
   }
 
   getAllEvents(){
