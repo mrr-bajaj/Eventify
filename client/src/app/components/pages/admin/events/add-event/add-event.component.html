@@ -1,6 +1,6 @@
 <div class="container">
   <h1>Create Event</h1>
-  <form (ngSubmit)="onSubmit(eventForm)" #eventForm="ngForm">
+  <form (ngSubmit)="onSubmit(eventForm)" #eventForm="ngForm"  enctype="multipart/form-data">
     <div class="form-group">
       <label for="eventName">Name:</label>
       <input type="text" class="form-control" id="eventName" ngModel name="eventName" required>
