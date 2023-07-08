@@ -1,12 +1,5 @@
-export interface Employee {
-  // id:string;
+export interface Employee{
   name?: string;
   email: string;
-  department?: string;
-  profileImagePath?: string;
-}
-
-export interface EmployeeLoginInfo {
-  email: string;
-  password: string;
+  password:string;
 }

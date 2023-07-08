@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EmployeeLoginInfo } from 'src/app/models/employee';
+import { Employee } from 'src/app/models/employee';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import jwt_decode from 'jwt-decode';
 
@@ -11,7 +11,7 @@ import jwt_decode from 'jwt-decode';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  employeeLoginInfo!:EmployeeLoginInfo;
+  employee!:Employee;
   validEmail: boolean = false;
   emailNotFound: boolean = false;
   invalidPassword:boolean = false;
@@ -23,15 +23,15 @@ export class LoginComponent {
   }
 
   login(form: NgForm): void {
-    this.employeeLoginInfo = form.value;
+    this.employee = form.value;
     this.validEmail = false;
     this.emailNotFound = false;
     this.invalidPassword = false;
-    if(!this.validateEmail(this.employeeLoginInfo.email)){
+    if(!this.validateEmail(this.employee.email)){
       this.validEmail = true;
       return ;
     }
-    this.authService.login(this.employeeLoginInfo)
+    this.authService.login(this.employee)
       .subscribe(
         (response) => {
           // Handle successful login
