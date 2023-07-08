@@ -1,3 +1,27 @@
-.employees {
-  padding: 20px;
+.employee-card {
+  max-width: 400px;
+  margin: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.employee-header-image {
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.employee-photo{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.employee-container{
+  display: flex;
+  flex-direction:row ;
 }
