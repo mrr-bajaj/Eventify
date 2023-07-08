@@ -12,4 +12,16 @@ router.get('/', async (req , res) => {
   }
 });
 
+//Get Employee By Email
+router.get('/:email', async (req , res) => {
+  try {
+    const email = req.params.email;
+    const employee = await Employee.findOne({email});
+    res.json({name:employee.name,email:employee.email});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error:error.message });
+  }
+});
+
 module.exports = router;

@@ -27,6 +27,7 @@ import {MatCardModule} from '@angular/material/card'
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
 import { EventCardComponent } from './components/pages/shared/event-card/event-card.component';
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
+import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
 
 
 
@@ -43,7 +44,8 @@ import { AddEventComponent } from './components/pages/admin/events/add-event/add
     HeaderComponent,
     AdminRolesComponent,
     EventCardComponent,
-    AddEventComponent
+    AddEventComponent,
+    EventInfoComponent
   ],
   imports: [
     BrowserModule,

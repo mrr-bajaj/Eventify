@@ -101,6 +101,20 @@ router.get('/past-event',async (req ,res)=> {
   }
 })
 
+//Get event by an ID
+router.get('/:id',async (req,res)=>{
+  try{
+    const id = req.params.id;
+    const event = await Event.findOne({id});
+    if(!event){
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    res.status(200).json(event);
+  }catch(error){
+    res.status(500).json({ error: error.message });
+  }
+})
+
 // Route to save attendance for an event
 router.post('/attendance/:eventId', async (req, res) => {
   try {
@@ -120,6 +134,24 @@ router.post('/attendance/:eventId', async (req, res) => {
     await attendance.save();
 
     res.json({ message: 'Attendance saved successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//Get Attendance of an event
+router.get('/attendance/:eventId', async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    // Find the event by ID
+    const attendance = await Attendance.findOne({eventId});
+
+    // Check if the event exists
+    if (!attendance) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+
+    res.status(200).json(attendance);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

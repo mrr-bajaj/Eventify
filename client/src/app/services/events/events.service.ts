@@ -26,9 +26,17 @@ export class EventsService {
     return this.http.get(`${this.baseUrl}/past-event?date=${date}`);
   }
 
+  getEventById(id: string): Observable<any>{
+    return this.http.get(`${this.baseUrl}/${id}`);
+  }
+
   addAttendance(email:string, eventId: string): Observable<any>{
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes();
     return this.http.post(`${this.baseUrl}/attendance/${eventId}`,{email,time});
+  }
+
+  getAttendance(eventId: string):Observable<any>{
+    return this.http.get(`${this.baseUrl}/attendance/${eventId}`);
   }
 }

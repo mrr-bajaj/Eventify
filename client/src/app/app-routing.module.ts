@@ -8,6 +8,7 @@ import { EventsComponent } from './components/pages/admin/events/events.componen
 import { EmployeesComponent } from './components/pages/admin/employees/employees.component';
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
+import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path:'dashboard',component:DashboardComponent},
       {path:'events',component:EventsComponent},
+      {path:'events/:id',component:EventInfoComponent},
       {path:'employees',component:EmployeesComponent},
       {path: 'admin-roles', component: AdminRolesComponent},
       {path: 'add-event', component: AddEventComponent}
