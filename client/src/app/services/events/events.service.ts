@@ -12,38 +12,20 @@ export class EventsService {
 
   constructor(private http: HttpClient) {}
 
-  events:EventModel[] = [];
+  pastEvents : EventModel[] = [];
+  upcomingEvents : EventModel[] = [];
 
   addEvent(event:any): Observable<any>{
-    this.events.push(event);
     return this.http.post(`${this.baseUrl}/add-event`,event);
   }
 
-  getAllEvents(){
-    return this.events.slice();
-  }
-
   getAllUpcomingEvents(){
-    const today = new Date();
-
-    const filteredEvents = this.events.filter((event: EventModel) => {
-      const date = new Date(event.date);
-      // Compare the event date with today's date
-      return date >= today;
-    });
-
-    return filteredEvents;
+    const date = new Date();
+    return this.http.get(`${this.baseUrl}/upcoming-event?date=${date}`);
   }
 
   getAllPastEvents(){
-    const today = new Date();
-
-    const filteredEvents = this.events.filter((event: EventModel) => {
-      const date = new Date(event.date);
-      // Compare the event date with today's date
-      return date < today;
-    });
-
-    return filteredEvents;
+    const date = new Date();
+    return this.http.get(`${this.baseUrl}/past-event?date=${date}`);
   }
 }

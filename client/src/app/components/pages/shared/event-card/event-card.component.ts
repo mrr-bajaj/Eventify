@@ -13,7 +13,7 @@ export class EventCardComponent implements OnInit{
   
   ngOnInit(): void {
    this.convertTime();
-   this.convertImageToDataUrl();
+   this.convertImageFileToUrl();
   }
 
   convertTime(){
@@ -28,12 +28,8 @@ export class EventCardComponent implements OnInit{
     });
   }
 
-  convertImageToDataUrl(): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imageURL = reader.result as string;
-    };
-    reader.readAsDataURL(this.event.image);
+  convertImageFileToUrl(): void {
+    this.imageURL = this.event.image.toString();
   }
 
 }

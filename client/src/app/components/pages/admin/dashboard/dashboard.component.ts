@@ -15,7 +15,12 @@ export class DashboardComponent {
   constructor(private eventsService : EventsService){}
   
   ngOnInit(): void {
-    this.upcomingEvents = this.eventsService.getAllUpcomingEvents();
-    this.pastEvents = this.eventsService.getAllPastEvents();
+    this.eventsService.getAllUpcomingEvents().subscribe((resData:EventModel[]) => {
+      this.upcomingEvents =resData;
+    });
+
+    this.eventsService.getAllPastEvents().subscribe((resData:EventModel[])=>{
+      this.pastEvents = resData;
+    });
   }
 }
