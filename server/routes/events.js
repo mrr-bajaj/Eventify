@@ -41,7 +41,6 @@ router.post('/add-event',upload.single('image'), async (req, res) => {
     
     // Generate QR code
     const qrCodeImage = await qrCode.toDataURL(id);
-    console.log(typeof qrCodeImage);
     // Save event with QR code and ID in database
     const event = new Event({
       id,
@@ -52,10 +51,9 @@ router.post('/add-event',upload.single('image'), async (req, res) => {
       endTime,
       location,
       type,
-      image:url + "/public/images/event-logo" + req.file.filename,
+      image:url + "/public/images/event-logo/" + req.file.filename,
       qrCode: qrCodeImage,
     });
-    console.log(event);
     await event.save();
 
     res.status(201).json({message: 'Event added successfully'});
@@ -63,6 +61,40 @@ router.post('/add-event',upload.single('image'), async (req, res) => {
     res.status(500).json({error: error.message});
   }
 });
+
+//Get Upcoming Events
+router.get('/upcoming-event',async (req ,res)=> {
+  try{
+    const {date} = req.query;
+    const filter = {};
+    if(date){
+      filter.date = {
+        $gte : new Date(date)
+      }
+    }
+    const events =await Event.find(filter);
+    res.json(events);
+  }catch(error){
+    res.status(500).json({error: error.message});
+  }
+})
+
+//Get Past Events
+router.get('/past-event',async (req ,res)=> {
+  try{
+    const {date} = req.query;
+    const filter = {};
+    if(date){
+      filter.date = {
+        $lte : new Date(date)
+      }
+    }
+    const events =await Event.find(filter);
+    res.json(events);
+  }catch(error){
+    res.status(500).json({error: error.message});
+  }
+})
 
 function generateId() {
   return uuid.v4().substring(0, 8);

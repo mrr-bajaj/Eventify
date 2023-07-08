@@ -16,8 +16,13 @@ export class EventsComponent implements OnInit{
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService){}
   
   ngOnInit(): void {
-    this.upcomingEvents = this.eventsService.getAllUpcomingEvents();
-    this.pastEvents = this.eventsService.getAllPastEvents();
+    this.eventsService.getAllUpcomingEvents().subscribe( (resData:EventModel[]) => {
+      this.upcomingEvents =resData;
+    });
+    
+    this.eventsService.getAllPastEvents().subscribe((resData:EventModel[])=>{
+      this.pastEvents = resData;
+    });
   }
 
   onAddEvent(){
