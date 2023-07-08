@@ -1,4 +1,23 @@
-<main class="employees">
-  <h1>Employees</h1>
-   Employees content goes here
-</main>
+<div class="employee-container" *ngIf="employees.length>0 else noEmployeesBlock">
+  <div *ngFor="let employee of employees">
+    <mat-card class="employee-card">
+      <mat-card-header>
+        <div mat-card-avatar class="employee-header-image"></div>
+        <mat-card-title>{{employee.name ? employee.name : 'Name Unavailable'}}</mat-card-title>
+        <mat-card-subtitle>{{employee.email}}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image class="employee-photo"
+        [src]="employee.profileImagePath?employee.profileImagePath: 'assets/images/employee-placeholder-img.png'"
+        alt="Photo Placeholder">
+      <mat-card-content>
+        <p>
+          {{employee.department?employee.department:'Department Unavailable'}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>View Details</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<ng-template class="info-text mat-body-1" #noEmployeesBlock>No employees added!</ng-template>

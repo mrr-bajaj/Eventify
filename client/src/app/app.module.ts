@@ -21,8 +21,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
+import {MatIconModule } from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card'
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
 import { EventCardComponent } from './components/pages/shared/event-card/event-card.component';
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
@@ -59,7 +60,8 @@ import { AddEventComponent } from './components/pages/admin/events/add-event/add
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    DatePipe
+    DatePipe,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
