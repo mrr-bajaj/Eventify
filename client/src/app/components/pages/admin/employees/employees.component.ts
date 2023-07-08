@@ -15,20 +15,14 @@ export class EmployeesComponent implements OnInit {
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit() {
-    this.getEmployees();
+    this.employeeService.getEmployees().subscribe(
+      (data: Employee[]) => {
+        this.employees = data;
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
   }
 
-  getEmployees() {
-    this.employees = this.employeeService.getEmployees();
-  }
-
-  addEmployee(emp: Employee) {
-    this.employeeService.addEmployee(emp);
-    this.getEmployees(); // Refresh the employee list after adding a new employee
-  }
-
- /* deleteEmployee(empId: string) {
-    this.employeeService.deleteEmployee(empId);
-    this.getEmployees(); // Refresh the employee list after deleting an employee
-  }*/
 }

@@ -1,26 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Employee } from 'src/app/models/employee';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private employees: Employee[] = [{ "email": "sha@kongsbergdigital.com", "name": "Sha", "department": "Digital Energy", "profileImagePath": "https://loremflickr.com/320/240" }, { "email": "lini@kongsbergdigital.com", "name": "Lini", "department": "Digital Energy" }, { "email": "shu@kongsbergdigital.com", "name": "Shu", "department": "Digital Energy", "profileImagePath": "https://loremflickr.com/320/240" }, { "email": "bham@kongsbergdigital.com", "name": "Bham", "department": "Digital Energy" }];
+  private baseUrl = 'http://localhost:3000/api/employees';
+  constructor(private http:HttpClient) { }
 
-  constructor() { }
-
-  getEmployees(): Employee[] {
-    return this.employees;
+  getEmployees():Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${this.baseUrl}`);
   }
-
-  addEmployee(emp: Employee) {
-    this.employees.push(emp);
-  }
-
-  /*deleteEmployee(empId: string) {
-    const index = this.employees.findIndex(emp => emp.id === empId);
-    if (index !== -1) {
-      this.employees.splice(index, 1);
-    }
-  }*/
 }
