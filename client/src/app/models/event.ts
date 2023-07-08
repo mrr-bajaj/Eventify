@@ -1,10 +1,10 @@
 export interface EventModel{
-  eventName: string;
-  eventDescription: string;
-  eventDate: Date;
-  eventStartTime: string;
-  eventEndTime: string;
-  eventLocation: string;
-  eventType: string;
-  eventImage: File;
+  name: string;
+  description: string;
+  date: Date;
+  startTime: string;
+  endTime: string;
+  location: string;
+  type: string;
+  image: File;
 }

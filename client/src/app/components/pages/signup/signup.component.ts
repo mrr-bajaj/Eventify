@@ -26,7 +26,7 @@ export class SignupComponent {
     this.employee = form.value;
     this.existingEmail = false;
     this.validEmail = false;
-    if(!this.validateEmail(this.employee.empEmail)){
+    if(!this.validateEmail(this.employee.email)){
       this.validEmail = true;
       return ;
     }

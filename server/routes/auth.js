@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Employee = require('../models/employee');
+const Employee = require('../models/employee.model');
 
 // SignUp route
 router.post('/signup', async (req, res) => {
   try {
-    const { empEmail, empPassword,empName } = req.body;
-    const emp = await Employee.findOne({empEmail});
+    const { email, password,name } = req.body;
+    const emp = await Employee.findOne({email});
     if(emp){
       return res.send({error: 'Email already registered'})
     }
-    const hashedPassword = await bcrypt.hash(empPassword, 10);
-    const employee = new Employee({ empEmail,empName, empPassword: hashedPassword,roles:['user'] });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const employee = new Employee({ email,name, password: hashedPassword,roles:['user'] });
     await employee.save();
     res.status(201).json({ message: 'Employee registered successfully' });
   } catch (error) {
@@ -24,12 +24,12 @@ router.post('/signup', async (req, res) => {
 // Login route
 router.post('/login', async (req, res) => {
   try {
-    const { empEmail, empPassword } = req.body;
-    const employee = await Employee.findOne({ empEmail });
+    const { email, password } = req.body;
+    const employee = await Employee.findOne({ email });
     if (!employee) {
       return res.send({ error: 'Email not found' });
     } else {
-      const isPasswordValid = await bcrypt.compare(empPassword, employee.empPassword);
+      const isPasswordValid = await bcrypt.compare(password, employee.password);
       if (!isPasswordValid) {
         return res.send({ error: 'Invalid password' });
       } else {

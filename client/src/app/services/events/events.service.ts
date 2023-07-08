@@ -27,9 +27,9 @@ export class EventsService {
     const today = new Date();
 
     const filteredEvents = this.events.filter((event: EventModel) => {
-      const eventDate = new Date(event.eventDate);
+      const date = new Date(event.date);
       // Compare the event date with today's date
-      return eventDate >= today;
+      return date >= today;
     });
 
     return filteredEvents;
@@ -39,9 +39,9 @@ export class EventsService {
     const today = new Date();
 
     const filteredEvents = this.events.filter((event: EventModel) => {
-      const eventDate = new Date(event.eventDate);
+      const date = new Date(event.date);
       // Compare the event date with today's date
-      return eventDate < today;
+      return date < today;
     });
 
     return filteredEvents;

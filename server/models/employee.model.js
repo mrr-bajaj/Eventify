@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const employeeSchema = new mongoose.Schema({
-  empEmail: { type: String, required: true, unique: true },
-  empPassword: { type: String, required: true },
-  empName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  name: { type: String, required: true },
   roles: {type: [String],default:'user'}
 });
 

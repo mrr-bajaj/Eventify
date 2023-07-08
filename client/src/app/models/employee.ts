@@ -1,5 +1,5 @@
 export interface Employee{
-  empName?: string;
-  empEmail: string;
-  empPassword:string;
+  name?: string;
+  email: string;
+  password:string;
 }
