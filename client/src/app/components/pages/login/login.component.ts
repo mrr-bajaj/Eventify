@@ -1,21 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeLoginInfo } from 'src/app/models/employee';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import jwt_decode from 'jwt-decode';
+import { EventsService } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   employeeLoginInfo!:EmployeeLoginInfo;
   validEmail: boolean = false;
   emailNotFound: boolean = false;
   invalidPassword:boolean = false;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router,private route: ActivatedRoute,private eventsService: EventsService) { }
+  eventId: string = '';
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params =>{
+      if(params['id']){
+        this.eventId = params['id'];
+      }
+    })
+  }
 
   validateEmail(email: string){
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
@@ -45,8 +55,17 @@ export class LoginComponent {
           }
           if(response.message === 'Successfully Login'){
             const roles = this.getRolesFromToken(response.token)
-            if(roles.includes('admin')){
+            if(roles.includes('admin') && !this.eventId){
               this.router.navigate(['admin']);
+            }else if(roles.includes('user')){
+              this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
+                if(res.message === 'Attendance saved successfully'){
+                  form.reset();
+                  alert('Attendance Saved Successfully!');
+                }
+              },(error)=>{
+                console.log(error)
+              });
             }
           }
         },

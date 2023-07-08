@@ -10,6 +10,7 @@ export class EventCardComponent implements OnInit{
   @Input() event: EventModel;
   formattedStartTime: string;
   imageURL: string;
+  qrCodeImage: string;
   
   ngOnInit(): void {
    this.convertTime();
@@ -32,4 +33,11 @@ export class EventCardComponent implements OnInit{
     this.imageURL = this.event.image.toString();
   }
 
+  downloadQrCode(){
+    this.qrCodeImage = this.event.qrCode;
+    const link = document.createElement('a');
+    link.href = this.qrCodeImage;
+    link.download = `${this.event.name}_qrcode.png`;
+    link.click();
+  }
 }

@@ -4,6 +4,7 @@ const qrCode = require('qrcode');
 const multer = require('multer');
 const router = express.Router();
 const Event = require('../models/event.model');
+const Attendance = require('../models/attendance.model');
 
 
 const MIME_TYPE_MAP = {  
@@ -35,12 +36,14 @@ const upload = multer({ storage: storage });
 router.post('/add-event',upload.single('image'), async (req, res) => {
   try {
     const { name, description, date, startTime,endTime,location,type } = req.body;
-    const url = req.protocol + '://'+ req.get("host"); 
+    const url = req.protocol + '://'+ req.get("host");
+    const appUrl = 'http://localhost:51639/login/events'; 
     // Generate unique event ID
     const id = generateId();
+    const qrCodeData = `${appUrl}?id=${id}`;
     
     // Generate QR code
-    const qrCodeImage = await qrCode.toDataURL(id);
+    const qrCodeImage = await qrCode.toDataURL(qrCodeData);
     // Save event with QR code and ID in database
     const event = new Event({
       id,
@@ -54,6 +57,8 @@ router.post('/add-event',upload.single('image'), async (req, res) => {
       image:url + "/public/images/event-logo/" + req.file.filename,
       qrCode: qrCodeImage,
     });
+    const attendance = new Attendance({eventId:id,employees:[]});
+    await attendance.save();
     await event.save();
 
     res.status(201).json({message: 'Event added successfully'});
@@ -95,6 +100,30 @@ router.get('/past-event',async (req ,res)=> {
     res.status(500).json({error: error.message});
   }
 })
+
+// Route to save attendance for an event
+router.post('/attendance/:eventId', async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const { email, time } = req.body;
+    // Find the event by ID
+    const attendance = await Attendance.findOne({eventId});
+
+    // Check if the event exists
+    if (!attendance) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    // Add the attended employee
+    attendance.employees.push({ email, time });
+
+    // Save 
+    await attendance.save();
+
+    res.json({ message: 'Attendance saved successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 function generateId() {
   return uuid.v4().substring(0, 8);

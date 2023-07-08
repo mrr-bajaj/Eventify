@@ -7,4 +7,5 @@ export interface EventModel{
   location: string;
   type: string;
   image: File;
+  qrCode?: string;
 }

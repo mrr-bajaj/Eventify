@@ -11,7 +11,11 @@ import { AddEventComponent } from './components/pages/admin/events/add-event/add
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent,
+    children: [
+      { path: 'events', component: LoginComponent },
+      { path: 'events/:id', component: LoginComponent }
+] },
   { path: 'signup', component: SignupComponent },
   {
     path: 'admin', 
