@@ -9,7 +9,7 @@ import { EventModel } from 'src/app/models/event';
 export class EventCardComponent implements OnInit{
   @Input() event: EventModel;
   formattedStartTime: string;
-  eventImageURL: string;
+  imageURL: string;
   
   ngOnInit(): void {
    this.convertTime();
@@ -18,7 +18,7 @@ export class EventCardComponent implements OnInit{
 
   convertTime(){
     // Convert startTime to a Date object
-    const startTimeDate = new Date(`1970-01-01T${this.event.eventStartTime}:00Z`);
+    const startTimeDate = new Date(`1970-01-01T${this.event.startTime}:00Z`);
 
     // Format the time with AM or PM
     this.formattedStartTime = startTimeDate.toLocaleString('en-US', {
@@ -31,9 +31,9 @@ export class EventCardComponent implements OnInit{
   convertImageToDataUrl(): void {
     const reader = new FileReader();
     reader.onload = () => {
-      this.eventImageURL = reader.result as string;
+      this.imageURL = reader.result as string;
     };
-    reader.readAsDataURL(this.event.eventImage);
+    reader.readAsDataURL(this.event.image);
   }
 
 }

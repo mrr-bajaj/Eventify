@@ -27,7 +27,7 @@ export class LoginComponent {
     this.validEmail = false;
     this.emailNotFound = false;
     this.invalidPassword = false;
-    if(!this.validateEmail(this.employee.empEmail)){
+    if(!this.validateEmail(this.employee.email)){
       this.validEmail = true;
       return ;
     }

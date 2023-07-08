@@ -32,28 +32,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Add Event
-router.post('/add-event',upload.single('eventImage'), async (req, res) => {
+router.post('/add-event',upload.single('image'), async (req, res) => {
   try {
-    const { eventName, eventDescription, eventDate, eventStartTime,eventEndTime,eventLocation,eventType } = req.body;
+    const { name, description, date, startTime,endTime,location,type } = req.body;
     const url = req.protocol + '://'+ req.get("host"); 
     // Generate unique event ID
-    const eventId = generateEventID();
+    const id = generateId();
     
     // Generate QR code
-    const qrCodeImage = await qrCode.toDataURL(eventId);
+    const qrCodeImage = await qrCode.toDataURL(id);
     console.log(typeof qrCodeImage);
     // Save event with QR code and ID in database
     const event = new Event({
-      eventId,
-      eventName,
-      eventDescription,
-      eventDate,
-      eventStartTime,
-      eventEndTime,
-      eventLocation,
-      eventType,
-      eventImage:url + "/public/images/event-logo" + req.file.filename,
-      eventQrCode: qrCodeImage,
+      id,
+      name,
+      description,
+      date,
+      startTime,
+      endTime,
+      location,
+      type,
+      image:url + "/public/images/event-logo" + req.file.filename,
+      qrCode: qrCodeImage,
     });
     console.log(event);
     await event.save();
@@ -64,7 +64,7 @@ router.post('/add-event',upload.single('eventImage'), async (req, res) => {
   }
 });
 
-function generateEventID() {
+function generateId() {
   return uuid.v4().substring(0, 8);
 }
 

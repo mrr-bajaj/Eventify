@@ -14,14 +14,14 @@ export class AddEventComponent {
   imageFile: File | null = null;
   @ViewChild('eventForm') eventForm : NgForm;
   eventData : EventModel = {
-    eventName: '',
-    eventDescription: '',
-    eventDate: null,
-    eventStartTime: '',
-    eventEndTime: '',
-    eventLocation: '',
-    eventType: '',
-    eventImage: null
+    name: '',
+    description: '',
+    date: null,
+    startTime: '',
+    endTime: '',
+    location: '',
+    type: '',
+    image: null
   };
 
   constructor(
@@ -33,16 +33,16 @@ export class AddEventComponent {
   onSubmit(eventForm: NgForm) {
     if (eventForm.valid) {
       this.eventData = eventForm.value;
-      this.eventData.eventDate = new Date(eventForm.value.eventDate);
+      this.eventData.date = new Date(eventForm.value.date);
       const formData = new FormData();
-      formData.append('eventName', this.eventData.eventName);
-      formData.append('eventDescription', this.eventData.eventDescription);
-      formData.append('eventDate', this.eventData.eventDate.toISOString());
-      formData.append('eventStartTime', this.eventData.eventStartTime);
-      formData.append('eventEndTime', this.eventData.eventEndTime);
-      formData.append('eventLocation', this.eventData.eventLocation);
-      formData.append('eventType', this.eventData.eventType);
-      formData.append('eventImage', this.imageFile);
+      formData.append('name', this.eventData.name);
+      formData.append('description', this.eventData.description);
+      formData.append('date', this.eventData.date.toISOString());
+      formData.append('startTime', this.eventData.startTime);
+      formData.append('endTime', this.eventData.endTime);
+      formData.append('location', this.eventData.location);
+      formData.append('type', this.eventData.type);
+      formData.append('image', this.imageFile);
       this.eventsService.addEvent(formData).subscribe(
         (response) => {
           if (response.message === 'Event added successfully') {
