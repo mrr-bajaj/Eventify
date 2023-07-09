@@ -133,6 +133,12 @@ router.post('/attendance/:eventId', async (req, res) => {
     if (!attendance) {
       return res.status(404).json({ error: 'Event not found' });
     }
+
+    //Check if the user already attended 
+    const emailExists = attendance.employees.some(emp => emp.email === email);
+    if(emailExists){
+      return res.json({message: 'Already attended'});
+    }
     // Add the attended employee
     attendance.employees.push({ email, time });
 
