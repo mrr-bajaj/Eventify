@@ -9,6 +9,7 @@ import { EmployeesComponent } from './components/pages/admin/employees/employees
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
 import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
+import { AuthGuard } from './services/auth/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,14 +22,15 @@ const routes: Routes = [
   {
     path: 'admin', 
     component: AdminComponent,
+    canActivate: [AuthGuard],
     children: [
-      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {path:'dashboard',component:DashboardComponent},
-      {path:'events',component:EventsComponent},
-      {path:'events/:id',component:EventInfoComponent},
-      {path:'employees',component:EmployeesComponent},
-      {path: 'admin-roles', component: AdminRolesComponent},
-      {path: 'add-event', component: AddEventComponent}
+      {path: '', redirectTo: 'dashboard', pathMatch: 'full',canActivateChild:[AuthGuard]},
+      {path:'dashboard',component:DashboardComponent,canActivateChild:[AuthGuard]},
+      {path:'events',component:EventsComponent,canActivateChild:[AuthGuard]},
+      {path:'events/:id',component:EventInfoComponent,canActivateChild:[AuthGuard]},
+      {path:'employees',component:EmployeesComponent,canActivateChild:[AuthGuard]},
+      {path: 'admin-roles', component: AdminRolesComponent,canActivateChild:[AuthGuard]},
+      {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]}
   ]}
 ];
 

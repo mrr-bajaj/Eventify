@@ -54,8 +54,9 @@ export class LoginComponent implements OnInit{
             return;
           }
           if(response.message === 'Successfully Login'){
-            const roles = this.getRolesFromToken(response.token)
+            const roles = this.getRolesFromToken(response.token);
             if(roles.includes('admin') && !this.eventId){
+              this.authService.setAuth();
               this.router.navigate(['admin']);
             }else if(roles.includes('user')){
               this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{

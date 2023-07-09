@@ -30,6 +30,7 @@ import { EventCardComponent } from './components/pages/shared/event-card/event-c
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
 import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
 import { TableComponent } from './components/pages/shared/table/table.component';
+import { AuthGuard } from './services/auth/auth-guard.service';
 
 
 
@@ -69,7 +70,7 @@ import { TableComponent } from './components/pages/shared/table/table.component'
     MatCardModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

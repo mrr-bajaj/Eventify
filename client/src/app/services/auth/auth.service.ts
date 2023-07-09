@@ -7,6 +7,7 @@ import { Employee,EmployeeLoginInfo } from 'src/app/models/employee';
   providedIn: 'root'
 })
 export class AuthService {
+  private isAuthenticated: boolean = false;
   private baseUrl = 'http://localhost:3000/api/auth';
 
   constructor(private http: HttpClient) {}
@@ -17,5 +18,13 @@ export class AuthService {
 
   login(empLoginInfo: EmployeeLoginInfo): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, empLoginInfo);
+  }
+
+  setAuth(){
+    this.isAuthenticated = !this.isAuthenticated;
+  }
+
+  isRouteAuthenticated(){
+    return this.isAuthenticated;
   }
 }
