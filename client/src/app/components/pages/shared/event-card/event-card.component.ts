@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from 'src/app/models/event';
 
 @Component({
@@ -10,7 +11,10 @@ export class EventCardComponent implements OnInit{
   @Input() event: EventModel;
   formattedStartTime: string;
   imageURL: string;
+  qrCodeImage: string;
   
+  constructor(private router: Router,private route: ActivatedRoute){}
+
   ngOnInit(): void {
    this.convertTime();
    this.convertImageFileToUrl();
@@ -32,4 +36,15 @@ export class EventCardComponent implements OnInit{
     this.imageURL = this.event.image.toString();
   }
 
+  downloadQrCode(){
+    this.qrCodeImage = this.event.qrCode;
+    const link = document.createElement('a');
+    link.href = this.qrCodeImage;
+    link.download = `${this.event.name}_qrcode.png`;
+    link.click();
+  }
+
+  viewInfo(){
+    this.router.navigate(['/admin/events',this.event.id],{relativeTo: this.route});
+  }
 }

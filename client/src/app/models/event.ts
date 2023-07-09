@@ -1,4 +1,5 @@
 export interface EventModel{
+  id?:string,
   name: string;
   description: string;
   date: Date;
@@ -7,4 +8,5 @@ export interface EventModel{
   location: string;
   type: string;
   image: File;
+  qrCode?: string;
 }
