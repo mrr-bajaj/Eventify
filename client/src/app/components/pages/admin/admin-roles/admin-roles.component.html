@@ -1,2 +1,8 @@
+<form (ngSubmit)="onAddAdmin(emailForm)" #emailForm="ngForm">
+  <input type="email" name="email" #email="ngModel" email ngModel required>
+  <button type="submit" class="btn btn-primary m-2" [disabled]="!emailForm.valid">Add Admin</button>
+  <span class="help_block" *ngIf="(!email.valid && email.touched) || validEmail">Please enter a valid Email!</span>
+  <span class="help_block" *ngIf="emailNotFound">This user is not exist!</span>
+</form>
 <h1>List of admins</h1>
 <app-table [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-table>

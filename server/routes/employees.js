@@ -39,11 +39,31 @@ router.delete('/admin/:email',async (req,res)=>{
   }
 })
 
+//Add admin role by email
+router.put('/admin',async (req,res)=>{
+  try{
+    const { email } = req.body;
+    const employee = await Employee.findOneAndUpdate(
+      { email }, { $addToSet: { roles: 'admin' } }, { new: true });
+    if (!employee) {
+      return res.status(404).json({ error: 'employee not found' });
+    }
+    res.json({message: 'Admin role added'});
+  }catch(error){
+    console.error(error);
+    res.status(500).json({error:error.message });
+
+  }
+})
+
 //Get Employee By Email
 router.get('/:email', async (req , res) => {
   try {
     const email = req.params.email;
     const employee = await Employee.findOne({email});
+    if(!employee){
+      return res.json({message: 'User not found'});
+    }
     res.json({name:employee.name,email:employee.email});
   } catch (error) {
     console.error(error);

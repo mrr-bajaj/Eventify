@@ -14,7 +14,7 @@ export class EmployeeService {
     return this.http.get<Employee[]>(`${this.baseUrl}`);
   }
 
-  getEmployeeByEmail(email:string):Observable<Employee>{
+  getEmployeeByEmail(email:string):Observable<Employee | any>{
     return this.http.get<Employee>(`${this.baseUrl}/${email}`);
   }
 
@@ -24,5 +24,9 @@ export class EmployeeService {
 
   deleteAdminByEmail(email:string){
     return this.http.delete<{message:string}>(`${this.baseUrl}/admin/${email}`);
+  }
+
+  addAdminByEmail(email:string){
+    return this.http.put<any>(`${this.baseUrl}/admin`,{email});
   }
 }

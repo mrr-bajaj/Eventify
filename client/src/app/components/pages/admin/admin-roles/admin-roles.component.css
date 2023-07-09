@@ -5,3 +5,7 @@ h1{
   margin: 5px;
   padding: 5px;
 }
+
+.help_block{
+  color: red;
+}
