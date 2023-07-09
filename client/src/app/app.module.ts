@@ -24,6 +24,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule } from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card'
+import { MatTableModule } from '@angular/material/table';
 import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-roles.component';
 import { EventCardComponent } from './components/pages/shared/event-card/event-card.component';
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
@@ -63,7 +64,8 @@ import { EventInfoComponent } from './components/pages/shared/event-info/event-i
     MatIconModule,
     MatListModule,
     DatePipe,
-    MatCardModule
+    MatCardModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

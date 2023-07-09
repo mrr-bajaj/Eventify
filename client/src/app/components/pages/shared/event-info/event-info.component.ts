@@ -16,6 +16,8 @@ export class EventInfoComponent {
   eventDetail: EventModel;
   attendanceDetail: Attendance;
   attendedEmployeesInfo: Employee[]=[];
+  displayedColumns: string[] = ['srNo', 'name', 'email', 'time'];
+  dataSource: any[];
   constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService){}
 
   ngOnInit(): void {
@@ -40,14 +42,31 @@ export class EventInfoComponent {
 
   async getAttendedEmployeesList(){
     this.attendanceDetail = await this.eventsService.getAttendance(this.eventId).toPromise();
+    let srNo=1;
     for (const employee of this.attendanceDetail.employees) {
-      await this.getEmployeeDetails(employee.email);
+      await this.getEmployeeDetails(employee.email,srNo,employee.time);
+      srNo++;
     }
-    console.log(this.attendedEmployeesInfo);
+    this.dataSource =this.attendedEmployeesInfo;
   } 
 
-  async getEmployeeDetails(email: string) {
+  async getEmployeeDetails(email: string,srNo: number,time: string) {
     const employee = await this.employeeService.getEmployeeByEmail(email).toPromise();
+    employee.srNo = srNo;
+    employee.time = this.convertTime(time);
     this.attendedEmployeesInfo.push(employee);
+  }
+
+  convertTime(time: string): string {
+    const [hours, minutes] = time.split(':');
+    const formattedHours = this.formatNumber(Number(hours) % 12 || 12);
+    const formattedMinutes = this.formatNumber(Number(minutes));
+    const period = Number(hours) < 12 ? 'AM' : 'PM';
+  
+    return `${formattedHours}:${formattedMinutes} ${period}`;
+  }
+  
+  private formatNumber(value: number): string {
+    return value.toString().padStart(2, '0');
   }
 }
