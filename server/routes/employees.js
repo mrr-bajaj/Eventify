@@ -12,6 +12,33 @@ router.get('/', async (req , res) => {
   }
 });
 
+//Get all admins
+router.get('/admin', async (req,res)=>{
+  try{
+    const admin = await Employee.find({roles: 'admin'});
+    const modifiedData = admin.map(({email,name})=>({email,name}));
+    res.json(modifiedData);
+  }catch(error){
+    console.error(error);
+    res.status(500).json({error:error.message });
+  }
+});
+
+//Delete admin role by email
+router.delete('/admin/:email',async (req,res)=>{
+  try{
+    const email = req.params.email;
+    const employee = await Employee.findOneAndUpdate(
+      { email: email },
+      { $pull: { roles: 'admin' } },
+      { new: true });
+      res.json({message: 'Admin role deleted'});
+  }catch(error){
+    console.error(error);
+    res.status(500).json({error:error.message });
+  }
+})
+
 //Get Employee By Email
 router.get('/:email', async (req , res) => {
   try {

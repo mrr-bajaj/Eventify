@@ -29,6 +29,7 @@ import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-
 import { EventCardComponent } from './components/pages/shared/event-card/event-card.component';
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
 import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
+import { TableComponent } from './components/pages/shared/table/table.component';
 
 
 
@@ -46,7 +47,8 @@ import { EventInfoComponent } from './components/pages/shared/event-info/event-i
     AdminRolesComponent,
     EventCardComponent,
     AddEventComponent,
-    EventInfoComponent
+    EventInfoComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,
