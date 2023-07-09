@@ -37,7 +37,13 @@ router.post('/add-event',upload.single('image'), async (req, res) => {
   try {
     const { name, description, date, startTime,endTime,location,type } = req.body;
     const url = req.protocol + '://'+ req.get("host");
-    const appUrl = 'http://localhost:51639/login/events'; 
+    const refererHeader = req.headers.referer;
+    let baseUrl = 'http://localhost:4200/';
+    if (refererHeader) {
+      const refererUrl = new URL(refererHeader);
+      baseUrl = `${refererUrl.protocol}//${refererUrl.host}/`;
+    }
+    const appUrl = `${baseUrl}login/events`;
     // Generate unique event ID
     const id = generateId();
     const qrCodeData = `${appUrl}?id=${id}`;
