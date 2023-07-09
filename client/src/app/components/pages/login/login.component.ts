@@ -62,6 +62,9 @@ export class LoginComponent implements OnInit{
                 if(res.message === 'Attendance saved successfully'){
                   form.reset();
                   alert('Attendance Saved Successfully!');
+                }else if(res.message === 'Already attended'){
+                  form.reset();
+                  alert('You\'ve have already attended the event!');
                 }
               },(error)=>{
                 console.log(error)
