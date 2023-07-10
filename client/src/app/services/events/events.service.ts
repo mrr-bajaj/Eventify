@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EventsService {
-  
+
   private baseUrl = 'http://localhost:3000/api/events';
 
   constructor(private http: HttpClient) {}
@@ -14,6 +14,14 @@ export class EventsService {
 
   addEvent(event:any): Observable<any>{
     return this.http.post(`${this.baseUrl}/add-event`,event);
+  }
+
+  editEvent(eventId: string, event: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/edit-event/${eventId}`, event);
+  }
+
+  deleteEvent(eventId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete-event/${eventId}`);
   }
 
   getAllUpcomingEvents(): Observable<any>{

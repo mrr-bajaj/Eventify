@@ -20,7 +20,7 @@ const routes: Routes = [
 ] },
   { path: 'signup', component: SignupComponent },
   {
-    path: 'admin', 
+    path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
     children: [
@@ -30,7 +30,9 @@ const routes: Routes = [
       {path:'events/:id',component:EventInfoComponent,canActivateChild:[AuthGuard]},
       {path:'employees',component:EmployeesComponent,canActivateChild:[AuthGuard]},
       {path: 'admin-roles', component: AdminRolesComponent,canActivateChild:[AuthGuard]},
-      {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]}
+      {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]},
+      {path: 'edit-event', component: AddEventComponent,canActivateChild:[AuthGuard]},
+      {path:'edit-event/:id',component:AddEventComponent,canActivateChild:[AuthGuard]}
   ]}
 ];
 

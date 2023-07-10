@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild,OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from 'src/app/models/event';
@@ -12,6 +12,8 @@ import { EventsService } from 'src/app/services/events/events.service';
 export class AddEventComponent {
 
   imageFile: File | null = null;
+  isEditMode: boolean = false;
+  eventId:string="";
   @ViewChild('eventForm') eventForm : NgForm;
   eventData : EventModel = {
     name: '',
@@ -23,12 +25,36 @@ export class AddEventComponent {
     type: '',
     image: null
   };
-
   constructor(
     private eventsService: EventsService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
+
+    ngOnInit(): void {
+      this.checkEditMode();
+    }
+
+    checkEditMode(){
+      this.route.paramMap.subscribe(params =>{
+        this.eventId = params.get('id');
+      })
+
+      this.isEditMode = !!this.eventId;
+      if (this.eventId) {
+        this.fetchEventDetails();
+      }
+    }
+
+    fetchEventDetails() {
+      this.eventsService.getEventById(this.eventId).subscribe(
+        (response) => {
+           },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
 
   onSubmit(eventForm: NgForm) {
     if (eventForm.valid) {
@@ -43,6 +69,20 @@ export class AddEventComponent {
       formData.append('location', this.eventData.location);
       formData.append('type', this.eventData.type);
       formData.append('image', this.imageFile);
+      if (this.isEditMode) {
+        this.eventsService.editEvent(this.eventId,formData).subscribe(
+          (response) => {
+            if (response) {
+              this.onReset();
+              this.router.navigate(['/admin/events'], { relativeTo: this.route });
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    else{
       this.eventsService.addEvent(formData).subscribe(
         (response) => {
           if (response.message === 'Event added successfully') {
@@ -55,6 +95,7 @@ export class AddEventComponent {
         }
       );
     }
+  }
   }
 
   onImageChange(event) {

@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from 'src/app/models/event';
 
+import { AddEventComponent } from '../../admin/events/add-event/add-event.component';
+import { EventsService } from 'src/app/services/events/events.service';
 @Component({
   selector: 'app-event-card',
   templateUrl: './event-card.component.html',
@@ -12,8 +14,8 @@ export class EventCardComponent implements OnInit{
   formattedStartTime: string;
   imageURL: string;
   qrCodeImage: string;
-  
-  constructor(private router: Router,private route: ActivatedRoute){}
+
+  constructor(private eventsService:EventsService,private router: Router,private route: ActivatedRoute){}
 
   ngOnInit(): void {
    this.convertTime();
@@ -46,5 +48,12 @@ export class EventCardComponent implements OnInit{
 
   viewInfo(){
     this.router.navigate(['/admin/events',this.event.id],{relativeTo: this.route});
+  }
+  editEventCard(){
+    this.router.navigate(['/admin/edit-event',this.event.id],{relativeTo: this.route})
+  }
+
+  deleteEventCard(){
+    this.eventsService.deleteEvent(this.event.id);
   }
 }
