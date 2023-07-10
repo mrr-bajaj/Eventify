@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Attendance } from 'src/app/models/attendance';
 import { Employee } from 'src/app/models/employee';
 import { EventModel } from 'src/app/models/event';
@@ -12,7 +13,7 @@ import { SearchService } from 'src/app/services/search/search.service';
   templateUrl: './event-info.component.html',
   styleUrls: ['./event-info.component.css']
 })
-export class EventInfoComponent {
+export class EventInfoComponent implements OnInit, OnDestroy{
   eventId: string = '';
   eventDetail: EventModel;
   attendanceDetail: Attendance;
@@ -20,6 +21,7 @@ export class EventInfoComponent {
   displayedColumns: string[] = ['srNo', 'name', 'email', 'time'];
   dataSource: any[];
   searchTerm: string;
+  subscriptions:Subscription[]=[];
   constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){}
 
   ngOnInit(): void {
@@ -34,9 +36,10 @@ export class EventInfoComponent {
   }
 
   async getEventId(){
-    this.route.paramMap.subscribe(params =>{
+    const subs = this.route.paramMap.subscribe(params =>{
       this.eventId = params.get('id');
     })
+    this.subscriptions.push(subs);
   }
 
   async getEventDetails(){
@@ -74,8 +77,15 @@ export class EventInfoComponent {
   }
 
   search(){
-    this.searchService.searchData.subscribe(data => {
+    const subs =this.searchService.searchData.subscribe(data => {
       this.searchTerm = data;
     })
+    this.subscriptions.push(subs);
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from each subscription in the array to prevent memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = []; // Clear the subscriptions array
   }
 }

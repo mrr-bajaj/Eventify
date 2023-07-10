@@ -1,30 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeLoginInfo } from 'src/app/models/employee';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import jwt_decode from 'jwt-decode';
 import { EventsService } from 'src/app/services/events/events.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, OnDestroy{
   employeeLoginInfo!:EmployeeLoginInfo;
   validEmail: boolean = false;
   emailNotFound: boolean = false;
   invalidPassword:boolean = false;
+  subscriptions: Subscription[]=[];
   constructor(private authService: AuthService, private router: Router,private route: ActivatedRoute,private eventsService: EventsService) { }
   eventId: string = '';
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params =>{
+    this.getEventId();
+  }
+
+  getEventId(){
+    const subs = this.route.queryParams.subscribe(params =>{
       if(params['id']){
         this.eventId = params['id'];
       }
     })
+    this.subscriptions.push(subs);
   }
 
   validateEmail(email: string){
@@ -41,7 +48,7 @@ export class LoginComponent implements OnInit{
       this.validEmail = true;
       return ;
     }
-    this.authService.login(this.employeeLoginInfo)
+    const subs = this.authService.login(this.employeeLoginInfo)
       .subscribe(
         (response) => {
           // Handle successful login
@@ -59,7 +66,7 @@ export class LoginComponent implements OnInit{
               this.authService.setToken(response.token);
               this.router.navigate(['admin']);
             }else if(roles.includes('user')){
-              this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
+              const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                 if(res.message === 'Attendance saved successfully'){
                   form.reset();
                   alert('Attendance Saved Successfully!');
@@ -70,6 +77,7 @@ export class LoginComponent implements OnInit{
               },(error)=>{
                 console.log(error)
               });
+              this.subscriptions.push(subs);
             }
           }
         },
@@ -78,10 +86,17 @@ export class LoginComponent implements OnInit{
           console.error(error);
         }
       );
+    this.subscriptions.push(subs);
   }
 
   private getRolesFromToken(token: string): string[] {
     const decodedToken: any = jwt_decode(token);
     return decodedToken.roles;
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from each subscription in the array to prevent memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = []; // Clear the subscriptions array
   }
 }

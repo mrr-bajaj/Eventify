@@ -1,5 +1,6 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
 import { SearchService } from 'src/app/services/search/search.service';
 
@@ -8,13 +9,15 @@ import { SearchService } from 'src/app/services/search/search.service';
   templateUrl: './admin-roles.component.html',
   styleUrls: ['./admin-roles.component.css']
 })
-export class AdminRolesComponent implements OnInit{
+export class AdminRolesComponent implements OnInit, OnDestroy{
   displayedColumns: string[] = ['srNo', 'name', 'email', 'action'];
   dataSource: any[] = [];
   addEmail: string;
   validEmail:boolean = false;
   emailNotFound: boolean = false;
   searchTerm:string;
+  subscriptions: Subscription[] = [];
+
   constructor(private employeeService: EmployeeService,private searchService:SearchService){}
 
   ngOnInit(): void {
@@ -22,7 +25,12 @@ export class AdminRolesComponent implements OnInit{
   }
   
   initialize(){
-    this.employeeService.getAdmins().
+    this.getAdmin();
+    this.search();
+  }
+
+  getAdmin(){
+    const subs = this.employeeService.getAdmins().
     subscribe((res)=>{
       this.dataSource = res;
       for(let i in this.dataSource){
@@ -30,7 +38,7 @@ export class AdminRolesComponent implements OnInit{
         this.dataSource[i].action = 'Admin';
       }
     })
-    this.search();
+    this.subscriptions.push(subs);
   }
 
   onAddAdmin(form: NgForm){
@@ -46,7 +54,7 @@ export class AdminRolesComponent implements OnInit{
   }
 
   getEmployeeEmail(){
-    this.employeeService.getEmployeeByEmail(this.addEmail)
+    const subscription = this.employeeService.getEmployeeByEmail(this.addEmail)
     .subscribe((res)=>{
       if(res.message === 'User not found'){
         this.emailNotFound = true;
@@ -54,15 +62,17 @@ export class AdminRolesComponent implements OnInit{
       }
       this.addAdmin();
     })
+    this.subscriptions.push(subscription);
   }
 
   addAdmin(){
-    this.employeeService.addAdminByEmail(this.addEmail).
+    const subs = this.employeeService.addAdminByEmail(this.addEmail).
       subscribe((res)=>{
         if(res.message === 'Admin role added'){
           this.initialize();
         }
       })
+    this.subscriptions.push(subs);
   }
 
   validateEmail(email: string){
@@ -71,8 +81,15 @@ export class AdminRolesComponent implements OnInit{
   }
 
   search(){
-    this.searchService.searchData.subscribe(data => {
+    const subscription = this.searchService.searchData.subscribe(data => {
       this.searchTerm = data;
     })
+    this.subscriptions.push(subscription);
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from each subscription in the array to prevent memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = []; // Clear the subscriptions array
   }
 }
