@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +18,26 @@ export class EventsService {
 
   getAllUpcomingEvents(): Observable<any>{
     const date = new Date();
-    return this.http.get(`${this.baseUrl}/upcoming-event?date=${date}`);
+    return this.http.get(`${this.baseUrl}/upcoming-event?date=${date}`)
+        .pipe(tap(resData => {
+        // Compare function for sorting by date property
+        const compareDates = (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime();
+
+        // Sort the array by the date property
+        resData.sort(compareDates);
+    }));
   }
 
   getAllPastEvents(): Observable<any>{
     const date = new Date();
-    return this.http.get(`${this.baseUrl}/past-event?date=${date}`);
+    return this.http.get(`${this.baseUrl}/past-event?date=${date}`)
+    .pipe(tap(resData => {
+      // Compare function for sorting by date property
+      const compareDates = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
+
+      // Sort the array by the date property
+      resData.sort(compareDates);
+    }));
   }
 
   getEventById(id: string): Observable<any>{
