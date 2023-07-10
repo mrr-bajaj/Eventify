@@ -173,4 +173,26 @@ function generateId() {
   return uuid.v4().substring(0, 8);
 }
 
+router.put('/edit-event/:eventId', async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const updatedEvent = req.body;
+    const event = await Event.findByIdAndUpdate(eventId, updatedEvent, { new: true });
+    res.json(event);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+router.delete('/delete-event/:eventId', async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    await Event.findByIdAndDelete(eventId);
+    res.json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 module.exports = router;
