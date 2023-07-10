@@ -12,7 +12,6 @@ export class HeaderComponent {
   constructor(private authService: AuthService,private router:Router){}
 
   onLogout(){
-    this.authService.setAuth();
-    this.router.navigate(['/login']);
+    this.authService.logout();
   }
 }
