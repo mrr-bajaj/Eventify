@@ -12,6 +12,7 @@ import { EmployeeService } from 'src/app/services/employees/employee.service';
 export class EmployeesComponent implements OnInit {
 
   employees:Employee[]=[];
+  searchTerm:string;
   constructor(private employeeService: EmployeeService) { }
 
   ngOnInit() {
@@ -23,6 +24,10 @@ export class EmployeesComponent implements OnInit {
         console.error(error);
       }
     )
+  }
+
+  onSearch(searchData:string){
+    this.searchTerm = searchData;
   }
 
 }

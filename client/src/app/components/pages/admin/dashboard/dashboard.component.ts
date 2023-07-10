@@ -11,6 +11,7 @@ export class DashboardComponent {
 
   upcomingEvents:EventModel[]=[];
   pastEvents:EventModel[]=[];
+  searchTerm:string;
 
   constructor(private eventsService : EventsService){}
   
@@ -28,5 +29,9 @@ export class DashboardComponent {
     .subscribe((resData:EventModel[])=>{
       this.pastEvents = resData.slice(0,2);
     });
+  }
+
+  onSearch(searchData:string){
+    this.searchTerm = searchData;
   }
 }

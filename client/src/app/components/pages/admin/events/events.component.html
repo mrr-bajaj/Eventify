@@ -1,3 +1,4 @@
+<app-search (searchUpdated)="onSearch($event)"></app-search>
 <div class="events">
   <button type="button" class="btn btn-primary"(click)="onAddEvent()"> Add Event</button>
   <div>
@@ -5,13 +6,13 @@
     <div class="alert" *ngIf="upcomingEvents.length === 0">
       No Upcoming events!
     </div>
-    <app-event-card *ngFor="let upEvent of upcomingEvents" [event]="upEvent"></app-event-card>
+    <app-event-card *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']" [event]="upEvent"></app-event-card>
   </div>
   <div>
     <h1>Past Events</h1>
     <div class="alert" *ngIf="pastEvents.length === 0">
       No Past events!
     </div>
-    <app-event-card *ngFor="let paEvent of pastEvents" [event]="paEvent"></app-event-card>
+    <app-event-card *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent"></app-event-card>
   </div>
 </div>

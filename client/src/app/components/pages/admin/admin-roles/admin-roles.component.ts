@@ -13,7 +13,7 @@ export class AdminRolesComponent implements OnInit{
   addEmail: string;
   validEmail:boolean = false;
   emailNotFound: boolean = false;
-
+  searchTerm:string;
   constructor(private employeeService: EmployeeService){}
 
   ngOnInit(): void {
@@ -66,5 +66,9 @@ export class AdminRolesComponent implements OnInit{
   validateEmail(email: string){
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
     return domainPattern.test(email);
+  }
+
+  onSearch(searchData:string){
+    this.searchTerm = searchData;
   }
 }

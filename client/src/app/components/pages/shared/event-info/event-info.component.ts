@@ -18,6 +18,7 @@ export class EventInfoComponent {
   attendedEmployeesInfo: Employee[]=[];
   displayedColumns: string[] = ['srNo', 'name', 'email', 'time'];
   dataSource: any[];
+  searchTerm: string;
   constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService){}
 
   ngOnInit(): void {
@@ -68,5 +69,9 @@ export class EventInfoComponent {
   
   private formatNumber(value: number): string {
     return value.toString().padStart(2, '0');
+  }
+
+  onSearch(searchData:string){
+    this.searchTerm = searchData;
   }
 }

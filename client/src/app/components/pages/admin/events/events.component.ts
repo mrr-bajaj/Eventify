@@ -13,6 +13,8 @@ export class EventsComponent implements OnInit{
   upcomingEvents:EventModel[]=[];
   pastEvents:EventModel[]=[];
 
+  searchTerm: string;
+
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService){}
   
   ngOnInit(): void {
@@ -29,4 +31,7 @@ export class EventsComponent implements OnInit{
     this.router.navigate(['/admin/add-event'],{relativeTo: this.route})
   }
 
+  onSearch(searchData:string){
+    this.searchTerm = searchData;
+  }
 }

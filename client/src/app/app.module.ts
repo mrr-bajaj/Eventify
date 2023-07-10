@@ -31,6 +31,8 @@ import { AddEventComponent } from './components/pages/admin/events/add-event/add
 import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
 import { TableComponent } from './components/pages/shared/table/table.component';
 import { AuthGuard } from './services/auth/auth-guard.service';
+import { SearchPipe } from './components/pages/shared/search/search.pipe';
+import { SearchComponent } from './components/pages/shared/search/search.component';
 
 
 
@@ -49,7 +51,9 @@ import { AuthGuard } from './services/auth/auth-guard.service';
     EventCardComponent,
     AddEventComponent,
     EventInfoComponent,
-    TableComponent
+    TableComponent,
+    SearchPipe,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +74,7 @@ import { AuthGuard } from './services/auth/auth-guard.service';
     MatCardModule,
     MatTableModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard,SearchPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,2 +1,3 @@
+<app-search (searchUpdated)="onSearch($event)"></app-search>
 <h1>List of Attendend Employees</h1>
-<app-table [displayedColumns]="displayedColumns" [dataSource]="dataSource"></app-table>
+<app-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [searchTerm]="searchTerm"></app-table>
