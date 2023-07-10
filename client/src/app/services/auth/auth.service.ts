@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Employee,EmployeeLoginInfo } from 'src/app/models/employee';
 
@@ -7,10 +8,10 @@ import { Employee,EmployeeLoginInfo } from 'src/app/models/employee';
   providedIn: 'root'
 })
 export class AuthService {
-  private isAuthenticated: boolean = false;
   private baseUrl = 'http://localhost:3000/api/auth';
+  private tokenKey = 'token';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router:Router) {}
 
   signup(empData: Employee): Observable<any> {
     return this.http.post(`${this.baseUrl}/signup`, empData);
@@ -20,11 +21,20 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/login`, empLoginInfo);
   }
 
-  setAuth(){
-    this.isAuthenticated = !this.isAuthenticated;
+  setToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
   }
 
-  isRouteAuthenticated(){
-    return this.isAuthenticated;
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
+    this.router.navigate(['/login']);
   }
 }

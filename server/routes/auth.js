@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
       if (!isPasswordValid) {
         return res.send({ error: 'Invalid password' });
       } else {
-        const token = jwt.sign({ employeeId: employee._id,roles:employee.roles }, 'secret-key', { expiresIn: '1h' });
+        const token = jwt.sign({ employeeId: employee._id,roles:employee.roles }, 'secret-key', { expiresIn: '24h' });
         res.status(200).json({ message: 'Successfully Login',token });
       }
     }
