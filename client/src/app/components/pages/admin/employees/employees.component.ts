@@ -1,6 +1,7 @@
 import { Component,OnInit} from '@angular/core';
 import { Employee } from 'src/app/models/employee';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class EmployeesComponent implements OnInit {
 
   employees:Employee[]=[];
   searchTerm:string;
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService, private searchService: SearchService) { }
 
   ngOnInit() {
     this.employeeService.getEmployees().subscribe(
@@ -24,10 +25,13 @@ export class EmployeesComponent implements OnInit {
         console.error(error);
       }
     )
+    this.search();
   }
 
-  onSearch(searchData:string){
-    this.searchTerm = searchData;
+  search(){
+    this.searchService.searchData.subscribe(data => {
+      this.searchTerm = data;
+    })
   }
 
 }

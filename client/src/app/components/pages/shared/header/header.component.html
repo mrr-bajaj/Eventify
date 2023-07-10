@@ -2,16 +2,9 @@
   <a class="navbar-brand img" routerLink="dashboard">
     <img src="assets/images/kongsberg_logo.png" width="40" height="40" alt="Logo">
   </a>
-  <!-- <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-    <form class="form-inline my-2 my-lg-0">
-      <div class="input-group">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="color: white;">Search</button>
-        </div>
-      </div>
-    </form>
-  </div> -->
+  <div class="collapse navbar-collapse justify-content-end">
+    <app-search></app-search>
+  </div>
   <ul class="navbar-collapse collapse justify-content-end list-unstyled">
     <li class="nav-item sign-out">
       <a class="nav-link" style="cursor: pointer;" (click)="onLogout()">Logout</a>

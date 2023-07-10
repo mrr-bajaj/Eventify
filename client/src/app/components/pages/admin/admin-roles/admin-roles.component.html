@@ -1,4 +1,3 @@
-<app-search (searchUpdated)="onSearch($event)"></app-search>
 <form (ngSubmit)="onAddAdmin(emailForm)" #emailForm="ngForm">
   <input type="email" name="email" #email="ngModel" email ngModel required placeholder="user@kongsbergdigital.com" style="width: 200px;">
   <button type="submit" class="btn btn-primary m-2" [disabled]="!emailForm.valid">Add Admin</button>

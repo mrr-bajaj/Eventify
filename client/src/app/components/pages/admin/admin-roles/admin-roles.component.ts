@@ -1,6 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-admin-roles',
@@ -14,7 +15,7 @@ export class AdminRolesComponent implements OnInit{
   validEmail:boolean = false;
   emailNotFound: boolean = false;
   searchTerm:string;
-  constructor(private employeeService: EmployeeService){}
+  constructor(private employeeService: EmployeeService,private searchService:SearchService){}
 
   ngOnInit(): void {
       this.initialize();
@@ -29,6 +30,7 @@ export class AdminRolesComponent implements OnInit{
         this.dataSource[i].action = 'Admin';
       }
     })
+    this.search();
   }
 
   onAddAdmin(form: NgForm){
@@ -68,7 +70,9 @@ export class AdminRolesComponent implements OnInit{
     return domainPattern.test(email);
   }
 
-  onSearch(searchData:string){
-    this.searchTerm = searchData;
+  search(){
+    this.searchService.searchData.subscribe(data => {
+      this.searchTerm = data;
+    })
   }
 }

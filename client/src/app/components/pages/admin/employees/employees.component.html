@@ -1,4 +1,3 @@
-<app-search (searchUpdated)="onSearch($event)"></app-search>
 <div class="employee-container" *ngIf="employees.length>0 else noEmployeesBlock">
   <div *ngFor="let employee of employees | search: searchTerm: ['name','email','department']">
     <mat-card class="employee-card">

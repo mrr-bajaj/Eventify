@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-search',
@@ -7,9 +9,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SearchComponent {
   searchTerm: string;
-  @Output() searchUpdated: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor(private searchService:SearchService){}
 
   search(): void {
-    this.searchUpdated.emit(this.searchTerm);
+    this.searchService.sendSearchData(this.searchTerm);
   }
 }

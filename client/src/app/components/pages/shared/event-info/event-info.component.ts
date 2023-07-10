@@ -5,6 +5,7 @@ import { Employee } from 'src/app/models/employee';
 import { EventModel } from 'src/app/models/event';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
 import { EventsService } from 'src/app/services/events/events.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-event-info',
@@ -19,7 +20,7 @@ export class EventInfoComponent {
   displayedColumns: string[] = ['srNo', 'name', 'email', 'time'];
   dataSource: any[];
   searchTerm: string;
-  constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService){}
+  constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){}
 
   ngOnInit(): void {
     this.initialize();
@@ -29,6 +30,7 @@ export class EventInfoComponent {
     await this.getEventId();
     await this.getEventDetails();
     await this.getAttendedEmployeesList();
+    this.search();
   }
 
   async getEventId(){
@@ -71,7 +73,9 @@ export class EventInfoComponent {
     return value.toString().padStart(2, '0');
   }
 
-  onSearch(searchData:string){
-    this.searchTerm = searchData;
+  search(){
+    this.searchService.searchData.subscribe(data => {
+      this.searchTerm = data;
+    })
   }
 }
