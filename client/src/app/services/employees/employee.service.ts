@@ -19,7 +19,7 @@ export class EmployeeService {
   }
 
   getAdmins(){
-    return this.http.get<{email:string,name:string}[]>(`${this.baseUrl}/admin`);
+    return this.http.get<{email:string,name:string,department:string}[]>(`${this.baseUrl}/admin`);
   }
 
   deleteAdminByEmail(email:string){

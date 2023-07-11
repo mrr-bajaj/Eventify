@@ -10,7 +10,7 @@ import { SearchService } from 'src/app/services/search/search.service';
   styleUrls: ['./admin-roles.component.css']
 })
 export class AdminRolesComponent implements OnInit, OnDestroy{
-  displayedColumns: string[] = ['srNo', 'name', 'email', 'action'];
+  displayedColumns: string[] = ['srNo', 'name', 'email','department', 'action'];
   dataSource: any[] = [];
   addEmail: string;
   validEmail:boolean = false;

@@ -17,6 +17,11 @@ export class SignupComponent implements OnInit, OnDestroy{
   validEmail: boolean =false;
   subscriptions: Subscription[]=[];
   eventId:string;
+  departmentOptions = [
+    { label: 'Digital Energy', value: 'Digital Energy' },
+    { label: 'Digital Ocean', value: 'Digital Ocean' },
+    { label: 'Digital Wells', value: 'Digital Wells' },
+  ];
   constructor(private authService: AuthService, private router: Router,private route:ActivatedRoute) {  }
 
   ngOnInit(): void {

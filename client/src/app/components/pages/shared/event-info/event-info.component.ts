@@ -18,7 +18,7 @@ export class EventInfoComponent implements OnInit, OnDestroy{
   eventDetail: EventModel;
   attendanceDetail: Attendance;
   attendedEmployeesInfo: Employee[]=[];
-  displayedColumns: string[] = ['srNo', 'name', 'email', 'time'];
+  displayedColumns: string[] = ['srNo', 'name', 'email','department', 'time'];
   dataSource: any[];
   searchTerm: string;
   subscriptions:Subscription[]=[];
