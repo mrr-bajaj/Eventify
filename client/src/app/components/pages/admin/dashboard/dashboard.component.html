@@ -11,6 +11,6 @@
     <div class="alert" *ngIf="pastEvents.length === 0">
       No Past events!
     </div>
-    <app-event-card *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent"></app-event-card>
+    <app-event-card *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent" [isPast]="true"></app-event-card>
   </div>
 </main>

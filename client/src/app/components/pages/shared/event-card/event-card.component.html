@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div class="row m-2">
+      <div *ngIf="!isPast" class="row m-2">
         <div class="col-md-2">
            <button class="btn btn-primary">Edit</button>
         </div>
@@ -35,14 +35,14 @@
           <button class="btn btn-danger">Delete</button>
         </div>
       </div>
-      <div class="row m-2">
+      <div *ngIf="!isPast" class="row m-2">
         <div class="col-md-6">
           <button class="btn btn-secondary" (click)="downloadQrCode()">Download QR Code</button>
         </div>
       </div>
       <div class="row m-2">
         <div class="col-md-12">
-          <button class="btn btn-success" (click)="viewInfo()">View Info</button>
+          <button *ngIf="isPast" class="btn btn-success" (click)="viewInfo()">View Info</button>
         </div>
       </div>
     </div>
