@@ -1,28 +1,6 @@
-/* .row {  
-  display: flex;
-  width: 100%;
-}
-
-/* Create two unequal columns that sits next to each other */
-/* Sidebar/left column */
-/*.side-content {
-  flex: 15%;
-  background-color: #f1f1f1;
-  padding-right: 0;
-  width: 15%;
-}
-
-/* Main column */
-/*.main-content {
-  flex: 85%;
-  background-color: white;
-  padding: 0;
-} */
-
-/* styles.css */
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 60px;
   left: 0;
   width: 200px;
   height: 100vh;

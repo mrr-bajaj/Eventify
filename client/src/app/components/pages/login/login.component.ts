@@ -64,6 +64,7 @@ export class LoginComponent implements OnInit, OnDestroy{
             const roles = this.getRolesFromToken(response.token);
             if(roles.includes('admin') && !this.eventId){
               this.authService.setToken(response.token);
+              localStorage.setItem('username',response.name);
               this.router.navigate(['admin']);
             }else if(roles.includes('user')){
               const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
