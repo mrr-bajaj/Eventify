@@ -1,5 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { NgForm } from '@angular/forms';
 import { Employee } from 'src/app/models/employee';
@@ -11,13 +11,28 @@ import { Subscription } from 'rxjs';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css']
 })
-export class SignupComponent implements OnDestroy{
+export class SignupComponent implements OnInit, OnDestroy{
   employee: Employee;
   existingEmail: boolean =false;
   validEmail: boolean =false;
   subscriptions: Subscription[]=[];
-  constructor(private authService: AuthService, private router: Router) {  }
+  eventId:string;
+  constructor(private authService: AuthService, private router: Router,private route:ActivatedRoute) {  }
 
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.eventId = params['id'];
+    })
+  }
+
+  getQueryParams(){
+    if(this.eventId){
+      return {id: this.eventId};
+    }else{
+      return null;
+    }
+  }
+  
   validateEmail(email: string){
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
     return domainPattern.test(email);

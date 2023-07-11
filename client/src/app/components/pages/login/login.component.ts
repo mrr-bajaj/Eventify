@@ -34,6 +34,14 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.subscriptions.push(subs);
   }
 
+  getQueryParams(){
+    if(this.eventId){
+      return {id: this.eventId};
+    }else{
+      return null;
+    }
+  }
+
   validateEmail(email: string){
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
     return domainPattern.test(email);
