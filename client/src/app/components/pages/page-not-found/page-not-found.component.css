@@ -1,0 +1,26 @@
+.container {
+  text-align: center;
+  margin-top: 100px;
+}
+
+h1 {
+  font-size: 48px;
+  color: #333;
+}
+
+p {
+  font-size: 24px;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+a {
+  font-size: 24px;
+  color: blue;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #555;
+}

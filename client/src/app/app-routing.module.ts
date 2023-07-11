@@ -10,12 +10,13 @@ import { AdminRolesComponent } from './components/pages/admin/admin-roles/admin-
 import { AddEventComponent } from './components/pages/admin/events/add-event/add-event.component';
 import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
 import { AuthGuard } from './services/auth/auth-guard.service';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent,
     children: [
-      { path: 'events', component: LoginComponent },
+      { path: 'events',redirectTo:'', component: LoginComponent },
       { path: 'events/:id', component: LoginComponent }
 ] },
   { path: 'signup', component: SignupComponent },
@@ -31,7 +32,10 @@ const routes: Routes = [
       {path:'employees',component:EmployeesComponent,canActivateChild:[AuthGuard]},
       {path: 'admin-roles', component: AdminRolesComponent,canActivateChild:[AuthGuard]},
       {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]}
-  ]}
+  ]},
+  {
+    path: '**', component:PageNotFoundComponent
+  }
 ];
 
 @NgModule({
