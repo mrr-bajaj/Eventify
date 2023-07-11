@@ -12,6 +12,7 @@ export class EventCardComponent implements OnInit{
   formattedStartTime: string;
   imageURL: string;
   qrCodeImage: string;
+  @Input() isPast : boolean = false;
   
   constructor(private router: Router,private route: ActivatedRoute){}
 

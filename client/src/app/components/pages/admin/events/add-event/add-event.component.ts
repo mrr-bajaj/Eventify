@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { EventModel } from 'src/app/models/event';
 import { EventsService } from 'src/app/services/events/events.service';
 
@@ -9,7 +10,7 @@ import { EventsService } from 'src/app/services/events/events.service';
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.css']
 })
-export class AddEventComponent {
+export class AddEventComponent implements OnDestroy{
 
   imageFile: File | null = null;
   @ViewChild('eventForm') eventForm : NgForm;
@@ -23,6 +24,7 @@ export class AddEventComponent {
     type: '',
     image: null
   };
+  subscriptions:Subscription[]=[];
 
   constructor(
     private eventsService: EventsService,
@@ -34,7 +36,12 @@ export class AddEventComponent {
     if (eventForm.valid) {
       this.eventData = eventForm.value;
       this.eventData.date = new Date(eventForm.value.date);
-      const formData = new FormData();
+      this.appendFormData();
+    }
+  }
+
+  appendFormData(){
+    const formData = new FormData();
       formData.append('name', this.eventData.name);
       formData.append('description', this.eventData.description);
       formData.append('date', this.eventData.date.toISOString());
@@ -43,18 +50,22 @@ export class AddEventComponent {
       formData.append('location', this.eventData.location);
       formData.append('type', this.eventData.type);
       formData.append('image', this.imageFile);
-      this.eventsService.addEvent(formData).subscribe(
-        (response) => {
-          if (response.message === 'Event added successfully') {
-            this.onReset();
-            this.router.navigate(['/admin/events'], { relativeTo: this.route });
-          }
-        },
-        (error) => {
-          console.log(error);
+      this.addEvent(formData)
+  }
+
+  addEvent(formData: FormData){
+    const subs = this.eventsService.addEvent(formData).subscribe(
+      (response) => {
+        if (response.message === 'Event added successfully') {
+          this.onReset();
+          this.router.navigate(['/admin/events'], { relativeTo: this.route });
         }
-      );
-    }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.subscriptions.push(subs);
   }
 
   onImageChange(event) {
@@ -63,5 +74,11 @@ export class AddEventComponent {
 
   onReset() {
     this.eventForm.reset();
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from each subscription in the array to prevent memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = []; // Clear the subscriptions array
   }
 }

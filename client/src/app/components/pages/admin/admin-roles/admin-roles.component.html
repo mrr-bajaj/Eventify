@@ -5,4 +5,4 @@
   <span class="help_block" *ngIf="emailNotFound">This user is not exist!</span>
 </form>
 <h1>List of admins</h1>
-<app-table [dataSource]="dataSource" [displayedColumns]="displayedColumns"></app-table>
+<app-table [dataSource]="dataSource" [displayedColumns]="displayedColumns" [searchTerm]="searchTerm"></app-table>

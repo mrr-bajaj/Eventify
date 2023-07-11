@@ -7,13 +7,13 @@ const Employee = require('../models/employee.model');
 // SignUp route
 router.post('/signup', async (req, res) => {
   try {
-    const { email, password,name } = req.body;
+    const { email, password,name,department } = req.body;
     const emp = await Employee.findOne({email});
     if(emp){
       return res.send({error: 'Email already registered'})
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const employee = new Employee({ email,name, password: hashedPassword,roles:['user'] });
+    const employee = new Employee({ email,name,department, password: hashedPassword,roles:['user'] });
     await employee.save();
     res.status(201).json({ message: 'Employee registered successfully' });
   } catch (error) {
@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
         return res.send({ error: 'Invalid password' });
       } else {
         const token = jwt.sign({ employeeId: employee._id,roles:employee.roles }, 'secret-key', { expiresIn: '24h' });
-        res.status(200).json({ message: 'Successfully Login',token });
+        res.status(200).json({ message: 'Successfully Login',token,name: employee.name });
       }
     }
   } catch (error) {

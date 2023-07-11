@@ -16,7 +16,7 @@ router.get('/', async (req , res) => {
 router.get('/admin', async (req,res)=>{
   try{
     const admin = await Employee.find({roles: 'admin'});
-    const modifiedData = admin.map(({email,name})=>({email,name}));
+    const modifiedData = admin.map(({email,name,department})=>({email,name,department}));
     res.json(modifiedData);
   }catch(error){
     console.error(error);
@@ -64,7 +64,7 @@ router.get('/:email', async (req , res) => {
     if(!employee){
       return res.json({message: 'User not found'});
     }
-    res.json({name:employee.name,email:employee.email});
+    res.json({name:employee.name,email:employee.email,department:employee.department});
   } catch (error) {
     console.error(error);
     res.status(500).json({error:error.message });

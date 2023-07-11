@@ -1,24 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Attendance } from 'src/app/models/attendance';
 import { Employee } from 'src/app/models/employee';
 import { EventModel } from 'src/app/models/event';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
 import { EventsService } from 'src/app/services/events/events.service';
+import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
   selector: 'app-event-info',
   templateUrl: './event-info.component.html',
   styleUrls: ['./event-info.component.css']
 })
-export class EventInfoComponent {
+export class EventInfoComponent implements OnInit, OnDestroy{
   eventId: string = '';
   eventDetail: EventModel;
   attendanceDetail: Attendance;
   attendedEmployeesInfo: Employee[]=[];
-  displayedColumns: string[] = ['srNo', 'name', 'email', 'time'];
+  displayedColumns: string[] = ['srNo', 'name', 'email','department', 'time'];
   dataSource: any[];
-  constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService){}
+  searchTerm: string;
+  subscriptions:Subscription[]=[];
+  constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){}
 
   ngOnInit(): void {
     this.initialize();
@@ -28,12 +32,14 @@ export class EventInfoComponent {
     await this.getEventId();
     await this.getEventDetails();
     await this.getAttendedEmployeesList();
+    this.search();
   }
 
   async getEventId(){
-    this.route.paramMap.subscribe(params =>{
+    const subs = this.route.paramMap.subscribe(params =>{
       this.eventId = params.get('id');
     })
+    this.subscriptions.push(subs);
   }
 
   async getEventDetails(){
@@ -68,5 +74,18 @@ export class EventInfoComponent {
   
   private formatNumber(value: number): string {
     return value.toString().padStart(2, '0');
+  }
+
+  search(){
+    const subs =this.searchService.searchData.subscribe(data => {
+      this.searchTerm = data;
+    })
+    this.subscriptions.push(subs);
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from each subscription in the array to prevent memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = []; // Clear the subscriptions array
   }
 }

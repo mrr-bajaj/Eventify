@@ -1,5 +1,5 @@
 .employee-card {
-  max-width: 400px;
+  width: 100%;
   margin: 25px;
   display: flex;
   justify-content: center;
@@ -21,7 +21,29 @@
   overflow: hidden;
 }
 
-.employee-container{
+.employee-container {
   display: flex;
-  flex-direction:row ;
+  flex-wrap: wrap;
+}
+
+.employee-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.employee-card-wrapper {
+  flex-basis: calc(25% - 16px);
+  width: 250px;
+  margin-bottom: 16px;
+  margin-right: 16px;
+}
+
+.employee-email {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
