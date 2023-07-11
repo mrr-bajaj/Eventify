@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Employee } from 'src/app/models/employee';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
@@ -16,7 +17,7 @@ export class EmployeesComponent implements OnInit,OnDestroy {
   employees:Employee[]=[];
   searchTerm:string;
   subscriptions: Subscription[]=[];
-  constructor(private employeeService: EmployeeService, private searchService: SearchService) { }
+  constructor(private employeeService: EmployeeService, private searchService: SearchService,private router:Router,private route:ActivatedRoute) { }
 
   ngOnInit() {
     this.initialize();
@@ -40,6 +41,10 @@ export class EmployeesComponent implements OnInit,OnDestroy {
       this.searchTerm = data;
     })
     this.subscriptions.push(subs);
+  }
+
+  viewDetail(index:number){
+    this.router.navigate([this.employees[index].email],{relativeTo: this.route});
   }
 
   ngOnDestroy() {

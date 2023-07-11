@@ -151,6 +151,29 @@ router.post('/attendance/:eventId', async (req, res) => {
   }
 });
 
+//Get Attended EventsInfo by employee email
+router.get('/attendance/employee/:email',async (req,res)=>{
+  try{
+    const {email} = req.params;
+    const attendanceResults = await Attendance.find({ 'employees.email': email }, 'eventId employees').exec();
+    console.log(attendanceResults);
+      const eventIds = attendanceResults.map(result => result.eventId);
+      const eventResults = await Event.find({ id: { $in: eventIds } }, 'id name date').exec();
+      const eventDetails = eventResults.map(event => {
+        const attendance = attendanceResults.find(attendance => attendance.eventId === event.id);
+        return {
+          name: event.name,
+          date: event.date,
+          time: attendance ? attendance.employees.find(employee => employee.email === email).time : null
+        };
+      });
+    res.status(200).json(eventDetails);
+  }catch(error){
+    console.log(error);
+    res.status(500).json({error:message.error});
+  }
+})
+
 //Get Attendance of an event
 router.get('/attendance/:eventId', async (req, res) => {
   try {

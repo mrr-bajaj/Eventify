@@ -11,6 +11,7 @@ import { AddEventComponent } from './components/pages/admin/events/add-event/add
 import { EventInfoComponent } from './components/pages/shared/event-info/event-info.component';
 import { AuthGuard } from './services/auth/auth-guard.service';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { EmployeeInfoComponent } from './components/pages/shared/employee-info/employee-info.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
       {path:'events',component:EventsComponent,canActivateChild:[AuthGuard]},
       {path:'events/:id',component:EventInfoComponent,canActivateChild:[AuthGuard]},
       {path:'employees',component:EmployeesComponent,canActivateChild:[AuthGuard]},
+      {path:'employees/:id',component:EmployeeInfoComponent,canActivateChild:[AuthGuard]},
       {path: 'admin-roles', component: AdminRolesComponent,canActivateChild:[AuthGuard]},
       {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]}
   ]},

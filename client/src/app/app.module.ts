@@ -34,6 +34,7 @@ import { AuthGuard } from './services/auth/auth-guard.service';
 import { SearchPipe } from './components/pages/shared/search/search.pipe';
 import { SearchComponent } from './components/pages/shared/search/search.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { EmployeeInfoComponent } from './components/pages/shared/employee-info/employee-info.component';
 
 
 
@@ -55,7 +56,8 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     TableComponent,
     SearchPipe,
     SearchComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    EmployeeInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +78,7 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
     MatCardModule,
     MatTableModule
   ],
-  providers: [AuthGuard,SearchPipe],
+  providers: [AuthGuard,SearchPipe,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
