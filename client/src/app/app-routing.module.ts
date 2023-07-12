@@ -33,7 +33,9 @@ const routes: Routes = [
       {path:'employees',component:EmployeesComponent,canActivateChild:[AuthGuard]},
       {path:'employees/:id',component:EmployeeInfoComponent,canActivateChild:[AuthGuard]},
       {path: 'admin-roles', component: AdminRolesComponent,canActivateChild:[AuthGuard]},
-      {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]}
+      {path: 'add-event', component: AddEventComponent,canActivateChild:[AuthGuard]},
+      {path: 'edit-event',component:AddEventComponent,canActivate:[AuthGuard]},
+      {path: 'edit-event/:id',component:AddEventComponent,canActivate:[AuthGuard]}
   ]},
   {
     path: '**', component:PageNotFoundComponent

@@ -29,10 +29,10 @@
     <div class="col-md-4">
       <div *ngIf="!isPast" class="row m-2">
         <div class="col-md-2">
-           <button class="btn btn-primary">Edit</button>
+           <button type="button" (click)="onEdit()" class="btn btn-primary">Edit</button>
         </div>
         <div class="col-md-2">
-          <button class="btn btn-danger">Delete</button>
+          <button type="button" (click)="onDelete()" class="btn btn-danger">Delete</button>
         </div>
       </div>
       <div *ngIf="!isPast" class="row m-2">
@@ -42,7 +42,7 @@
       </div>
       <div class="row m-2">
         <div class="col-md-12">
-          <button *ngIf="isPast" class="btn btn-success" (click)="viewInfo()">View Info</button>
+          <button class="btn btn-success" (click)="viewInfo()">View Info</button>
         </div>
       </div>
     </div>

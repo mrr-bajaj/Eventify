@@ -73,6 +73,34 @@ router.post('/add-event',upload.single('image'), async (req, res) => {
   }
 });
 
+//Edit event
+router.put('/edit-event/:eventId',upload.single('image'), async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const updatedEvent = req.body;
+    const id =eventId;
+    const url = req.protocol + '://'+ req.get("host");
+    const finalData = {id,...updatedEvent,image:url + "/public/images/event-logo/" + req.file.filename};
+    let eventData = await Event.findOne({id});
+    const event = await Event.findByIdAndUpdate(eventData._id,finalData,{new: true});
+    res.json(event);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+//Delete event
+router.delete('/delete-event/:eventId', async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    let eventData = await Event.findOne({id:eventId});
+    await Event.findByIdAndDelete(eventData._id);
+    res.json({ message: 'Event deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //Get Upcoming Events
 router.get('/upcoming-event',async (req ,res)=> {
   try{

@@ -1,4 +1,5 @@
-import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +11,7 @@ import { EventsService } from 'src/app/services/events/events.service';
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.css']
 })
-export class AddEventComponent implements OnDestroy{
+export class AddEventComponent implements OnInit,OnDestroy{
 
   imageFile: File | null = null;
   @ViewChild('eventForm') eventForm : NgForm;
@@ -24,14 +25,51 @@ export class AddEventComponent implements OnDestroy{
     type: '',
     image: null
   };
+  fileName:string 
   subscriptions:Subscription[]=[];
+  eventId:string;
+  isEditMode: boolean = false;
 
   constructor(
     private eventsService: EventsService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private datePipe:DatePipe
   ) {}
 
+  ngOnInit(): void {
+    this.checkEditMode();
+  }
+
+  checkEditMode(){
+    this.route.paramMap.subscribe(params =>{
+      this.eventId = params.get('id');
+    })
+
+    this.isEditMode = !!this.eventId;
+    if (this.eventId) {
+      this.fetchEventDetails();
+    }
+  }
+
+  fetchEventDetails() {
+    this.eventsService.getEventById(this.eventId).subscribe(
+      (response) => {
+        this.eventData = response;
+        this.eventData.date = response.date.split("T")[0];
+        this.fileName = response.image.split('/').pop().split('-')[0]; 
+         },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  //7465-06-08 string
+  convertDate(date:string){
+    const originalDate = new Date(date);
+    return this.datePipe.transform(originalDate, 'dd MMM yyyy');
+  }
+  
   onSubmit(eventForm: NgForm) {
     if (eventForm.valid) {
       this.eventData = eventForm.value;
@@ -54,22 +92,38 @@ export class AddEventComponent implements OnDestroy{
   }
 
   addEvent(formData: FormData){
-    const subs = this.eventsService.addEvent(formData).subscribe(
-      (response) => {
-        if (response.message === 'Event added successfully') {
-          this.onReset();
-          this.router.navigate(['/admin/events'], { relativeTo: this.route });
+    if(this.isEditMode){
+      this.eventsService.editEvent(this.eventId,formData).subscribe(
+        (response) => {
+          if (response) {
+            this.onReset();
+            this.router.navigate(['/admin/events'], { relativeTo: this.route });
+          }
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    this.subscriptions.push(subs);
+      );
+    }else{
+      const subs = this.eventsService.addEvent(formData).subscribe(
+        (response) => {
+          if (response.message === 'Event added successfully') {
+            this.onReset();
+            this.router.navigate(['/admin/events'], { relativeTo: this.route });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      this.subscriptions.push(subs);
+    }
+    
   }
 
   onImageChange(event) {
     this.imageFile = event.target.files[0];
+    this.fileName = this.imageFile.name;
   }
 
   onReset() {

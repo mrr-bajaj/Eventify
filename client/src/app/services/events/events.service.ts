@@ -16,6 +16,14 @@ export class EventsService {
     return this.http.post(`${this.baseUrl}/add-event`,event);
   }
 
+  editEvent(eventId: string, event: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/edit-event/${eventId}`, event);
+  }
+
+  deleteEvent(eventId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete-event/${eventId}`);
+  }
+
   getAllUpcomingEvents(): Observable<any>{
     const date = new Date();
     return this.http.get(`${this.baseUrl}/upcoming-event?date=${date}`)
