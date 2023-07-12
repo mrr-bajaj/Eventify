@@ -22,6 +22,10 @@ export class EventInfoComponent implements OnInit, OnDestroy{
   dataSource: any[];
   searchTerm: string;
   subscriptions:Subscription[]=[];
+  pieData:{
+    key:string[],
+    value:number[]
+  }={key:[],value:[]};
   constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){}
 
   ngOnInit(): void {
@@ -32,7 +36,26 @@ export class EventInfoComponent implements OnInit, OnDestroy{
     await this.getEventId();
     await this.getEventDetails();
     await this.getAttendedEmployeesList();
+    this.chartInitialize();
     this.search();
+  }
+  
+  chartInitialize(){
+    const departments = [];
+    const employeeCounts = [];
+    this.dataSource.forEach(data => {
+      if (data.department) {
+        const departmentIndex = departments.indexOf(data.department);
+        if (departmentIndex === -1) {
+          departments.push(data.department);
+          employeeCounts.push(1);
+        } else {
+          data[departmentIndex]++;
+        }
+      }
+    });
+    this.pieData.key = departments;
+    this.pieData.value = employeeCounts;
   }
 
   async getEventId(){

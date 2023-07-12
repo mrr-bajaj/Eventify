@@ -184,7 +184,6 @@ router.get('/attendance/employee/:email',async (req,res)=>{
   try{
     const {email} = req.params;
     const attendanceResults = await Attendance.find({ 'employees.email': email }, 'eventId employees').exec();
-    console.log(attendanceResults);
       const eventIds = attendanceResults.map(result => result.eventId);
       const eventResults = await Event.find({ id: { $in: eventIds } }, 'id name date').exec();
       const eventDetails = eventResults.map(event => {

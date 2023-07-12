@@ -37,7 +37,6 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
   getAttendedEventDetails(){
     const subs = this.eventsService.getAllAttendendEventsOfEmployeeByEmail(this.empEmail)
     .subscribe(resData => {
-      console.log(resData);
       this.dataSource = resData;
       for(let i in resData){
         this.dataSource[i].date = this.convertDate(this.dataSource[i].date);

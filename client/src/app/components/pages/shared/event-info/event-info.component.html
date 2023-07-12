@@ -1,2 +1,3 @@
+<app-pie *ngIf="pieData.key.length" [pieData]="pieData"></app-pie>
 <h1>List of Attendend Employees</h1>
 <app-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [searchTerm]="searchTerm"></app-table>

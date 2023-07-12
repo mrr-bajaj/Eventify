@@ -35,6 +35,7 @@ import { SearchPipe } from './components/pages/shared/search/search.pipe';
 import { SearchComponent } from './components/pages/shared/search/search.component';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { EmployeeInfoComponent } from './components/pages/shared/employee-info/employee-info.component';
+import { PieComponent } from './components/pages/shared/charts/pie/pie.component';
 
 
 
@@ -57,7 +58,8 @@ import { EmployeeInfoComponent } from './components/pages/shared/employee-info/e
     SearchPipe,
     SearchComponent,
     PageNotFoundComponent,
-    EmployeeInfoComponent
+    EmployeeInfoComponent,
+    PieComponent
   ],
   imports: [
     BrowserModule,
