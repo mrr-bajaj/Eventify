@@ -45,14 +45,13 @@ export class EventInfoComponent implements OnInit, OnDestroy{
     this.search();
   }
 
-  async showRegiration(){
+  showRegiration(){
     this.isRegistration = !this.isRegistration;
     if(this.isRegistration){
       this.displayedColumns = ['srNo', 'name', 'email','department'];
     }else{
       this.displayedColumns = ['srNo', 'name', 'email','department','time'];
     }
-    
   }
   
   chartInitialize(){

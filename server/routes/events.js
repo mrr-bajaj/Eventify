@@ -282,6 +282,32 @@ router.get("/attendance/employee/:email", async (req, res) => {
   }
 });
 
+//Get Registered EventsInfo by Employee email
+router.get("/register/employee/:email", async (req, res) => {
+  try {
+    const { email } = req.params;
+    const registrationResults = await Registration.find(
+      { "employees.email": email },
+      "eventId employees"
+    ).exec();
+    const eventIds = registrationResults.map((result) => result.eventId);
+    const eventResults = await Event.find(
+      { id: { $in: eventIds } },
+      "id name date"
+    ).exec();
+    const eventDetails = eventResults.map((event) => {
+      return {
+        name: event.name,
+        date: event.date
+      };
+    });
+    res.status(200).json(eventDetails);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: message.error });
+  }
+});
+
 //Get Attendance of an event
 router.get("/attendance/:eventId", async (req, res) => {
   try {
