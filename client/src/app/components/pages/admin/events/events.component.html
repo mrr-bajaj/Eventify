@@ -1,14 +1,21 @@
 <div class="events">
-  <button type="button" class="btn btn-primary"(click)="onAddEvent()"> Add Event</button>
+  <button mat-fab extended (click)="onAddEvent()" style="margin: 5px; background-color: #fe9496; position: fixed;">
+    <mat-icon>add_box</mat-icon>
+    Add Event
+  </button>
   <div>
+    <div class="header">
     <h1>Upcoming Events</h1>
+    </div>
     <div class="alert" *ngIf="upcomingEvents.length === 0">
       No Upcoming events!
     </div>
     <app-event-card *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']" [event]="upEvent"></app-event-card>
   </div>
   <div>
-    <h1>Past Events</h1>
+    <div class="header">
+      <h1>Past Events</h1>
+    </div>
     <div class="alert" *ngIf="pastEvents.length === 0">
       No Past events!
     </div>

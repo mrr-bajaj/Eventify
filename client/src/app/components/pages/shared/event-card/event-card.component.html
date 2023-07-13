@@ -1,4 +1,4 @@
-<div class="container card">
+<!--div class="container card">
   <div class="row">
     <div class="col-md-2">
       <img [src]="imageURL" height="100%" width="80%" alt="Image">
@@ -47,4 +47,25 @@
       </div>
     </div>
   </div>
-</div>  
+</div-->
+<mat-card class="event-card">
+  <mat-card-header>
+    <mat-card-title>{{event.name ? event.name : 'Event Name Unavailable'}}</mat-card-title>
+    <mat-card-subtitle >{{event.description}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image class="event-photo"
+    [src]="imageURL?imageURL: 'assets/images/event-placeholder.png'"
+    alt="Photo Placeholder">
+  <mat-card-content>
+    <p></p>
+    <p>Event Date: {{event.date | date}}</p>
+    <p>Time: {{formattedStartTime}}</p>
+    <p>Location: {{event.location}}</p>
+  </mat-card-content>
+  <div class="button-container">
+    <button class="button-row" mat-raised-button color="primary" (click)="viewInfo()">View Details</button>
+    <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="onEdit()">Edit</button>
+      <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="onDelete()">Delete</button>
+    <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="downloadQrCode()">Download QR Code</button>
+  </div >
+</mat-card>
