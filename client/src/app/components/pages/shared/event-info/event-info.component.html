@@ -1,3 +1,4 @@
 <app-pie *ngIf="pieData.key.length" [pieData]="pieData"></app-pie>
-<h1>List of Attendend Employees</h1>
-<app-table [displayedColumns]="displayedColumns" [dataSource]="dataSource" [searchTerm]="searchTerm"></app-table>
+<button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
+<h1>List of {{isRegistration ? 'Registered' : 'Attendend' }} Employees</h1>
+<app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>

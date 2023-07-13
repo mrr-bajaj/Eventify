@@ -300,6 +300,24 @@ router.get("/attendance/:eventId", async (req, res) => {
   }
 });
 
+//Get Registration of an event
+router.get("/register/:eventId", async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    // Find the event by ID
+    const registration = await Registration.findOne({ eventId });
+
+    // Check if the event exists
+    if (!registration) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    res.status(200).json(registration);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 function generateId() {
   return uuid.v4().substring(0, 8);
 }

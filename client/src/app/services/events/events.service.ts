@@ -66,6 +66,10 @@ export class EventsService {
     return this.http.get(`${this.baseUrl}/attendance/${eventId}`);
   }
 
+  getRegistration(eventId: string):Observable<any>{
+    return this.http.get(`${this.baseUrl}/register/${eventId}`);
+  }
+
   getAllAttendendEventsOfEmployeeByEmail(email:string):Observable<any>{
     return this.http.get(`${this.baseUrl}/attendance/employee/${email}`);
   }
