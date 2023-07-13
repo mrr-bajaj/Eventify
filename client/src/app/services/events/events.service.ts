@@ -52,6 +52,10 @@ export class EventsService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
+  addRegistration(email:string,eventId: string):Observable<any>{
+    return this.http.post(`${this.baseUrl}/register/${eventId}`,{email});
+  }
+
   addAttendance(email:string, eventId: string): Observable<any>{
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes();

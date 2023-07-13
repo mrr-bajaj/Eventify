@@ -12,7 +12,7 @@
       <input type="password" class="form-control" id="password" name="password" ngModel required>
       <span class="help_block" *ngIf="invalidPassword">Invalid Password</span>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">{{eventId ? 'Attend' : 'Login' }}</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">{{buttonSubmitName}}</button>
   </form>
   <p>Don't have an account? <span><a [routerLink]="['/signup']" [queryParams]="getQueryParams()">Sign Up</a></span> here</p>
 </div>
