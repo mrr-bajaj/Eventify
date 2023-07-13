@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from 'src/app/models/event';
+import { EventsService } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-event-card',
@@ -14,7 +15,7 @@ export class EventCardComponent implements OnInit{
   qrCodeImage: string;
   @Input() isPast : boolean = false;
   
-  constructor(private router: Router,private route: ActivatedRoute){}
+  constructor(private router: Router,private route: ActivatedRoute,private eventsService:EventsService){}
 
   ngOnInit(): void {
    this.convertTime();
@@ -47,5 +48,19 @@ export class EventCardComponent implements OnInit{
 
   viewInfo(){
     this.router.navigate(['/admin/events',this.event.id],{relativeTo: this.route});
+  }
+
+  onEdit(){
+    this.router.navigate(['/admin/edit-event',this.event.id],{relativeTo: this.route});
+  }
+
+  onDelete(){
+    this.eventsService.deleteEvent(this.event.id).subscribe(res => {
+      if(res.message === 'Event deleted successfully'){
+        window.location.reload();   //TOCHANGE
+      }
+    }, err => {
+      console.log(err);
+    });
   }
 }

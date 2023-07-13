@@ -18,10 +18,18 @@ export class EventInfoComponent implements OnInit, OnDestroy{
   eventDetail: EventModel;
   attendanceDetail: Attendance;
   attendedEmployeesInfo: Employee[]=[];
+  registrationDetail: Attendance;
+  registeredEmployeesInfo: Employee[]=[];
   displayedColumns: string[] = ['srNo', 'name', 'email','department', 'time'];
-  dataSource: any[];
+  attendedDataSource: any[];
+  registeredDataSource: any[];
   searchTerm: string;
   subscriptions:Subscription[]=[];
+  pieData:{
+    key:string[],
+    value:number[]
+  }={key:[],value:[]};
+  isRegistration:boolean=false;
   constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){}
 
   ngOnInit(): void {
@@ -32,7 +40,36 @@ export class EventInfoComponent implements OnInit, OnDestroy{
     await this.getEventId();
     await this.getEventDetails();
     await this.getAttendedEmployeesList();
+    await this.getRegisteredEmployeesList();
+    this.chartInitialize();
     this.search();
+  }
+
+  showRegiration(){
+    this.isRegistration = !this.isRegistration;
+    if(this.isRegistration){
+      this.displayedColumns = ['srNo', 'name', 'email','department'];
+    }else{
+      this.displayedColumns = ['srNo', 'name', 'email','department','time'];
+    }
+  }
+  
+  chartInitialize(){
+    const departments = [];
+    const employeeCounts = [];
+    this.attendedDataSource.forEach(data => {
+      if (data.department) {
+        const departmentIndex = departments.indexOf(data.department);
+        if (departmentIndex === -1) {
+          departments.push(data.department);
+          employeeCounts.push(1);
+        } else {
+          data[departmentIndex]++;
+        }
+      }
+    });
+    this.pieData.key = departments;
+    this.pieData.value = employeeCounts;
   }
 
   async getEventId(){
@@ -53,14 +90,26 @@ export class EventInfoComponent implements OnInit, OnDestroy{
       await this.getEmployeeDetails(employee.email,srNo,employee.time);
       srNo++;
     }
-    this.dataSource =this.attendedEmployeesInfo;
+    this.attendedDataSource =this.attendedEmployeesInfo;
   } 
 
-  async getEmployeeDetails(email: string,srNo: number,time: string) {
+  async getEmployeeDetails(email: string,srNo: number,time?: string) {
     const employee = await this.employeeService.getEmployeeByEmail(email).toPromise();
     employee.srNo = srNo;
-    employee.time = this.convertTime(time);
-    this.attendedEmployeesInfo.push(employee);
+    if(time){
+      employee.time = this.convertTime(time);
+    }
+    this.registeredEmployeesInfo.push(employee);
+  }
+
+  async getRegisteredEmployeesList(){
+    this.registrationDetail = await this.eventsService.getRegistration(this.eventId).toPromise();
+    let srNo=1;
+    for (const employee of this.registrationDetail.employees) {
+      await this.getEmployeeDetails(employee.email,srNo);
+      srNo++;
+    }
+    this.registeredDataSource =this.registeredEmployeesInfo;
   }
 
   convertTime(time: string): string {

@@ -3,7 +3,7 @@ export interface Attendance{
   employees: [
     {
       email: string,
-      time: string
+      time?: string
     }
   ]
 }

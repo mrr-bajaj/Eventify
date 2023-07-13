@@ -20,18 +20,30 @@ export class LoginComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[]=[];
   constructor(private authService: AuthService, private router: Router,private route: ActivatedRoute,private eventsService: EventsService) { }
   eventId: string = '';
+  buttonSubmitName:string = 'Login';
 
   ngOnInit(): void {
     this.getEventId();
   }
 
   getEventId(){
-    const subs = this.route.queryParams.subscribe(params =>{
-      if(params['id']){
-        this.eventId = params['id'];
+    this.route.url.subscribe(segments => {
+      const action = segments[0]?.path;
+      const subs = this.route.queryParams.subscribe(params =>{
+        if(params['id']){
+          this.eventId = params['id'];
+        }
+      })
+      this.subscriptions.push(subs);
+      if (action && this.eventId) {
+        if (action === 'login') {
+            this.buttonSubmitName = 'Attend';
+          
+        } else if (action === 'register') {
+          this.buttonSubmitName = 'Register';
+        }
       }
-    })
-    this.subscriptions.push(subs);
+    });
   }
 
   getQueryParams(){
@@ -75,18 +87,33 @@ export class LoginComponent implements OnInit, OnDestroy{
               localStorage.setItem('username',response.name);
               this.router.navigate(['admin']);
             }else if(roles.includes('user')){
-              const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
-                if(res.message === 'Attendance saved successfully'){
-                  form.reset();
-                  alert('Attendance Saved Successfully!');
-                }else if(res.message === 'Already attended'){
-                  form.reset();
-                  alert('You\'ve have already attended the event!');
-                }
-              },(error)=>{
-                console.log(error)
-              });
-              this.subscriptions.push(subs);
+              if(this.buttonSubmitName === 'Register'){
+                const subs = this.eventsService.addRegistration(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
+                  if(res.message === 'Registered event successfully'){
+                    form.reset();
+                    alert('Registered event Successfully!');
+                  }else if(res.message === 'Already registered'){
+                    form.reset();
+                    alert('You\'ve have already registered the event!');
+                  }
+                },(error)=>{
+                  console.log(error)
+                });
+                this.subscriptions.push(subs);
+              }else{
+                const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
+                  if(res.message === 'Attendance saved successfully'){
+                    form.reset();
+                    alert('Attendance Saved Successfully!');
+                  }else if(res.message === 'Already attended'){
+                    form.reset();
+                    alert('You\'ve have already attended the event!');
+                  }
+                },(error)=>{
+                  console.log(error)
+                });
+                this.subscriptions.push(subs);
+              }
             }
           }
         },

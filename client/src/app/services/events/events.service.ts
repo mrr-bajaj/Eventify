@@ -16,6 +16,14 @@ export class EventsService {
     return this.http.post(`${this.baseUrl}/add-event`,event);
   }
 
+  editEvent(eventId: string, event: any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/edit-event/${eventId}`, event);
+  }
+
+  deleteEvent(eventId: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete-event/${eventId}`);
+  }
+
   getAllUpcomingEvents(): Observable<any>{
     const date = new Date();
     return this.http.get(`${this.baseUrl}/upcoming-event?date=${date}`)
@@ -44,6 +52,10 @@ export class EventsService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
+  addRegistration(email:string,eventId: string):Observable<any>{
+    return this.http.post(`${this.baseUrl}/register/${eventId}`,{email});
+  }
+
   addAttendance(email:string, eventId: string): Observable<any>{
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes();
@@ -54,7 +66,15 @@ export class EventsService {
     return this.http.get(`${this.baseUrl}/attendance/${eventId}`);
   }
 
+  getRegistration(eventId: string):Observable<any>{
+    return this.http.get(`${this.baseUrl}/register/${eventId}`);
+  }
+
   getAllAttendendEventsOfEmployeeByEmail(email:string):Observable<any>{
     return this.http.get(`${this.baseUrl}/attendance/employee/${email}`);
+  }
+
+  getAllRegisteredEventsOfEmployeeByEmail(email:string):Observable<any>{
+    return this.http.get(`${this.baseUrl}/register/employee/${email}`);
   }
 }

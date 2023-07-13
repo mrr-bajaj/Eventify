@@ -3,38 +3,45 @@
   <form (ngSubmit)="onSubmit(eventForm)" #eventForm="ngForm"  enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" ngModel name="name" required>
+      <input type="text" class="form-control" id="name" [(ngModel)]="eventData.name" name="name" required>
     </div>
     <div class="form-group">
       <label for="description">Description:</label>
-      <textarea class="form-control" id="description" ngModel name="description" rows="3" required></textarea>
+      <textarea class="form-control" id="description" [(ngModel)]="eventData.description" name="description" rows="3" required></textarea>
     </div>
     <div class="form-group">
       <label for="date">Date:</label>
-      <input type="date" class="form-control" id="date" ngModel name="date" required>
+      <input type="date" class="form-control" id="date" [(ngModel)]="eventData.date" name="date" required>
     </div>
     <div class="form-group">
       <label for="startTime">Start Time:</label>
-      <input type="time" class="form-control" id="startTime" ngModel name="startTime" required>
+      <input type="time" class="form-control" id="startTime" [(ngModel)]="eventData.startTime" name="startTime" required>
     </div>
     <div class="form-group">
       <label for="endTime">End Time::</label>
-      <input type="time" class="form-control" id="endTime" ngModel name="endTime" required>
+      <input type="time" class="form-control" id="endTime" [(ngModel)]="eventData.endTime" name="endTime" required>
     </div>
     <div class="form-group">
       <label for="location">Location:</label>
-      <input type="text" class="form-control" id="location" ngModel name="location" required>
+      <input type="text" class="form-control" id="location" [(ngModel)]="eventData.location" name="location" required>
     </div>
     <div class="form-group">
       <label for="type">Type:</label>
-      <input type="text" class="form-control" id="type" ngModel name="type" required>
+      <input type="text" class="form-control" id="type" [(ngModel)]="eventData.type" name="type" required>
     </div>
     <div class="form-group">
       <label for="image">Image:</label>
-      <input type="file" class="form-control-file form-img" id="image" (change)="onImageChange($event)" name="image" ngModel accept="image/*" required>
+      <input type="file" class="form-control-file form-img file-input" id="image" #fileUpload (change)="onImageChange($event)" name="image" ngModel accept="image/*" required>
+      <span class="file-upload m-2">
+         <button mat-mini-fab color="primary" class="upload-btn"
+           (click)="fileUpload.click()">
+             <mat-icon>attach_file</mat-icon>
+         </button>
+         {{fileName || "No Image uploaded yet."}}
+     </span>
     </div>
     <div class="form-group d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary mx-2" [disabled]="!eventForm.valid">Create</button>
+      <button type="submit" class="btn btn-primary mx-2" [disabled]="!eventForm.valid">{{isEditMode ? 'Edit' : 'Create'}}</button>
       <button type="button" class="btn btn-primary mx-2" (click)="onReset()">Reset</button>
     </div>
   </form>

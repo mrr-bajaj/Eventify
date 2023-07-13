@@ -12,10 +12,12 @@ import { SearchService } from 'src/app/services/search/search.service';
 })
 export class EmployeeInfoComponent implements OnInit, OnDestroy{
   displayedColumns: string[] = ['srNo', 'name', 'date', 'time'];
-  dataSource: any[];
+  attendedDataSource: any[];
+  registeredDataSource: any[];
   empEmail: string;
   searchTerm:string;
   subscriptions:Subscription[]=[];
+  isRegistration:boolean = false;
   constructor(private route: ActivatedRoute,private eventsService:EventsService,private datePipe:DatePipe,private searchService:SearchService){}
   ngOnInit(): void {
     this.initialize();
@@ -25,6 +27,16 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
   initialize(){
     this.getParamEmail();
     this.getAttendedEventDetails();
+    this.getRegisteredEventDetails();
+  }
+
+  showRegiration(){
+    this.isRegistration = !this.isRegistration;
+    if(this.isRegistration){
+      this.displayedColumns = ['srNo', 'name', 'date'];
+    }else{
+      this.displayedColumns = ['srNo', 'name', 'date','time'];
+    }
   }
 
   getParamEmail(){
@@ -37,12 +49,26 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
   getAttendedEventDetails(){
     const subs = this.eventsService.getAllAttendendEventsOfEmployeeByEmail(this.empEmail)
     .subscribe(resData => {
-      console.log(resData);
-      this.dataSource = resData;
+      this.attendedDataSource = resData;
       for(let i in resData){
-        this.dataSource[i].date = this.convertDate(this.dataSource[i].date);
-        this.dataSource[i].time = this.convertTime(this.dataSource[i].time);
-        this.dataSource[i].srNo = (+i)+1;
+        this.attendedDataSource[i].date = this.convertDate(this.attendedDataSource[i].date);
+        this.attendedDataSource[i].time = this.convertTime(this.attendedDataSource[i].time);
+        this.attendedDataSource[i].srNo = (+i)+1;
+      }
+    })
+    this.subscriptions.push(subs);
+  }
+
+  getRegisteredEventDetails(){
+    const subs = this.eventsService.getAllRegisteredEventsOfEmployeeByEmail(this.empEmail)
+    .subscribe(resData => {
+      if(resData){
+        this.registeredDataSource = resData;
+        console.log()
+        for(let i in resData){
+          this.registeredDataSource[i].date = this.convertDate(this.registeredDataSource[i].date);
+          this.registeredDataSource[i].srNo = (+i)+1;
+        }
       }
     })
     this.subscriptions.push(subs);
