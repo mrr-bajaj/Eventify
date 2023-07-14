@@ -49,18 +49,20 @@
   </div>
 </div-->
 <mat-card class="event-card">
-  <mat-card-header>
-    <mat-card-title>{{event.name ? event.name : 'Event Name Unavailable'}}</mat-card-title>
-    <mat-card-subtitle >{{event.description}}</mat-card-subtitle>
-  </mat-card-header>
   <img mat-card-image class="event-photo"
     [src]="imageURL?imageURL: 'assets/images/event-placeholder.png'"
     alt="Photo Placeholder">
-  <mat-card-content>
-    <p></p>
-    <p>Event Date: {{event.date | date}}</p>
+    <mat-card-header>
+      <mat-card-title>{{event.name ? event.name : 'Event Name Unavailable'}}</mat-card-title>
+      <mat-card-subtitle >{{event.description}}</mat-card-subtitle>
+    </mat-card-header>
+  <mat-card-content class="mt-3 mb-2">
+    <span class="border border-primary p-2 m-2 rounded-5">{{event.date | date}}</span>
+    <span class="border border-success p-2 m-2 rounded-5">{{formattedStartTime}}</span>
+    <span class="border border-info p-2 m-2 rounded-5">{{event.location}}</span>
+    <!-- <p>Event Date: {{event.date | date}}</p>
     <p>Time: {{formattedStartTime}}</p>
-    <p>Location: {{event.location}}</p>
+    <p>Location: {{event.location}}</p> -->
   </mat-card-content>
   <div class="button-container">
     <button class="button-row" mat-raised-button color="primary" (click)="viewInfo()">View Details</button>
