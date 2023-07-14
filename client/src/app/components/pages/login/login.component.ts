@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy{
 
   getQueryParams(){
     if(this.eventId){
-      return {id: this.eventId};
+      return {id: this.eventId,name: this.buttonSubmitName === 'Attend' ? true : false};
     }else{
       return null;
     }

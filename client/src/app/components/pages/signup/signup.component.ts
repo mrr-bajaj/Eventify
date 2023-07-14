@@ -17,6 +17,7 @@ export class SignupComponent implements OnInit, OnDestroy{
   validEmail: boolean =false;
   subscriptions: Subscription[]=[];
   eventId:string;
+  isAttend:boolean= false;
   departmentOptions = [
     { label: 'Digital Energy', value: 'Digital Energy' },
     { label: 'Digital Ocean', value: 'Digital Ocean' },
@@ -27,6 +28,7 @@ export class SignupComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.eventId = params['id'];
+      this.isAttend = params['name'];
     })
   }
 

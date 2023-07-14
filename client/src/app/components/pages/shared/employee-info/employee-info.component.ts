@@ -64,7 +64,6 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
     .subscribe(resData => {
       if(resData){
         this.registeredDataSource = resData;
-        console.log()
         for(let i in resData){
           this.registeredDataSource[i].date = this.convertDate(this.registeredDataSource[i].date);
           this.registeredDataSource[i].srNo = (+i)+1;

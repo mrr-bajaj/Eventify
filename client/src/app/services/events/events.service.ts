@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +8,18 @@ import { Observable, tap } from 'rxjs';
 export class EventsService {
   
   private baseUrl = 'http://localhost:3000/api/events';
-
+  private pieUpdateSubject = new Subject<boolean>();
+  
   constructor(private http: HttpClient) {}
+  
+  sendEvent(data: boolean) {
+    this.pieUpdateSubject.next(data);
+  }
 
-
+  getEvent() {
+    return this.pieUpdateSubject.asObservable();
+  }
+  
   addEvent(event:any): Observable<any>{
     return this.http.post(`${this.baseUrl}/add-event`,event);
   }
