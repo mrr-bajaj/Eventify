@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 600px;
 }
 
 .event-photo{
@@ -25,3 +26,11 @@
   flex-wrap: wrap;
 }
 
+.event-info {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
