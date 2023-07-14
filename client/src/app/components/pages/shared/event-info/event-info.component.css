@@ -5,3 +5,29 @@ h1{
   margin: 20px;
   padding: 5px;
 }
+
+.chart-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.pie-chart{
+  flex: 1;
+}
+
+.data-chart-container{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+  padding: 10px;
+  margin: 5px;
+}

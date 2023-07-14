@@ -30,6 +30,11 @@
       value:number[]
     }={key:[],value:[]};
     isRegistration:boolean=false;
+    attendedPer:number = 0;
+    registeredPer: number = 0;
+    attendedEmployeeCount: number = 0;
+    registeredEmployeeCount: number = 0;
+
     constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){
     }
 
@@ -42,8 +47,19 @@
       await this.getEventDetails();
       await this.getAttendedEmployeesList();
       await this.getRegisteredEmployeesList();
+      await this.getEmployeeCount();
       this.chartInitialize();
       this.search();
+    }
+
+    async getEmployeeCount(){
+      this.employeeService.getEmployees().subscribe(res => {
+        const totalEmployee = res.length;
+        this.attendedEmployeeCount = this.attendedDataSource.length;
+        this.registeredEmployeeCount = this.registeredDataSource.length;
+        this.attendedPer = Math.round((this.attendedEmployeeCount/totalEmployee)*100);
+        this.registeredPer = Math.round((this.registeredEmployeeCount/totalEmployee)*100);
+      })
     }
 
     showRegiration(){
