@@ -78,7 +78,7 @@
             departments.push(data.department);
             employeeCounts.push(1);
           } else {
-            data[departmentIndex]++;
+            employeeCounts[departmentIndex]++;
           }
         }
       });
