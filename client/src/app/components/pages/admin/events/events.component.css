@@ -1,3 +1,11 @@
 .events {
-  padding: 12px 0 0 12px;
+  padding: 10px 0 0 10px;
+}
+
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
 }

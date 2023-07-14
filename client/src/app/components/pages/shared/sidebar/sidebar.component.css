@@ -15,8 +15,10 @@
 .username{
   width: 150px;
   font-size: 20px;
+  font-weight: bold;
   padding: 12px;
   margin: 2px;
+  color: #a05aff;
 }
 
 .list li {
@@ -27,18 +29,20 @@
 
 a{
   text-decoration: none;
-  color: black;
+  font-weight: bold;
+  color: #0a90f0;
 }
 
 .active{
-  color: blue;
+  color: #a05aff;
   font-weight: bold;
   font-size: 30px;
 }
 
 .sidebar {
   overflow-y: auto;
-  background-color: rgb(112, 191, 222);
+  background-color:white;
+  /*background: linear-gradient( #f9f9f9,#7fbde9,#f9f9f9);*/
   padding: 12px;
   height: 100%;
 }
