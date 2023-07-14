@@ -79,7 +79,7 @@
       }else{
         this.findPieData(this.attendedDataSource) 
       }
-      this.eventsService.sendEvent(true);
+      this.eventsService.sendPieDataEvent(true);
     }
 
     findPieData(dataSource){

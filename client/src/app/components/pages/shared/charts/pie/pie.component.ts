@@ -20,7 +20,7 @@ OnDestroy{
   constructor(private eventsService: EventsService){}
 //HACK -- TOFIX
   ngOnInit(): void {
-    this.eventsService.getEvent().subscribe(data => {
+    this.eventsService.getPieDataEvent().subscribe(data => {
         this.destroyChart();
         this.renderChart();
     });

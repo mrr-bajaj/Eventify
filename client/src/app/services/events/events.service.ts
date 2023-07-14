@@ -9,14 +9,16 @@ export class EventsService {
   
   private baseUrl = 'http://localhost:3000/api/events';
   private pieUpdateSubject = new Subject<boolean>();
+  private totalUpcomingEventCount: number = 0;
+  private totalPastEventCount: number = 0;
   
   constructor(private http: HttpClient) {}
   
-  sendEvent(data: boolean) {
+  sendPieDataEvent(data: boolean) {
     this.pieUpdateSubject.next(data);
   }
 
-  getEvent() {
+  getPieDataEvent() {
     return this.pieUpdateSubject.asObservable();
   }
   
@@ -41,6 +43,7 @@ export class EventsService {
 
         // Sort the array by the date property
         resData.sort(compareDates);
+        this.totalUpcomingEventCount = resData.length;
     }));
   }
 
@@ -53,6 +56,7 @@ export class EventsService {
 
       // Sort the array by the date property
       resData.sort(compareDates);
+      this.totalPastEventCount = resData.length;
     }));
   }
 
@@ -84,5 +88,17 @@ export class EventsService {
 
   getAllRegisteredEventsOfEmployeeByEmail(email:string):Observable<any>{
     return this.http.get(`${this.baseUrl}/register/employee/${email}`);
+  }
+
+  getTotalEventCount(){
+    return this.totalPastEventCount + this.totalUpcomingEventCount;
+  }
+
+  getTotalPastEventCount(){
+    return this.totalPastEventCount;
+  }
+
+  getTotalUpcomingEventCount(){
+    return this.totalUpcomingEventCount;
   }
 }
