@@ -1,4 +1,5 @@
 <button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
 <app-pie *ngIf="pieData.key.length" [pieData]="pieData"></app-pie>
+<app-data-card></app-data-card>
 <h1>List of {{isRegistration ? 'Registered' : 'Attendend' }} Employees</h1>
 <app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>
