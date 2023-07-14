@@ -17,21 +17,25 @@
 
 .dashboard {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 25px;
 }
 
-.event-section {
+.upcoming-event {
+  flex: 1;
+  text-align: center;
+}
+
+.past-event {
+  flex: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   text-align: center;
 }
 
 .card-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
 }
 
 .event-card {

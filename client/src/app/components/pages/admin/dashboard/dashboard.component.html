@@ -1,5 +1,5 @@
 <main class="dashboard">
-  <div class="event-section">
+  <div class="upcoming-event">
     <div class="header">
       <h1>Upcoming Events</h1>
     </div>
@@ -11,7 +11,7 @@
       <app-event-card class="event-card" *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']" [event]="upEvent"></app-event-card>
     </div>
   </div>
-  <div class="event-section">
+  <div class="past-event">
     <div class="header">
       <h1>Past Events</h1>
     </div>
