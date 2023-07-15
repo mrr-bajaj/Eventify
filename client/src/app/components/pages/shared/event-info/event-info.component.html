@@ -14,5 +14,5 @@
     </div>
   </div>
 </div>
-<h1>List of {{isRegistration ? 'Registered' : 'Attended' }} Employees</h1>
+<h2 class="title">List of {{isRegistration ? 'Registered' : 'Attended' }} Employees</h2>
 <app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>
