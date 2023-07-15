@@ -6,13 +6,13 @@
   <div class="data-chart-container">
     <div class="row">
       <div class="col">
-        <app-data-card [title]="isRegistration ? 'Registered' : 'Attendend'" [value]="isRegistration ? registeredEmployeeCount: attendedEmployeeCount"></app-data-card>
+        <app-data-card [title]="isRegistration ? 'Registered' : 'Attended'" [value]="isRegistration ? registeredEmployeeCount: attendedEmployeeCount"></app-data-card>
       </div>
       <div class="col">
-        <app-data-card [title]="isRegistration ? '% Registered' : '% Attendend'" [value]="isRegistration ? registeredPer : attendedPer"></app-data-card>
+        <app-data-card [title]="isRegistration ? '% Registered' : '% Attended'" [value]="isRegistration ? registeredPer : attendedPer"></app-data-card>
       </div>
     </div>
   </div>
 </div>
-<h1>List of {{isRegistration ? 'Registered' : 'Attendend' }} Employees</h1>
+<h1>List of {{isRegistration ? 'Registered' : 'Attended' }} Employees</h1>
 <app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>

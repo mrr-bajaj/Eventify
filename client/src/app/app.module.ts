@@ -37,7 +37,8 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
 import { EmployeeInfoComponent } from './components/pages/shared/employee-info/employee-info.component';
 import { PieComponent } from './components/pages/shared/charts/pie/pie.component';
 import { DataCardComponent } from './components/pages/shared/data-card/data-card.component';
-
+import { LineChartComponent } from './components/pages/shared/charts/line-chart/line-chart.component';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { DataCardComponent } from './components/pages/shared/data-card/data-card
     PageNotFoundComponent,
     EmployeeInfoComponent,
     PieComponent,
-    DataCardComponent
+    DataCardComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +82,8 @@ import { DataCardComponent } from './components/pages/shared/data-card/data-card
     MatListModule,
     DatePipe,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    CanvasJSAngularChartsModule
   ],
   providers: [AuthGuard,SearchPipe,DatePipe],
   bootstrap: [AppComponent]
