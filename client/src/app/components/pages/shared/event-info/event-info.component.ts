@@ -7,6 +7,7 @@
   import { EmployeeService } from 'src/app/services/employees/employee.service';
   import { EventsService } from 'src/app/services/events/events.service';
   import { SearchService } from 'src/app/services/search/search.service';
+  import { faUserCheck, faUserClock, faUsers } from '@fortawesome/free-solid-svg-icons';
 
   @Component({
     selector: 'app-event-info',
@@ -34,7 +35,7 @@
     registeredPer: number = 0;
     attendedEmployeeCount: number = 0;
     registeredEmployeeCount: number = 0;
-
+    icon = [faUserCheck, faUserClock, faUsers];
     constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){
     }
 

@@ -4,6 +4,7 @@ import { EventModel } from 'src/app/models/event';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { faUsers, faCalendar, faHistory, faClock } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,6 +24,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
   allPastEvents: EventModel[]=[];
   attendedData:{label:string,y:number}[] = [];
   registeredData: {label:string,y:number}[] = [];
+  icons = [faUsers,faCalendar,faHistory,faClock];
   constructor(private eventsService : EventsService,private searchService: SearchService,private employeeService:EmployeeService){}
   
   ngOnInit(): void {

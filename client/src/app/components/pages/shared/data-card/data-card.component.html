@@ -1,6 +1,11 @@
 <mat-card>
-    <mat-card-content >
-      <h2>{{title}}</h2>
-      <h1>{{value}}</h1>
-    </mat-card-content>
+  <mat-card-content>
+    <div class="data-icon">
+      <fa-icon [size]="'2x'" [icon]="icon"></fa-icon>
+    </div>
+    <div class="data-text">
+      <h1>{{ value }}</h1>
+      <h2>{{ title }}</h2>
+    </div>
+  </mat-card-content>
 </mat-card>
