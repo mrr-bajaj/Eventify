@@ -23,6 +23,6 @@
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Sign Up</button>
   </form>
-  <p>Already Registered? <span><a [routerLink]="eventId ? ['/login/events'] : ['/login']" [queryParams]="getQueryParams()">Login</a></span> here</p>
+  <p>Already Registered? <span><a [routerLink]="eventId ? (isAttend ? ['/login/events'] : ['/register']): ['/login']" [queryParams]="getQueryParams()">Login</a></span> here</p>
 </div>
 

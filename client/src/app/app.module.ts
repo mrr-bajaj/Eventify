@@ -36,6 +36,7 @@ import { SearchComponent } from './components/pages/shared/search/search.compone
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { EmployeeInfoComponent } from './components/pages/shared/employee-info/employee-info.component';
 import { PieComponent } from './components/pages/shared/charts/pie/pie.component';
+import { DataCardComponent } from './components/pages/shared/data-card/data-card.component';
 
 
 
@@ -59,7 +60,8 @@ import { PieComponent } from './components/pages/shared/charts/pie/pie.component
     SearchComponent,
     PageNotFoundComponent,
     EmployeeInfoComponent,
-    PieComponent
+    PieComponent,
+    DataCardComponent
   ],
   imports: [
     BrowserModule,

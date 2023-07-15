@@ -1,24 +1,28 @@
 <div class="events">
-  <button mat-fab extended (click)="onAddEvent()" style="margin: 5px; background-color: #fe9496; position: fixed;">
+  <button class="add-event-btn" mat-fab extended (click)="onAddEvent()" >
     <mat-icon>add_box</mat-icon>
     Add Event
   </button>
-  <div>
+  <div class="event-section">
     <div class="header">
-    <h1>Upcoming Events</h1>
+      <h1>Upcoming Events</h1>
     </div>
     <div class="alert" *ngIf="upcomingEvents.length === 0">
       No Upcoming events!
     </div>
-    <app-event-card *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']" [event]="upEvent"></app-event-card>
+    <div class="card-container">
+      <app-event-card class="event-card" *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']" [event]="upEvent"></app-event-card>
+    </div>
   </div>
-  <div>
+  <div class="event-section">
     <div class="header">
       <h1>Past Events</h1>
     </div>
     <div class="alert" *ngIf="pastEvents.length === 0">
       No Past events!
     </div>
-    <app-event-card *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent" [isPast]="true"></app-event-card>
+    <div class="card-container">
+      <app-event-card class="event-card" *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent" [isPast]="true"></app-event-card>
+    </div>
   </div>
 </div>

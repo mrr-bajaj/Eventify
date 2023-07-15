@@ -1,5 +1,19 @@
-<main class="dashboard">
-  <div class="event-section">
+<div class="dashboard-stats-container mb-5">
+  <div class="col">
+    <app-data-card [title]="'Registered Employees'" [value]="totalEmployeeCount"></app-data-card>
+  </div>
+  <div class="col">
+    <app-data-card [title]="'Total Events'" [value]="totalEventCount"></app-data-card>
+  </div>
+  <div class="col">
+    <app-data-card [title]="'Past Events'" [value]="totalPastEventCount"></app-data-card>
+  </div>
+  <div class="col">
+    <app-data-card [title]="'Upcoming Events'" [value]="totalUpcomingEventCount"></app-data-card>
+  </div>
+</div>
+<div class="event-container mt-5">
+  <div class="upcoming-event">
     <div class="header">
       <h1>Upcoming Events</h1>
     </div>
@@ -11,7 +25,7 @@
       <app-event-card class="event-card" *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']" [event]="upEvent"></app-event-card>
     </div>
   </div>
-  <div class="event-section">
+  <div class="past-event">
     <div class="header">
       <h1>Past Events</h1>
     </div>
@@ -22,4 +36,4 @@
       <app-event-card class="event-card" *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent" [isPast]="true"></app-event-card>
     </div>
   </div>
-</main>
+</div>

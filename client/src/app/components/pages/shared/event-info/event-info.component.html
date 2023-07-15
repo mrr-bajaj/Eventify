@@ -1,4 +1,18 @@
-<app-pie *ngIf="pieData.key.length" [pieData]="pieData"></app-pie>
 <button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
+<div class="chart-container">
+  <div class="pie-chart">
+    <app-pie *ngIf="pieData.key.length" [pieData]="pieData"></app-pie>
+  </div>
+  <div class="data-chart-container">
+    <div class="row">
+      <div class="col">
+        <app-data-card [title]="isRegistration ? 'Registered' : 'Attendend'" [value]="isRegistration ? registeredEmployeeCount: attendedEmployeeCount"></app-data-card>
+      </div>
+      <div class="col">
+        <app-data-card [title]="isRegistration ? '% Registered' : '% Attendend'" [value]="isRegistration ? registeredPer : attendedPer"></app-data-card>
+      </div>
+    </div>
+  </div>
+</div>
 <h1>List of {{isRegistration ? 'Registered' : 'Attendend' }} Employees</h1>
 <app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>
