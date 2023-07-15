@@ -8,4 +8,5 @@ import { Component, Input } from '@angular/core';
 export class DataCardComponent {
   @Input() title: string = 'Attended Employees';
   @Input() value: number = 5; 
+  @Input() icon: any;
 }

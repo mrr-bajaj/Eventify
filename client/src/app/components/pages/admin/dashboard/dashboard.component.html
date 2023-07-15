@@ -1,15 +1,15 @@
 <div class="dashboard-stats-container mb-5">
   <div class="col">
-    <app-data-card [title]="'Registered Employees'" [value]="totalEmployeeCount"></app-data-card>
+    <app-data-card [icon]="icons[0]" [title]="'Registered Employees'" [value]="totalEmployeeCount"></app-data-card>
   </div>
   <div class="col">
-    <app-data-card [title]="'Total Events'" [value]="totalEventCount"></app-data-card>
+    <app-data-card [icon]="icons[1]" [title]="'Total Events'" [value]="totalEventCount"></app-data-card>
   </div>
   <div class="col">
-    <app-data-card [title]="'Past Events'" [value]="totalPastEventCount"></app-data-card>
+    <app-data-card [icon]="icons[2]" [title]="'Past Events'" [value]="totalPastEventCount"></app-data-card>
   </div>
   <div class="col">
-    <app-data-card [title]="'Upcoming Events'" [value]="totalUpcomingEventCount"></app-data-card>
+    <app-data-card [icon]="icons[3]" [title]="'Upcoming Events'" [value]="totalUpcomingEventCount"></app-data-card>
   </div>
 </div>
 <app-line-chart [attendedData]="attendedData" [registeredData]="registeredData"></app-line-chart>
