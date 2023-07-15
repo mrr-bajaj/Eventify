@@ -23,7 +23,7 @@ export class LineChartComponent implements OnInit{
           animationEnabled: true,
           theme: "light2",
           title:{
-          text: "Attended vs Registered Employees"
+          text: "Attendance vs Registration"
           },
           axisX:{
           valueFormatString: "string"

@@ -47,7 +47,7 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
   }
 
   getAttendedEventDetails(){
-    const subs = this.eventsService.getAllAttendendEventsOfEmployeeByEmail(this.empEmail)
+    const subs = this.eventsService.getAllAttendedEventsOfEmployeeByEmail(this.empEmail)
     .subscribe(resData => {
       this.attendedDataSource = resData;
       for(let i in resData){
