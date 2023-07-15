@@ -1,19 +1,21 @@
+<div class="main-container">
+<div class="img-container">
+  <img class="img_c" src="assets/images/login-vector.jpg">
+</div>
 <div class="login-container">
-  <h1>Login</h1>
-  <form (ngSubmit)="login(f)" #f="ngForm">
+  <h1>Welcome!</h1>
+  <form class="form_c"(ngSubmit)="login(f)" #f="ngForm">
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" email id="email" name="email" #email="ngModel" ngModel required>
+      <input type="email" placeholder="Your Email" class="form-control" email id="email" name="email" #email="ngModel" ngModel required>
       <span class="help_block" *ngIf="(!email.valid && email.touched) || validEmail">Please enter a valid Email!</span>
       <span class="help_block" *ngIf="emailNotFound">You are not Registered!</span>
     </div>
     <div class="form-group">
-      <label for="password">Password:</label>
-      <input type="password" class="form-control" id="password" name="password" ngModel required>
+      <input type="password" placeholder="Your Password" class="form-control" id="password" name="password" ngModel required>
       <span class="help_block" *ngIf="invalidPassword">Invalid Password</span>
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">{{buttonSubmitName}}</button>
+    <button type="submit" class="btn btn-dark rounded-5" [disabled]="!f.valid">{{buttonSubmitName}}</button>
   </form>
-  <p>Don't have an account? <span><a [routerLink]="['/signup']" [queryParams]="getQueryParams()">Sign Up</a></span> here</p>
+  <p class="mt-3">Don't have an account? <span><a [routerLink]="['/signup']" [queryParams]="getQueryParams()">Sign Up</a></span> here</p>
 </div>
-
+</div>
