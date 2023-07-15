@@ -39,6 +39,8 @@ import { PieComponent } from './components/pages/shared/charts/pie/pie.component
 import { DataCardComponent } from './components/pages/shared/data-card/data-card.component';
 import { LineChartComponent } from './components/pages/shared/charts/line-chart/line-chart.component';
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
+import { ConfirmationDialogComponent } from './components/pages/shared/confirmation-dialog/confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -63,7 +65,8 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     EmployeeInfoComponent,
     PieComponent,
     DataCardComponent,
-    LineChartComponent
+    LineChartComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +86,8 @@ import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
     DatePipe,
     MatCardModule,
     MatTableModule,
-    CanvasJSAngularChartsModule
+    CanvasJSAngularChartsModule,
+    MatDialogModule
   ],
   providers: [AuthGuard,SearchPipe,DatePipe],
   bootstrap: [AppComponent]

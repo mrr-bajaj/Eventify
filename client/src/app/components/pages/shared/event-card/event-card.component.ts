@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from 'src/app/models/event';
 import { EventsService } from 'src/app/services/events/events.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-event-card',
@@ -15,7 +17,7 @@ export class EventCardComponent implements OnInit{
   qrCodeImage: string;
   @Input() isPast : boolean = false;
   
-  constructor(private router: Router,private route: ActivatedRoute,private eventsService:EventsService){}
+  constructor(private router: Router,private route: ActivatedRoute,private eventsService:EventsService, private dialog: MatDialog){}
 
   ngOnInit(): void {
    this.convertTime();
@@ -55,12 +57,17 @@ export class EventCardComponent implements OnInit{
   }
 
   onDelete(){
-    this.eventsService.deleteEvent(this.event.id).subscribe(res => {
-      if(res.message === 'Event deleted successfully'){
-        window.location.reload();   //TOCHANGE
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.eventsService.deleteEvent(this.event.id).subscribe(res => {
+          if(res.message === 'Event deleted successfully'){
+            window.location.reload();   //TOCHANGE
+          }
+        }, err => {
+          console.log(err);
+        });
       }
-    }, err => {
-      console.log(err);
     });
   }
 }
