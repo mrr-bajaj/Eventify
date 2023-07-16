@@ -45,7 +45,7 @@ OnDestroy{
           labels: this.pieData.key,
           datasets: [{
             data: this.pieData.value,
-            backgroundColor: ['green', 'orange', 'blue']
+            backgroundColor: ['#1abc9c', '#2196f3', '#fe9496']
           }]
         },
         options: {

@@ -91,10 +91,10 @@ export class LoginComponent implements OnInit, OnDestroy{
                 const subs = this.eventsService.addRegistration(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                   if(res.message === 'Registered event successfully'){
                     form.reset();
-                    alert('Registered event Successfully!');
+                    alert('You\'ve Successfully Registered For The Event!\nSee You There!!!');
                   }else if(res.message === 'Already registered'){
                     form.reset();
-                    alert('You\'ve have already registered the event!');
+                    alert('You\'ve Already Registered For The Event!');
                   }
                 },(error)=>{
                   console.log(error)
@@ -104,10 +104,10 @@ export class LoginComponent implements OnInit, OnDestroy{
                 const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                   if(res.message === 'Attendance saved successfully'){
                     form.reset();
-                    alert('Attendance Saved Successfully!');
+                    alert('Yuppppp!!!! Congratzzzz!!\nYou\'re Attendance Saved Successfully!');
                   }else if(res.message === 'Already attended'){
                     form.reset();
-                    alert('You\'ve have already attended the event!');
+                    alert('Your Attendance Is Already Marked For The Event!\nSee You There!!');
                   }
                 },(error)=>{
                   console.log(error)
