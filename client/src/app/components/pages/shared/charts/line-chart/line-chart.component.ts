@@ -18,7 +18,7 @@ export class LineChartComponent implements OnInit{
   chartOptions = {};
   ngOnInit(){
     //TOFIX
-      setInterval(()=>{
+      setTimeout(()=>{
         this.chartOptions = {
           animationEnabled: true,
           theme: "light2",
@@ -57,6 +57,6 @@ export class LineChartComponent implements OnInit{
           dataPoints: this.attendedData
           }]
         }
-      },500);
+      },1000);
   }
 }
