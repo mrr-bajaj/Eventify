@@ -1,25 +1,60 @@
-<div class="employee-container" *ngIf="employees.length > 0; else noEmployeesBlock">
+<div
+  class="employee-container"
+  *ngIf="employees.length > 0; else noEmployeesBlock"
+>
   <div class="employee-card-row">
-    <div *ngFor="let employee of employees | search: searchTerm: ['name','email','department']; let i = index" class="employee-card-wrapper">
+    <div
+      *ngFor="
+        let employee of employees
+          | search : searchTerm : ['name', 'email', 'department'];
+        let i = index
+      "
+      class="employee-card-wrapper"
+    >
       <mat-card class="employee-card">
         <mat-card-header>
           <div mat-card-avatar class="employee-header-image"></div>
-          <mat-card-title>{{employee.name ? employee.name : 'Name Unavailable'}}</mat-card-title>
-          <mat-card-subtitle class="employee-email">{{employee.email}}</mat-card-subtitle>
+          <mat-card-title>{{
+            employee.name ? employee.name : "Name Unavailable"
+          }}</mat-card-title>
+          <mat-card-subtitle class="employee-email">{{
+            employee.email
+          }}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image class="employee-photo"
-          [src]="employee.profileImagePath?employee.profileImagePath: 'assets/images/employee-placeholder-img.png'"
-          alt="Photo Placeholder">
+        <img
+          mat-card-image
+          class="employee-photo"
+          [src]="
+            employee.profileImagePath
+              ? employee.profileImagePath
+              : 'assets/images/employee-placeholder-img.png'
+          "
+          alt="Photo Placeholder"
+        />
         <mat-card-content>
           <p>
-            {{employee.department?employee.department:'Department Unavailable'}}
+            {{
+              employee.department
+                ? employee.department
+                : "Department Unavailable"
+            }}
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button class="btn btn-primary" mat-button type="button" (click)="viewDetail(i)">View Details</button>
+          <button
+            class="btn btn-primary"
+            mat-button
+            type="button"
+            (click)="viewDetail(i)"
+            style="background-color: #0a90f0; color: white"
+          >
+            View Details
+          </button>
         </mat-card-actions>
       </mat-card>
     </div>
   </div>
 </div>
-<ng-template class="info-text mat-body-1" #noEmployeesBlock>No employees added!</ng-template>
+<ng-template class="info-text mat-body-1" #noEmployeesBlock
+  >No employees added!</ng-template
+>

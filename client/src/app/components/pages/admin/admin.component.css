@@ -6,7 +6,7 @@
   height: 100vh;
   background-color: #f1f1f1;
   overflow-y: auto;
-  border-right: solid 1px;
+  border-right: solid 1px white;
 }
 
 .header {
