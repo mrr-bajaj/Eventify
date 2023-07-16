@@ -3,6 +3,7 @@ const uuid = require("uuid");
 const qrCode = require("qrcode");
 const multer = require("multer");
 const nodemailer = require("nodemailer");
+const fs = require("fs");
 const router = express.Router();
 const Event = require("../models/event.model");
 const Attendance = require("../models/attendance.model");
@@ -32,6 +33,21 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+function deleteImage(image){
+  const imagePath = image;
+    // Use the replace() method with a regular expression to remove the "http://localhost:3000/" part
+    const trimmedImagePath = imagePath.replace(/^http:\/\/localhost:3000\//, "");
+    fs.unlink(trimmedImagePath, (err) => {
+      if (err) {
+        console.error('Error deleting image:', err);
+        // Handle the error here, such as sending an error response to the client.
+      } else {
+        console.log('Image deleted successfully.');
+        // Optionally, you can send a success response to the client.
+      }
+    });
+}
 
 // Add Event
 router.post("/add-event", upload.single("image"), async (req, res) => {
@@ -119,6 +135,7 @@ router.put("/edit-event/:eventId", upload.single("image"), async (req, res) => {
       image: url + "/public/images/event-logo/" + req.file.filename,
     };
     let eventData = await Event.findOne({ id });
+    deleteImage(eventData.image);
     const event = await Event.findByIdAndUpdate(eventData._id, finalData, {
       new: true,
     });
@@ -133,7 +150,13 @@ router.delete("/delete-event/:eventId", async (req, res) => {
   try {
     const { eventId } = req.params;
     let eventData = await Event.findOne({ id: eventId });
+    let attendanceData = await Attendance.findOne({ eventId });
+    let registrationData = await Registration.findOne({ eventId });
     await Event.findByIdAndDelete(eventData._id);
+    await Attendance.findByIdAndDelete(attendanceData._id);
+    await Registration.findByIdAndDelete(registrationData._id);
+    deleteImage(eventData.image);
+
     res.json({ message: "Event deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
