@@ -24,6 +24,8 @@
     displayedColumns: string[] = ['srNo', 'name', 'email','department', 'time'];
     attendedDataSource: any[];
     registeredDataSource: any[];
+    filteredAttendedDataSource: any [];
+    filteredRegisteredDataSource: any [];
     searchTerm: string;
     subscriptions:Subscription[]=[];
     pieData:{
@@ -36,6 +38,12 @@
     attendedEmployeeCount: number = 0;
     registeredEmployeeCount: number = 0;
     icon = [faUserCheck, faUserClock, faUsers];
+    departmentOptions = [
+      { label: 'All', value: 'All'},
+      { label: 'Digital Energy', value: 'Digital Energy' },
+      { label: 'Digital Ocean', value: 'Digital Ocean' },
+      { label: 'Digital Wells', value: 'Digital Wells' },
+    ];
     constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){
     }
 
@@ -56,8 +64,8 @@
     async getEmployeeCount(){
       this.employeeService.getEmployees().subscribe(res => {
         const totalEmployee = res.length;
-        this.attendedEmployeeCount = this.attendedDataSource.length;
-        this.registeredEmployeeCount = this.registeredDataSource.length;
+        this.attendedEmployeeCount = this.filteredAttendedDataSource.length;
+        this.registeredEmployeeCount = this.filteredRegisteredDataSource.length;
         this.attendedPer = Math.round((this.attendedEmployeeCount/totalEmployee)*100);
         this.registeredPer = Math.round((this.registeredEmployeeCount/totalEmployee)*100);
       })
@@ -122,6 +130,7 @@
         srNo++;
       }
       this.attendedDataSource =this.attendedEmployeesInfo;
+      this.filteredAttendedDataSource = this.attendedDataSource
     } 
 
     async getEmployeeDetails(email: string,srNo: number,isRegister:boolean,time?: string) {
@@ -140,13 +149,12 @@
     async getRegisteredEmployeesList(){
       this.registrationDetail = await this.eventsService.getRegistration(this.eventId).toPromise();
       let srNo=1;
-      // console.log(this.registrationDetail)
       for (const employee of this.registrationDetail.employees) {
         await this.getEmployeeDetails(employee.email,srNo,true);
         srNo++;
       }
       this.registeredDataSource =this.registeredEmployeesInfo;
-      // console.log(this.registeredDataSource)
+      this.filteredRegisteredDataSource = this.registeredDataSource;
     }
 
     convertTime(time: string): string {
@@ -169,6 +177,25 @@
       this.subscriptions.push(subs);
     }
 
+    onSelectDepartment(event: any){
+      const selectedDepartment = event.target.value;
+      this.getFilterByDepartment(selectedDepartment)
+      this.getEmployeeCount();
+    }
+
+    getFilterByDepartment(selectedDepartment: any){
+      if(selectedDepartment === 'All'){
+        this.filteredAttendedDataSource = this.attendedDataSource;
+        this.filteredRegisteredDataSource = this.registeredDataSource;
+      }else{
+        this.filteredAttendedDataSource = this.attendedDataSource.filter((data)=>{
+          return data.department === selectedDepartment;
+        })
+        this.filteredRegisteredDataSource = this.registeredDataSource.filter((data)=>{
+          return data.department === selectedDepartment;
+        })
+      }
+    }
     ngOnDestroy() {
       // Unsubscribe from each subscription in the array to prevent memory leaks
       this.subscriptions.forEach(subscription => subscription.unsubscribe());

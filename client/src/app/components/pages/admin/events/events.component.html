@@ -1,9 +1,26 @@
 <div class="events">
   <ng-template [ngIf]="this.roles?.includes('admin')">
-    <button class="add-event-btn" mat-fab extended (click)="onAddEvent()">
+    <!-- <button class="add-event-btn" mat-fab extended (click)="onAddEvent()">
       <mat-icon>add_box</mat-icon>
       Add Event
-    </button>
+  </button> -->
+  <div class="event-header">
+    <div class="form-group location-dropdown">
+      <select id="location" name="location" (change)="onSelectLocation($event)" ngModel required>
+        <option value="" disabled selected>Location</option>
+        <option
+          *ngFor="let option of locationOptions"
+          [value]="option"
+        >
+          {{ option }}
+        </option>
+      </select>
+    </div>
+    <button class="btn btn-primary add-event-btn" type="button" extended (click)="onAddEvent()" >
+      <mat-icon class="add-icon">add_box</mat-icon>
+     <span>Add Event</span>
+      </button>
+  </div>
 
   </ng-template>
   <div class="event-section">
@@ -14,9 +31,7 @@
       No Upcoming events!
     </div>
     <div class="card-container">
-      <app-event-card class="event-card"
-        *ngFor="let upEvent of upcomingEvents | search: searchTerm: ['name', 'description', 'location']"
-        [event]="upEvent"></app-event-card>
+      <app-event-card class="event-card" *ngFor="let upEvent of filteredUpcomingEvents | search: searchTerm: ['name', 'description', 'venue']" [event]="upEvent"></app-event-card>
     </div>
   </div>
   <div class="event-section">
@@ -27,9 +42,7 @@
       No Past events!
     </div>
     <div class="card-container">
-      <app-event-card class="event-card"
-        *ngFor="let paEvent of pastEvents | search: searchTerm: ['name', 'description', 'location']" [event]="paEvent"
-        [isPast]="true"></app-event-card>
+      <app-event-card class="event-card" *ngFor="let paEvent of filteredPastEvents | search: searchTerm: ['name', 'description', 'venue']" [event]="paEvent" [isPast]="true"></app-event-card>
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ export interface EventModel{
   date: Date;
   startTime: string;
   endTime: string;
+  venue: string;
   location: string;
   type: string;
   image: File;

@@ -52,7 +52,7 @@ function deleteImage(image){
 // Add Event
 router.post("/add-event", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, date, startTime, endTime, location, type } =
+    const { name, description, date, startTime, endTime, venue, location, type } =
       req.body;
     const url = req.protocol + "://" + req.get("host");
     const refererHeader = req.headers.referer;
@@ -77,6 +77,7 @@ router.post("/add-event", upload.single("image"), async (req, res) => {
       date,
       startTime,
       endTime,
+      venue,
       location,
       type,
       image: url + "/public/images/event-logo/" + req.file.filename,
