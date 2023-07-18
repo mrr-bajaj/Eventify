@@ -52,7 +52,7 @@ function deleteImage(image){
 // Add Event
 router.post("/add-event", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, date, startTime, endTime, location, type } =
+    const { name, description, date, startTime, endTime, venue, type } =
       req.body;
     const url = req.protocol + "://" + req.get("host");
     const refererHeader = req.headers.referer;
@@ -77,7 +77,7 @@ router.post("/add-event", upload.single("image"), async (req, res) => {
       date,
       startTime,
       endTime,
-      location,
+      venue,
       type,
       image: url + "/public/images/event-logo/" + req.file.filename,
       qrCode: qrCodeImage,

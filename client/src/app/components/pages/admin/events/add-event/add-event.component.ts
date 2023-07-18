@@ -21,7 +21,7 @@ export class AddEventComponent implements OnInit,OnDestroy{
     date: null,
     startTime: '',
     endTime: '',
-    location: '',
+    venue: '',
     type: '',
     image: null
   };
@@ -85,7 +85,7 @@ export class AddEventComponent implements OnInit,OnDestroy{
       formData.append('date', this.eventData.date.toISOString());
       formData.append('startTime', this.eventData.startTime);
       formData.append('endTime', this.eventData.endTime);
-      formData.append('location', this.eventData.location);
+      formData.append('venue', this.eventData.venue);
       formData.append('type', this.eventData.type);
       formData.append('image', this.imageFile);
       this.addEvent(formData)

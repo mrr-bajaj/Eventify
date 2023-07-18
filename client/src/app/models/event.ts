@@ -5,7 +5,7 @@ export interface EventModel{
   date: Date;
   startTime: string;
   endTime: string;
-  location: string;
+  venue: string;
   type: string;
   image: File;
   qrCode?: string;
