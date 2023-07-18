@@ -5,6 +5,16 @@
   <div class="collapse navbar-collapse justify-content-end">
     <app-search></app-search>
   </div>
+  <div class="form-group location-dropdown">
+    <select id="location" name="location" (change)="onSelectLocation($event)" [(ngModel)]="defaultLocation" required>
+      <option
+        *ngFor="let option of locationOptions"
+        [value]="option"
+      >
+        {{ option }}
+      </option>
+    </select>
+  </div>
   <ul class="navbar-collapse collapse justify-content-end list-unstyled">
     <li class="nav-item sign-out">
       <a class="nav-link" style="cursor: pointer;" (click)="onLogout()">Logout</a>

@@ -21,7 +21,7 @@ export class EventsComponent implements OnInit, OnDestroy{
   searchTerm: string;
   subscriptions:Subscription[]=[];
   
-  locationOptions = ['All','India', 'Norway'];
+  location: string;
 
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
   
@@ -29,26 +29,32 @@ export class EventsComponent implements OnInit, OnDestroy{
     this.initialize();
   }
 
-  initialize(){
-    this.upcomingEvent();
-    this.pastEvent();
+  async initialize(){
+    this.location = this.eventsService.getLocationData();
+    await this.upcomingEvent();
+    await this.pastEvent();
+    this.getFilterByLocation(this.location);
     this.search();
   }
 
-  upcomingEvent(){
-    const subs = this.eventsService.getAllUpcomingEvents().subscribe( (resData:EventModel[]) => {
-      this.upcomingEvents =resData;
+  async upcomingEvent() {
+    try {
+      const resData: EventModel[] = await this.eventsService.getAllUpcomingEvents().toPromise();
+      this.upcomingEvents = resData;
       this.filteredUpcomingEvents = this.upcomingEvents;
-    });
-    this.subscriptions.push(subs);
+    } catch (error) {
+      console.error('Error fetching upcoming events:', error);
+    }
   }
-
-  pastEvent(){
-    const subs = this.eventsService.getAllPastEvents().subscribe((resData:EventModel[])=>{
+  
+  async pastEvent() {
+    try {
+      const resData: EventModel[] = await this.eventsService.getAllPastEvents().toPromise();
       this.pastEvents = resData;
-      this.filteredPastEvents = this.pastEvents
-    });
-    this.subscriptions.push(subs);
+      this.filteredPastEvents = this.pastEvents;
+    } catch (error) {
+      console.error('Error fetching past events:', error);
+    }
   }
 
   onAddEvent(){
@@ -62,11 +68,6 @@ export class EventsComponent implements OnInit, OnDestroy{
     this.subscriptions.push(subs);
   }
 
-  onSelectLocation(event: any){
-    const selectedLocation = event.target.value;
-    
-    this.getFilterByLocation(selectedLocation)
-  }
 
   getFilterByLocation(selectedLocation: any){
     if(selectedLocation === 'All'){

@@ -11,7 +11,7 @@ export class EventsService {
   private pieUpdateSubject = new Subject<boolean>();
   private totalUpcomingEventCount: number = 0;
   private totalPastEventCount: number = 0;
-  
+  private location: string = 'All';
   constructor(private http: HttpClient) {}
   
   sendPieDataEvent(data: boolean) {
@@ -20,6 +20,14 @@ export class EventsService {
 
   getPieDataEvent() {
     return this.pieUpdateSubject.asObservable();
+  }
+
+  setLocationData(data: string){
+    this.location = data;
+  }
+
+  getLocationData(){
+    return this.location;
   }
   
   addEvent(event:any): Observable<any>{
