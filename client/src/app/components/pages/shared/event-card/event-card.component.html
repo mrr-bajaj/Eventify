@@ -11,10 +11,12 @@
     <span class="border border-success p-2 m-1 rounded-5">{{formattedStartTime}}</span>
     <span style="max-width: 50px;" class="border border-info p-2 m-1 rounded-5">{{event.venue}}</span>
   </mat-card-content>
-  <div class="button-container">
-    <button class="button-row" mat-raised-button color="primary" (click)="viewInfo()" style="background-color:#1abc9c;">View Details</button>
-    <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="onEdit()" style="background-color:#1abc9c;">Edit</button>
-      <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="onDelete()" style="background-color:#1abc9c;">Delete</button>
-    <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="downloadQrCode()" style="background-color:#1abc9c;">Download QR Code</button>
-  </div >
+  <ng-template [ngIf]="this.roles?.includes('admin')">
+    <div class="button-container">
+      <button class="button-row" mat-raised-button color="primary" (click)="viewInfo()" style="background-color:#1abc9c;">View Details</button>
+      <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="onEdit()" style="background-color:#1abc9c;">Edit</button>
+        <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="onDelete()" style="background-color:#1abc9c;">Delete</button>
+      <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="downloadQrCode()" style="background-color:#1abc9c;">Download QR Code</button>
+    </div >
+  </ng-template>
 </mat-card>

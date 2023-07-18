@@ -7,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit{
   username: string;
+  roles:String[];
   ngOnInit(): void {
     this.username = localStorage.getItem('username');
+    this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
-  
+
 }

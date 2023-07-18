@@ -23,13 +23,16 @@ export class EventsComponent implements OnInit, OnDestroy{
   
   location: string;
 
+  roles:String[];
+
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
-  
+
   ngOnInit(): void {
     this.eventsService.locationData$.subscribe(location => {
       this.location = location;
       this.initialize();
     });
+    this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
 
   async initialize(){
@@ -69,7 +72,6 @@ export class EventsComponent implements OnInit, OnDestroy{
     })
     this.subscriptions.push(subs);
   }
-
 
   getFilterByLocation(selectedLocation: any){
     if(selectedLocation === 'All'){

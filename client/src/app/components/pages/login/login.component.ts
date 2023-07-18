@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy{
   employeeLoginInfo!:EmployeeLoginInfo;
-  validEmail: boolean = false;
+  validEmail: boolean = true;
   emailNotFound: boolean = false;
   invalidPassword:boolean = false;
   subscriptions: Subscription[]=[];
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       if (action && this.eventId) {
         if (action === 'login') {
             this.buttonSubmitName = 'Attend';
-          
+
         } else if (action === 'register') {
           this.buttonSubmitName = 'Register';
         }
@@ -54,18 +54,18 @@ export class LoginComponent implements OnInit, OnDestroy{
     }
   }
 
-  validateEmail(email: string){
+  validateEmail(email: string):boolean{
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
     return domainPattern.test(email);
   }
 
   login(form: NgForm): void {
     this.employeeLoginInfo = form.value;
-    this.validEmail = false;
+    this.validEmail = true;
     this.emailNotFound = false;
     this.invalidPassword = false;
     if(!this.validateEmail(this.employeeLoginInfo.email)){
-      this.validEmail = true;
+      this.validEmail = false;
       return ;
     }
     const subs = this.authService.login(this.employeeLoginInfo)
@@ -80,14 +80,17 @@ export class LoginComponent implements OnInit, OnDestroy{
             this.invalidPassword = true;
             return;
           }
-          if(response.message === 'Successfully Login'){
+          if(response.message === 'Successful Login'){
             const roles = this.getRolesFromToken(response.token);
+            this.authService.setToken(response.token);
+            localStorage.setItem('username',response.name);
+            localStorage.setItem('roles',response.roles);
+           // this.router.navigate(['admin']);
             if(roles.includes('admin') && !this.eventId){
-              this.authService.setToken(response.token);
-              localStorage.setItem('username',response.name);
               this.router.navigate(['admin']);
             }else if(roles.includes('user')){
-              if(this.buttonSubmitName === 'Register'){
+              this.router.navigate(['user']);
+             if(this.buttonSubmitName === 'Register'){
                 const subs = this.eventsService.addRegistration(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                   if(res.message === 'Registered event successfully'){
                     form.reset();
@@ -100,7 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy{
                   console.log(error)
                 });
                 this.subscriptions.push(subs);
-              }else{
+              }else if(this.buttonSubmitName === 'Attend'){
                 const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                   if(res.message === 'Attendance saved successfully'){
                     form.reset();

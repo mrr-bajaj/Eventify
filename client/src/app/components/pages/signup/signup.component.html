@@ -6,55 +6,23 @@
     <h1>Register</h1>
     <form (ngSubmit)="signup(f)" #f="ngForm">
       <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          name="name"
-          ngModel
-          placeholder="Your Name"
-          required
-        />
+        <input type="text" class="form-control" id="name" name="name" ngModel placeholder="Your Name" required />
       </div>
       <div class="form-group">
-        <input
-          type="email"
-          class="form-control"
-          email
-          id="email"
-          name="email"
-          #email="ngModel"
-          placeholder="Your Email"
-          ngModel
-          required
-        />
-        <span
-          class="help_block"
-          *ngIf="(!email.valid && email.touched) || validEmail"
-          >Please enter a valid email address!</span
-        >
-        <span class="help_block" *ngIf="existingEmail"
-          >Email Already Registered!</span
-        >
+        <input type="email" class="form-control" email id="email" name="email" #email="ngModel" placeholder="Your Email"
+          ngModel required />
+        <span class="help_block" *ngIf="(!email.valid && email.touched) || !validEmail">Please enter a valid email
+          address!</span>
+        <span class="help_block" *ngIf="existingEmail">Email Already Registered!</span>
       </div>
       <div class="form-group">
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          name="password"
-          ngModel
-          placeholder="Your Password"
-          required
-        />
+        <input type="password" class="form-control" id="password" name="password" ngModel placeholder="Your Password"
+          required />
       </div>
       <div class="form-group">
         <select id="department" name="department" ngModel required>
           <option value="" disabled selected>Department</option>
-          <option
-            *ngFor="let option of departmentOptions"
-            [value]="option.value"
-          >
+          <option *ngFor="let option of departmentOptions" [value]="option.value">
             {{ option.label }}
           </option>
         </select>
@@ -65,19 +33,13 @@
     </form>
     <p class="mt-3">
       Already Registered?
-      <span
-        ><a
-          [routerLink]="
+      <span><a [routerLink]="
             eventId
               ? isAttend
                 ? ['/login/events']
                 : ['/register']
               : ['/login']
-          "
-          [queryParams]="getQueryParams()"
-          >Login</a
-        ></span
-      >
+          " [queryParams]="getQueryParams()">Login</a></span>
       here
     </p>
   </div>

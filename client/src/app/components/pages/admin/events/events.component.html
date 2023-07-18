@@ -1,14 +1,17 @@
 <div class="events">
-  <!-- <button class="add-event-btn" mat-fab extended (click)="onAddEvent()" >
-    <mat-icon>add_box</mat-icon>
-    Add Event
+  <ng-template [ngIf]="this.roles?.includes('admin')">
+    <!-- <button class="add-event-btn" mat-fab extended (click)="onAddEvent()">
+      <mat-icon>add_box</mat-icon>
+      Add Event
   </button> -->
   <div class="event-header">
     <button class="btn btn-primary add-event-btn" type="button" extended (click)="onAddEvent()" >
       <mat-icon class="add-icon">add_box</mat-icon>
-     <span>Add Event</span> 
-    </button>
+     <span>Add Event</span>
+      </button>
   </div>
+
+  </ng-template>
   <div class="event-section">
     <div class="header">
       <h1>Upcoming Events</h1>
