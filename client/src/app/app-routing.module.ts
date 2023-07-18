@@ -85,6 +85,24 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'user',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'events',
+        pathMatch: 'full',
+        canActivateChild: [AuthGuard],
+      },
+      {
+        path: 'events',
+        component: EventsComponent,
+        canActivateChild: [AuthGuard],
+      }
+     ],
+  },
+  {
     path: '**',
     component: PageNotFoundComponent,
   },

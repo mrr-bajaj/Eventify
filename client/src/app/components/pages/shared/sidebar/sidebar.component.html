@@ -1,4 +1,4 @@
-<div fxLayout="column" fxFlexFill class="sidebar" >
+<div fxLayout="column" fxFlexFill class="sidebar">
   <aside class="sidenav">
     <div class="profile">
       <mat-icon style="font-size: 35px;width: 25%;height: 35px; color:  #0a90f0">person</mat-icon>
@@ -6,10 +6,13 @@
       <span class="username">{{username}}</span>
     </div>
     <ul class="list">
-      <li ><a [routerLink]="['dashboard']" routerLinkActive="active">Dashboard</a></li>
-      <li ><a routerLink="events" routerLinkActive="active">Events</a></li>
-      <li ><a [routerLink]="['employees']" routerLinkActive="active">Employees</a></li>
-      <li ><a [routerLink]="['admin-roles']" routerLinkActive="active">Admin Roles</a></li>
+      <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['dashboard']" routerLinkActive="active">Dashboard</a>
+      </li>
+      <li><a routerLink="events" routerLinkActive="active">Events</a></li>
+      <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['employees']" routerLinkActive="active">Employees</a>
+      </li>
+      <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['admin-roles']" routerLinkActive="active">Admin
+          Roles</a></li>
     </ul>
   </aside>
 </div>

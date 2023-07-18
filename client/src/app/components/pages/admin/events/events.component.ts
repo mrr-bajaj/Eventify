@@ -20,13 +20,15 @@ export class EventsComponent implements OnInit, OnDestroy{
 
   searchTerm: string;
   subscriptions:Subscription[]=[];
-  
+
   locationOptions = ['All','India', 'Norway'];
+  roles:String[];
 
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
-  
+
   ngOnInit(): void {
     this.initialize();
+    this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
 
   initialize(){
@@ -64,7 +66,7 @@ export class EventsComponent implements OnInit, OnDestroy{
 
   onSelectLocation(event: any){
     const selectedLocation = event.target.value;
-    
+
     this.getFilterByLocation(selectedLocation)
   }
 

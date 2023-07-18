@@ -14,14 +14,16 @@ export class EventCardComponent implements OnInit{
   @Input() event: EventModel;
   formattedStartTime: string;
   imageURL: string;
+  roles:String[];
   qrCodeImage: string;
   @Input() isPast : boolean = false;
-  
+
   constructor(private router: Router,private route: ActivatedRoute,private eventsService:EventsService, private dialog: MatDialog){}
 
   ngOnInit(): void {
    this.convertTime();
    this.convertImageFileToUrl();
+   this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
 
   convertTime(){
