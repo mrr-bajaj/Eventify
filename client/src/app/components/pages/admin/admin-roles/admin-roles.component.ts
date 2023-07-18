@@ -13,7 +13,7 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
   displayedColumns: string[] = ['srNo', 'name', 'email','department', 'action'];
   dataSource: any[] = [];
   addEmail: string;
-  validEmail:boolean = false;
+  validEmail:boolean = true;
   emailNotFound: boolean = false;
   searchTerm:string;
   subscriptions: Subscription[] = [];
@@ -23,7 +23,7 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
       this.initialize();
   }
-  
+
   initialize(){
     this.getAdmin();
     this.search();
@@ -42,11 +42,11 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
   }
 
   onAddAdmin(form: NgForm){
-    this.validEmail = false;
+    this.validEmail = true;
     this.emailNotFound = false;
     this.addEmail = form.value.email;
     if(!this.validateEmail(this.addEmail)){
-      this.validEmail = true;
+      this.validEmail = false;
       return;
     }
     this.getEmployeeEmail();

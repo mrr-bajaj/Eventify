@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 export class SignupComponent implements OnInit, OnDestroy{
   employee: Employee;
   existingEmail: boolean =false;
-  validEmail: boolean =false;
+  validEmail: boolean =true;
   subscriptions: Subscription[]=[];
   eventId:string;
   isAttend:boolean= false;
@@ -39,7 +39,7 @@ export class SignupComponent implements OnInit, OnDestroy{
       return null;
     }
   }
-  
+
   validateEmail(email: string){
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
     return domainPattern.test(email);
@@ -48,9 +48,9 @@ export class SignupComponent implements OnInit, OnDestroy{
   signup(form:NgForm): void {
     this.employee = form.value;
     this.existingEmail = false;
-    this.validEmail = false;
+    this.validEmail = true;
     if(!this.validateEmail(this.employee.email)){
-      this.validEmail = true;
+      this.validEmail = false;
       return ;
     }
     const subs = this.authService.signup(this.employee)

@@ -14,14 +14,15 @@ export class EventsComponent implements OnInit, OnDestroy{
 
   upcomingEvents:EventModel[]=[];
   pastEvents:EventModel[]=[];
-
   searchTerm: string;
   subscriptions:Subscription[]=[];
+  roles:String[];
 
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
-  
+
   ngOnInit(): void {
     this.initialize();
+    this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
 
   initialize(){
