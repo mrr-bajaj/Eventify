@@ -1,4 +1,17 @@
-<button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
+<div class="btn-header m-2">
+  <div class="form-group department-dropdown">
+    <select id="department" name="department" (change)="onSelectDepartment($event)" ngModel required>
+      <option value="" disabled selected>Department</option>
+      <option
+        *ngFor="let option of departmentOptions"
+        [value]="option.value"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </div>
+  <button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
+</div>
 <div class="chart-container">
   <div class="pie-chart">
     <app-pie *ngIf="pieData.key.length" [pieData]="pieData"></app-pie>
@@ -15,4 +28,4 @@
   </div>
 </div>
 <h2 class="title">List of {{isRegistration ? 'Registered' : 'Attended' }} Employees</h2>
-<app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>
+<app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? filteredRegisteredDataSource : filteredAttendedDataSource" [searchTerm]="searchTerm"></app-table>
