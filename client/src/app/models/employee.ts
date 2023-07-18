@@ -4,6 +4,7 @@ export interface Employee {
   name?: string;
   email: string;
   department?: string;
+  location?: string;
   profileImagePath?: string;
   time?: string;
 }

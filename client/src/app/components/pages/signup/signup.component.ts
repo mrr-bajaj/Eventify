@@ -18,11 +18,8 @@ export class SignupComponent implements OnInit, OnDestroy{
   subscriptions: Subscription[]=[];
   eventId:string;
   isAttend:string= '';
-  departmentOptions = [
-    { label: 'Digital Energy', value: 'Digital Energy' },
-    { label: 'Digital Ocean', value: 'Digital Ocean' },
-    { label: 'Digital Wells', value: 'Digital Wells' },
-  ];
+  departmentOptions = [ 'Digital Energy', 'Digital Wells', 'Digital Ocean'];
+  locationOptions = ['India','Norway'];
   constructor(private authService: AuthService, private router: Router,private route:ActivatedRoute) {  }
 
   ngOnInit(): void {
