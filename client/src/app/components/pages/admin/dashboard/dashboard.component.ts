@@ -51,7 +51,11 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
   getEmployeeCount(){
     this.employeeService.getEmployees().subscribe(res => {
-      this.totalEmployeeCount = res.length;
+      if(this.location === 'All'){
+        this.totalEmployeeCount = res.length;
+      }else{
+        this.totalEmployeeCount = res.filter(data => data.location === this.location).length;
+      }
     })
   }
 

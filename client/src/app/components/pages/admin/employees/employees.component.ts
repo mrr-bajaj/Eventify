@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Employee } from 'src/app/models/employee';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
+import { EventsService } from 'src/app/services/events/events.service';
 import { SearchService } from 'src/app/services/search/search.service';
 
 
@@ -17,17 +18,25 @@ export class EmployeesComponent implements OnInit,OnDestroy {
   employees:Employee[]=[];
   searchTerm:string;
   subscriptions: Subscription[]=[];
-  constructor(private employeeService: EmployeeService, private searchService: SearchService,private router:Router,private route:ActivatedRoute) { }
+  location: string;
+  constructor(private employeeService: EmployeeService, private searchService: SearchService,private router:Router,private route:ActivatedRoute,private eventsService: EventsService) { }
 
   ngOnInit() {
-    this.initialize();
+    this.eventsService.locationData$.subscribe(location => {
+      this.location = location;
+      this.initialize();
+    });
     this.search();
   }
 
   initialize(){
     const subs =this.employeeService.getEmployees().subscribe(
       (data: Employee[]) => {
-        this.employees = data;
+        if(this.location === 'All'){
+          this.employees = data;
+        }else{
+          this.employees = data.filter(data => data.location === this.location);
+        }
       },
       (error) => {
         console.error(error);
