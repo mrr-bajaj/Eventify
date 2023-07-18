@@ -39,7 +39,7 @@
     registeredEmployeeCount: number = 0;
     icon = [faUserCheck, faUserClock, faUsers];
     departmentOptions = [
-      { label: 'All', value: 'all'},
+      { label: 'All', value: 'All'},
       { label: 'Digital Energy', value: 'Digital Energy' },
       { label: 'Digital Ocean', value: 'Digital Ocean' },
       { label: 'Digital Wells', value: 'Digital Wells' },
@@ -178,21 +178,21 @@
     }
 
     onSelectDepartment(event: any){
-      const selectedValue = event.target.value;
-      this.getFilterByDepartment(selectedValue)
+      const selectedDepartment = event.target.value;
+      this.getFilterByDepartment(selectedDepartment)
       this.getEmployeeCount();
     }
 
-    getFilterByDepartment(selectedValue: any){
-      if(selectedValue === 'all'){
+    getFilterByDepartment(selectedDepartment: any){
+      if(selectedDepartment === 'All'){
         this.filteredAttendedDataSource = this.attendedDataSource;
         this.filteredRegisteredDataSource = this.registeredDataSource;
       }else{
         this.filteredAttendedDataSource = this.attendedDataSource.filter((data)=>{
-          return data.department === selectedValue;
+          return data.department === selectedDepartment;
         })
         this.filteredRegisteredDataSource = this.registeredDataSource.filter((data)=>{
-          return data.department === selectedValue;
+          return data.department === selectedDepartment;
         })
       }
     }

@@ -70,7 +70,7 @@ select:hover, select:focus {
   border-color: #007bff;
 }
 
-.btn-header{
+.event-info-header{
   display: flex;
   justify-content: flex-end;
 }

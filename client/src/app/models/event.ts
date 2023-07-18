@@ -6,6 +6,7 @@ export interface EventModel{
   startTime: string;
   endTime: string;
   venue: string;
+  location: string;
   type: string;
   image: File;
   qrCode?: string;

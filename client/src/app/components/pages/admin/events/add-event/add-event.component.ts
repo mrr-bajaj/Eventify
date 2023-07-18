@@ -22,6 +22,7 @@ export class AddEventComponent implements OnInit,OnDestroy{
     startTime: '',
     endTime: '',
     venue: '',
+    location: '',
     type: '',
     image: null
   };
@@ -29,6 +30,7 @@ export class AddEventComponent implements OnInit,OnDestroy{
   subscriptions:Subscription[]=[];
   eventId:string;
   isEditMode: boolean = false;
+  locationOptions = ['India', 'Norway'];
 
   constructor(
     private eventsService: EventsService,
@@ -86,6 +88,7 @@ export class AddEventComponent implements OnInit,OnDestroy{
       formData.append('startTime', this.eventData.startTime);
       formData.append('endTime', this.eventData.endTime);
       formData.append('venue', this.eventData.venue);
+      formData.append('location', this.eventData.location);
       formData.append('type', this.eventData.type);
       formData.append('image', this.imageFile);
       this.addEvent(formData)
