@@ -26,11 +26,13 @@ export class EventsComponent implements OnInit, OnDestroy{
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
   
   ngOnInit(): void {
-    this.initialize();
+    this.eventsService.locationData$.subscribe(location => {
+      this.location = location;
+      this.initialize();
+    });
   }
 
   async initialize(){
-    this.location = this.eventsService.getLocationData();
     await this.upcomingEvent();
     await this.pastEvent();
     this.getFilterByLocation(this.location);

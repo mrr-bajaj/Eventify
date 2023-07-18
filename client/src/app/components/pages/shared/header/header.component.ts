@@ -19,6 +19,6 @@ export class HeaderComponent {
 
   onSelectLocation(event:any){
     const selectedLocation = event.target.value;
-    this.eventsService.setLocationData(selectedLocation);
+    this.eventsService.sendLocationData(selectedLocation);
   }
 }
