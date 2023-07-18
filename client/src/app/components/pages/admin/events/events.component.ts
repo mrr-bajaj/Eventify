@@ -15,8 +15,13 @@ export class EventsComponent implements OnInit, OnDestroy{
   upcomingEvents:EventModel[]=[];
   pastEvents:EventModel[]=[];
 
+  filteredUpcomingEvents:EventModel[]=[];
+  filteredPastEvents:EventModel[]=[];
+
   searchTerm: string;
   subscriptions:Subscription[]=[];
+  
+  locationOptions = ['All','India', 'Norway'];
 
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
   
@@ -33,6 +38,7 @@ export class EventsComponent implements OnInit, OnDestroy{
   upcomingEvent(){
     const subs = this.eventsService.getAllUpcomingEvents().subscribe( (resData:EventModel[]) => {
       this.upcomingEvents =resData;
+      this.filteredUpcomingEvents = this.upcomingEvents;
     });
     this.subscriptions.push(subs);
   }
@@ -40,6 +46,7 @@ export class EventsComponent implements OnInit, OnDestroy{
   pastEvent(){
     const subs = this.eventsService.getAllPastEvents().subscribe((resData:EventModel[])=>{
       this.pastEvents = resData;
+      this.filteredPastEvents = this.pastEvents
     });
     this.subscriptions.push(subs);
   }
@@ -53,6 +60,26 @@ export class EventsComponent implements OnInit, OnDestroy{
       this.searchTerm = data;
     })
     this.subscriptions.push(subs);
+  }
+
+  onSelectLocation(event: any){
+    const selectedLocation = event.target.value;
+    
+    this.getFilterByLocation(selectedLocation)
+  }
+
+  getFilterByLocation(selectedLocation: any){
+    if(selectedLocation === 'All'){
+      this.filteredUpcomingEvents = this.upcomingEvents;
+      this.filteredPastEvents = this.pastEvents;
+    }else{
+      this.filteredUpcomingEvents = this.upcomingEvents.filter((data)=>{
+        return data.location === selectedLocation;
+      })
+      this.filteredPastEvents = this.pastEvents.filter((data)=>{
+        return data.location === selectedLocation;
+      })
+    }
   }
 
   ngOnDestroy() {
