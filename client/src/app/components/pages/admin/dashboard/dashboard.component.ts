@@ -25,13 +25,19 @@ export class DashboardComponent implements OnInit, OnDestroy{
   attendedData:{label:string,y:number}[] = [];
   registeredData: {label:string,y:number}[] = [];
   icons = [faUsers,faCalendar,faHistory,faClock];
+  location:string;
   constructor(private eventsService : EventsService,private searchService: SearchService,private employeeService:EmployeeService){}
   
   ngOnInit(): void {
-    this.initialize();
+    this.eventsService.locationData$.subscribe(location => {
+      this.location = location;
+      this.initialize();
+    });
   }
 
   async initialize(){
+    this.attendedData = [];
+    this.registeredData = [];
     await this.upcomingEvent();
     await this.pastEvent();
     this.search();
@@ -45,7 +51,11 @@ export class DashboardComponent implements OnInit, OnDestroy{
 
   getEmployeeCount(){
     this.employeeService.getEmployees().subscribe(res => {
-      this.totalEmployeeCount = res.length;
+      if(this.location === 'All'){
+        this.totalEmployeeCount = res.length;
+      }else{
+        this.totalEmployeeCount = res.filter(data => data.location === this.location).length;
+      }
     })
   }
 
@@ -58,7 +68,11 @@ export class DashboardComponent implements OnInit, OnDestroy{
   async upcomingEvent() {
     return new Promise<void>((resolve, reject) => {
       const subs = this.eventsService.getAllUpcomingEvents().subscribe((resData: EventModel[]) => {
-        this.upcomingEvents = resData.slice(0, 1);
+        if(this.location === 'All'){
+          this.upcomingEvents = resData.slice(0, 1);
+        }else{
+          this.upcomingEvents = resData.filter(event => event.location === this.location).slice(0,1);
+        }
         resolve();
       }, error => {
         reject(error);
@@ -77,10 +91,13 @@ export class DashboardComponent implements OnInit, OnDestroy{
         });
         this.subscriptions.push(subs);
       });
-  
-      this.allPastEvents = resData;
+      if(this.location === 'All'){
+        this.allPastEvents = resData;
+      }else{
+        this.allPastEvents = resData.filter(event => event.location === this.location);
+      }
       await this.getLineChartData();
-      this.pastEvents = resData.slice(0, 2);
+      this.pastEvents = this.allPastEvents.slice(0, 2);
     } catch (error) {
       console.error(error);
     }
@@ -91,6 +108,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
       await this.getAttendedData(event);
       await this.getRegisteredData(event);
     }
+    this.eventsService.sendLineDataEvent(true);
   }
 
   async getAttendedData(event: EventModel){

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +9,34 @@ export class EventsService {
   
   private baseUrl = 'http://localhost:3000/api/events';
   private pieUpdateSubject = new Subject<boolean>();
+  private LineUpdateSubject = new Subject<boolean>();
   private totalUpcomingEventCount: number = 0;
   private totalPastEventCount: number = 0;
-  
+  private locationDataSubject = new BehaviorSubject<string>('All');
+  location:string = 'All';
+  locationData$ = this.locationDataSubject.asObservable();
+
   constructor(private http: HttpClient) {}
-  
+
+  sendLocationData(newLocation: string) {
+    this.location = newLocation;
+    this.locationDataSubject.next(newLocation);
+  }
+
   sendPieDataEvent(data: boolean) {
     this.pieUpdateSubject.next(data);
   }
 
   getPieDataEvent() {
     return this.pieUpdateSubject.asObservable();
+  }
+  
+  sendLineDataEvent(data: boolean) {
+    this.LineUpdateSubject.next(data);
+  }
+
+  getLineDataEvent() {
+    return this.LineUpdateSubject.asObservable();
   }
   
   addEvent(event:any): Observable<any>{
@@ -41,9 +58,15 @@ export class EventsService {
         // Compare function for sorting by date property
         const compareDates = (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime();
 
-        // Sort the array by the date property
-        resData.sort(compareDates);
-        this.totalUpcomingEventCount = resData.length;
+        // Sort the array by the date property 
+        let filteredData = resData.sort(compareDates);
+
+        if(this.location !== 'All'){
+          filteredData = resData.filter((data)=>{ 
+            return data.location === this.location
+          });
+        }
+        this.totalUpcomingEventCount = filteredData.length;
     }));
   }
 
@@ -55,8 +78,14 @@ export class EventsService {
       const compareDates = (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime();
 
       // Sort the array by the date property
-      resData.sort(compareDates);
-      this.totalPastEventCount = resData.length;
+      let filteredData = resData.sort(compareDates);
+
+        if(this.location !== 'All'){
+          filteredData = resData.filter((data)=>{ 
+            return data.location === this.location
+          });
+        }
+      this.totalPastEventCount = filteredData.length;
     }));
   }
 

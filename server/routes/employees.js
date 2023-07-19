@@ -16,7 +16,7 @@ router.get('/', async (req , res) => {
 router.get('/admin', async (req,res)=>{
   try{
     const admin = await Employee.find({roles: 'admin'});
-    const modifiedData = admin.map(({email,name,department})=>({email,name,department}));
+    const modifiedData = admin.map(({email,name,department,location})=>({email,name,department,location}));
     res.json(modifiedData);
   }catch(error){
     console.error(error);

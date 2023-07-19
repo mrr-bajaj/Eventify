@@ -17,12 +17,9 @@ export class SignupComponent implements OnInit, OnDestroy{
   validEmail: boolean =true;
   subscriptions: Subscription[]=[];
   eventId:string;
-  isAttend:boolean= false;
-  departmentOptions = [
-    { label: 'Digital Energy', value: 'Digital Energy' },
-    { label: 'Digital Ocean', value: 'Digital Ocean' },
-    { label: 'Digital Wells', value: 'Digital Wells' },
-  ];
+  isAttend:string= '';
+  departmentOptions = [ 'Digital Energy', 'Digital Wells', 'Digital Ocean'];
+  locationOptions = ['India','Norway'];
   constructor(private authService: AuthService, private router: Router,private route:ActivatedRoute) {  }
 
   ngOnInit(): void {
@@ -30,14 +27,6 @@ export class SignupComponent implements OnInit, OnDestroy{
       this.eventId = params['id'];
       this.isAttend = params['name'];
     })
-  }
-
-  getQueryParams(){
-    if(this.eventId){
-      return {id: this.eventId};
-    }else{
-      return null;
-    }
   }
 
   validateEmail(email: string){
@@ -61,7 +50,7 @@ export class SignupComponent implements OnInit, OnDestroy{
             this.existingEmail =true;
           }
           if(response.message === 'Employee registered successfully'){
-            this.router.navigate(['/login'])
+            this.navigateToLoginPage();
           }
         },
         (error) => {
@@ -70,6 +59,18 @@ export class SignupComponent implements OnInit, OnDestroy{
         }
       );
     this.subscriptions.push(subs);
+  }
+
+  navigateToLoginPage(){
+    if(this.eventId){
+      if(this.isAttend === 'attend'){
+        this.router.navigate(['/login'],{queryParams:{id: this.eventId}})
+      }else if(this.isAttend === 'register'){
+        this.router.navigate(['/register'],{queryParams:{id: this.eventId}})
+      }
+    }else{
+      this.router.navigate(['/login']);
+    }
   }
 
   ngOnDestroy() {
