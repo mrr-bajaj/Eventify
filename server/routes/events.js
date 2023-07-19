@@ -96,9 +96,9 @@ router.post("/add-event", upload.single("image"), async (req, res) => {
       port: 587,
       secure: false,
       auth: {
-        user: process.env.GMAIL_ID,
-        pass: process.env.GMAIL_PASSWORD,
-      },
+        user: process.env.ID,
+        pass: process.env.PASSWORD,
+      }
     });
 
     let mailDetails = {
