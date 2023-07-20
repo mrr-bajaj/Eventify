@@ -96,8 +96,8 @@ router.post("/add-event", upload.single("image"), async (req, res) => {
       port: 587,
       secure: false,
       auth: {
-        user: process.env.ID,
-        pass: process.env.PASSWORD,
+        user: 'mrrbajaj44@gmail.com',
+        pass: 'fqtswwrgnxzsvkda',
       }
     });
 
