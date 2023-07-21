@@ -20,37 +20,46 @@ export class EventsComponent implements OnInit, OnDestroy{
 
   searchTerm: string;
   subscriptions:Subscription[]=[];
+  
+  location: string;
 
-  locationOptions = ['All','India', 'Norway'];
   roles:String[];
 
   constructor(private router: Router,private route : ActivatedRoute,private eventsService : EventsService,private searchService:SearchService){}
 
   ngOnInit(): void {
-    this.initialize();
+    this.eventsService.locationData$.subscribe(location => {
+      this.location = location;
+      this.initialize();
+    });
     this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
 
-  initialize(){
-    this.upcomingEvent();
-    this.pastEvent();
+  async initialize(){
+    await this.upcomingEvent();
+    await this.pastEvent();
+    this.getFilterByLocation(this.location);
     this.search();
   }
 
-  upcomingEvent(){
-    const subs = this.eventsService.getAllUpcomingEvents().subscribe( (resData:EventModel[]) => {
-      this.upcomingEvents =resData;
+  async upcomingEvent() {
+    try {
+      const resData: EventModel[] = await this.eventsService.getAllUpcomingEvents().toPromise();
+      this.upcomingEvents = resData;
       this.filteredUpcomingEvents = this.upcomingEvents;
-    });
-    this.subscriptions.push(subs);
+    } catch (error) {
+      console.error('Error fetching upcoming events:', error);
+    }
   }
-
-  pastEvent(){
-    const subs = this.eventsService.getAllPastEvents().subscribe((resData:EventModel[])=>{
+  
+  async pastEvent() {
+    try {
+      const resData: EventModel[] = await this.eventsService.getAllPastEvents().toPromise();
       this.pastEvents = resData;
-      this.filteredPastEvents = this.pastEvents
-    });
-    this.subscriptions.push(subs);
+      this.filteredPastEvents = this.pastEvents;
+    } catch (error) {
+      console.error('Error fetching past events:', error);
+    }
   }
 
   onAddEvent(){
@@ -62,12 +71,6 @@ export class EventsComponent implements OnInit, OnDestroy{
       this.searchTerm = data;
     })
     this.subscriptions.push(subs);
-  }
-
-  onSelectLocation(event: any){
-    const selectedLocation = event.target.value;
-
-    this.getFilterByLocation(selectedLocation)
   }
 
   getFilterByLocation(selectedLocation: any){

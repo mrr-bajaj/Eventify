@@ -5,6 +5,7 @@ const employeeSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   department: {type: String, required: true},
+  location: {type:String, required: true},
   roles: {type: [String],default:'user'}
 });
 

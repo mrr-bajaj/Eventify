@@ -22,25 +22,25 @@
       <div class="form-group">
         <select id="department" name="department" ngModel required>
           <option value="" disabled selected>Department</option>
-          <option *ngFor="let option of departmentOptions" [value]="option.value">
-            {{ option.label }}
+          <option *ngFor="let option of departmentOptions" [value]="option">
+            {{ option }}
           </option>
         </select>
       </div>
-      <button type="submit" class="btn btn-dark rounded-5" [disabled]="!f.valid">
+      <div class="form-group">
+        <select id="location" name="location" ngModel required>
+          <option value="" disabled selected>Location</option>
+          <option *ngFor="let option of locationOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-dark rounded-5 m-1" [disabled]="!f.valid">
         Sign Up
       </button>
+      <button type="button" class="btn btn-dark rounded-5" (click)="navigateToLoginPage()">
+        Log In
+      </button>
     </form>
-    <p class="mt-3">
-      Already Registered?
-      <span><a [routerLink]="
-            eventId
-              ? isAttend
-                ? ['/login/events']
-                : ['/register']
-              : ['/login']
-          " [queryParams]="getQueryParams()">Login</a></span>
-      here
-    </p>
   </div>
 </div>

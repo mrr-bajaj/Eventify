@@ -17,9 +17,8 @@
           required>
         <span class="help_block" *ngIf="invalidPassword">Invalid Password</span>
       </div>
-      <button type="submit" class="btn btn-dark rounded-5" [disabled]="!f.valid">{{buttonSubmitName}}</button>
+      <button type="submit" class="btn btn-dark rounded-5 m-1" [disabled]="!f.valid">{{buttonSubmitName}}</button>
+      <button type="button" class="btn btn-dark rounded-5"(click)="onSignUp()" >Sign Up</button>
     </form>
-    <p class="mt-3">Don't have an account? <span><a [routerLink]="['/signup']" [queryParams]="getQueryParams()">Sign
-          Up</a></span> here</p>
   </div>
 </div>

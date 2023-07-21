@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employees/employee.service';
+import { EventsService } from 'src/app/services/events/events.service';
 import { SearchService } from 'src/app/services/search/search.service';
 
 @Component({
@@ -17,11 +18,15 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
   emailNotFound: boolean = false;
   searchTerm:string;
   subscriptions: Subscription[] = [];
+  location:string;
 
-  constructor(private employeeService: EmployeeService,private searchService:SearchService){}
+  constructor(private employeeService: EmployeeService,private searchService:SearchService,private eventsService:EventsService){}
 
   ngOnInit(): void {
+    this.eventsService.locationData$.subscribe(location => {
+      this.location = location;
       this.initialize();
+    });
   }
 
   initialize(){
@@ -32,7 +37,11 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
   getAdmin(){
     const subs = this.employeeService.getAdmins().
     subscribe((res)=>{
-      this.dataSource = res;
+      if(this.location === 'All'){
+        this.dataSource = res;
+      }else{
+        this.dataSource = res.filter(data => data.location === this.location);
+      }
       for(let i in this.dataSource){
         this.dataSource[i].srNo = (+i) +1;
         this.dataSource[i].action = 'Admin';

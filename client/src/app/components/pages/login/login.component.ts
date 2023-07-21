@@ -46,14 +46,6 @@ export class LoginComponent implements OnInit, OnDestroy{
     });
   }
 
-  getQueryParams(){
-    if(this.eventId){
-      return {id: this.eventId,name: this.buttonSubmitName === 'Attend' ? true : false};
-    }else{
-      return null;
-    }
-  }
-
   validateEmail(email: string):boolean{
     const domainPattern = /^[A-Za-z0-9._%+-]+@kongsbergdigital\.com$/i;
     return domainPattern.test(email);
@@ -133,6 +125,18 @@ export class LoginComponent implements OnInit, OnDestroy{
     return decodedToken.roles;
   }
 
+  onSignUp(){
+    if(this.eventId){
+      if(this.buttonSubmitName === 'Attend'){
+        this.router.navigate(['/signup'],{queryParams:{id:this.eventId,name:'attend'}});
+      }else{
+        this.router.navigate(['/signup'],{queryParams:{id:this.eventId,name:'register'}});
+      }
+    }else{
+      this.router.navigate(['/signup'])
+    }
+  }
+  
   ngOnDestroy() {
     // Unsubscribe from each subscription in the array to prevent memory leaks
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

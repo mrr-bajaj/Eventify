@@ -6,7 +6,7 @@ const eventRoutes = require('./routes/events')
 const employeeRoutes = require('./routes/employees')
 
 const app = express();
-const port = 3000;
+const port = process.env.port || 3000;
 
 // Connect to MongoDB
 connectDB();
