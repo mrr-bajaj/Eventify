@@ -5,3 +5,36 @@ h1{
   margin: 20px;
   padding: 5px;
 }
+
+.data-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.employee-card {
+  width: 30%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.employee-header-image {
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.employee-photo{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.count-stats{
+  margin-left: 20px;
+
+}

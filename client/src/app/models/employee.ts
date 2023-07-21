@@ -7,6 +7,7 @@ export interface Employee {
   location?: string;
   profileImagePath?: string;
   time?: string;
+  gender:string;
 }
 
 export interface EmployeeLoginInfo {

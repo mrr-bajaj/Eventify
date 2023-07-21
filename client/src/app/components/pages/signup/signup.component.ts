@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit, OnDestroy{
   isAttend:string= '';
   departmentOptions = [ 'Digital Energy', 'Digital Wells', 'Digital Ocean'];
   locationOptions = ['India','Norway'];
+  genderOptions=['Male','Female','Other'];
   constructor(private authService: AuthService, private router: Router,private route:ActivatedRoute) {  }
 
   ngOnInit(): void {
@@ -27,6 +28,14 @@ export class SignupComponent implements OnInit, OnDestroy{
       this.eventId = params['id'];
       this.isAttend = params['name'];
     })
+  }
+
+  getQueryParams(){
+    if(this.eventId){
+      return {id: this.eventId};
+    }else{
+      return null;
+    }
   }
 
   validateEmail(email: string){

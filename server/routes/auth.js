@@ -7,14 +7,14 @@ const Employee = require('../models/employee.model');
 // SignUp route
 router.post('/signup', async (req, res) => {
   try {
-    const { email, password,name,department, location } = req.body;
+    const { email, password,name,department, location,gender } = req.body;
     const emp = await Employee.findOne({email});
     if(emp){
       return res.send({error: 'Email already registered'})
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const employee = new Employee({ email,name,department,location, password: hashedPassword,roles:['user'] });
+    const employee = new Employee({ email,name,department,location, gender,password: hashedPassword,roles:['user'] });
     await employee.save();
     res.status(201).json({ message: 'Employee registered successfully' });
   } catch (error) {

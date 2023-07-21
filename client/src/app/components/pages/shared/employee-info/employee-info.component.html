@@ -1,3 +1,44 @@
+<div class="data-container">
+  <mat-card class="employee-card">
+    <mat-card-header>
+      <div mat-card-avatar class="employee-header-image"></div>
+      <mat-card-title>{{
+        employee.name ? employee.name : "Name Unavailable"
+      }}</mat-card-title>
+      <mat-card-subtitle class="employee-email">{{
+        employee.email
+      }}</mat-card-subtitle>
+    </mat-card-header>
+    <img
+      mat-card-image
+      class="employee-photo"
+      [src]="
+        employee.profileImagePath
+          ? employee.profileImagePath
+          : 'assets/images/employee-placeholder-img.png'
+      "
+      alt="Photo Placeholder"
+    />
+    <mat-card-content>
+      <p>
+        {{
+          employee.department
+            ? employee.department
+            : "Department Unavailable"
+        }}
+      </p>
+    </mat-card-content>
+    </mat-card>
+    <div class="count-stats">
+      <div class="col" style="margin-bottom: 5px;">
+      <app-data-card [icon]="icons[0]" [title]="'Registered Events'" [value]="registeredEventsCount"></app-data-card>
+      </div>
+      <div class="col">
+      <app-data-card [icon]="icons[1]" [title]="'Attended Events'" [value]=" attendedEventsCount"></app-data-card>
+      </div>
+    </div>
+   </div>
+
 <button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
 <h1>List of {{isRegistration ? 'Registered' : 'Attended' }} Events</h1>
 <app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>
