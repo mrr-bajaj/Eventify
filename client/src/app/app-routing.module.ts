@@ -99,6 +99,11 @@ const routes: Routes = [
         path: 'events',
         component: EventsComponent,
         canActivateChild: [AuthGuard],
+      },
+      {
+        path: 'employees/:id',
+        component: EmployeeInfoComponent,
+        canActivateChild: [AuthGuard],
       }
      ],
   },
