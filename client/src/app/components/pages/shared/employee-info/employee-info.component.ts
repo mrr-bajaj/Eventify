@@ -2,8 +2,11 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Employee } from 'src/app/models/employee';
+import { EmployeeService } from 'src/app/services/employees/employee.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { SearchService } from 'src/app/services/search/search.service';
+import { faUsers, faClock } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-employee-info',
@@ -11,14 +14,19 @@ import { SearchService } from 'src/app/services/search/search.service';
   styleUrls: ['./employee-info.component.css']
 })
 export class EmployeeInfoComponent implements OnInit, OnDestroy{
+  employee:Employee;
   displayedColumns: string[] = ['srNo', 'name', 'date', 'time'];
   attendedDataSource: any[];
   registeredDataSource: any[];
+  attendedEventsCount=0;
+  registeredEventsCount=0;
   empEmail: string;
   searchTerm:string;
   subscriptions:Subscription[]=[];
+  icons = [faUsers,faClock];
+
   isRegistration:boolean = false;
-  constructor(private route: ActivatedRoute,private eventsService:EventsService,private datePipe:DatePipe,private searchService:SearchService){}
+  constructor(private route: ActivatedRoute,private eventsService:EventsService,private datePipe:DatePipe,private searchService:SearchService,private employeeService:EmployeeService){}
   ngOnInit(): void {
     this.initialize();
     this.search();
@@ -28,6 +36,10 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
     this.getParamEmail();
     this.getAttendedEventDetails();
     this.getRegisteredEventDetails();
+    this.employeeService.getEmployeeByEmail(this.empEmail).subscribe(res=>{
+      if(res)
+      this.employee=res;
+    });
   }
 
   showRegiration(){
@@ -50,6 +62,7 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
     const subs = this.eventsService.getAllAttendedEventsOfEmployeeByEmail(this.empEmail)
     .subscribe(resData => {
       this.attendedDataSource = resData;
+      this.attendedEventsCount=resData.length;
       for(let i in resData){
         this.attendedDataSource[i].date = this.convertDate(this.attendedDataSource[i].date);
         this.attendedDataSource[i].time = this.convertTime(this.attendedDataSource[i].time);
@@ -64,6 +77,7 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
     .subscribe(resData => {
       if(resData){
         this.registeredDataSource = resData;
+        this.registeredEventsCount=resData.length;
         for(let i in resData){
           this.registeredDataSource[i].date = this.convertDate(this.registeredDataSource[i].date);
           this.registeredDataSource[i].srNo = (+i)+1;
@@ -78,10 +92,10 @@ export class EmployeeInfoComponent implements OnInit, OnDestroy{
     const formattedHours = this.formatNumber(Number(hours) % 12 || 12);
     const formattedMinutes = this.formatNumber(Number(minutes));
     const period = Number(hours) < 12 ? 'AM' : 'PM';
-  
+
     return `${formattedHours}:${formattedMinutes} ${period}`;
   }
-  
+
   private formatNumber(value: number): string {
     return value.toString().padStart(2, '0');
   }
