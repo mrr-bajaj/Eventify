@@ -130,6 +130,8 @@ export class AddEventComponent implements OnInit,OnDestroy{
   }
 
   onReset() {
+    this.imageFile = null;
+    this.fileName = '';
     this.eventForm.reset();
   }
 

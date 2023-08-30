@@ -1,21 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SidebarComponent } from './sidebar.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let fixture: ComponentFixture<SidebarComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [SidebarComponent]
-    });
-    fixture = TestBed.createComponent(SidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [SidebarComponent],
+      imports: [MatIconModule],
+    }).compileComponents();
   });
 
-  it('should create', () => {
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SidebarComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 });

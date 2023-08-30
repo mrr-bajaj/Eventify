@@ -2,12 +2,12 @@ const express = require("express");
 const uuid = require("uuid");
 const qrCode = require("qrcode");
 const multer = require("multer");
-const nodemailer = require("nodemailer");
 const fs = require("fs");
 const router = express.Router();
 const Event = require("../models/event.model");
 const Attendance = require("../models/attendance.model");
 const Registration = require("../models/registration.model");
+const mailConfig = require("../config/mailService");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -59,7 +59,7 @@ router.post("/add-event", upload.single("image"), async (req, res) => {
     let baseUrl = "http://localhost:4200/";
     if (refererHeader) {
       const refererUrl = new URL(refererHeader);
-      baseUrl = `${refererUrl.protocol}//${refererUrl.host}/`;
+      baseUrl = `${refererUrl.protocol}//${refererUrl.host}/#/`;
     }
     const appUrl = `${baseUrl}login/events`;
     // Generate unique event ID
@@ -90,19 +90,10 @@ router.post("/add-event", upload.single("image"), async (req, res) => {
     await registration.save();
     await event.save();
 
-    let mailTransporter = nodemailer.createTransport({
-      service: "gmail",
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      auth: {
-        user: 'mrrbajaj44@gmail.com',
-        pass: 'fqtswwrgnxzsvkda',
-      }
-    });
+    let mailTransporter = mailConfig;
 
     let mailDetails = {
-      from: "mrrbajaj44@gmail.com",
+      from: process.env.ID,
       to: "shubhambajaj90495@gmail.com",
       subject: `Event ${event.name} Registration`,
       text:`Dear Shubham Bajaj,\n\nWe invite you to register for the event. Please click on the following link to complete your registration: ${registerUrl}\n\nThank you.`
@@ -188,7 +179,7 @@ router.get("/past-event", async (req, res) => {
     const filter = {};
     if (date) {
       filter.date = {
-        $lte: new Date(date),
+        $lt: new Date(date),
       };
     }
     const events = await Event.find(filter);

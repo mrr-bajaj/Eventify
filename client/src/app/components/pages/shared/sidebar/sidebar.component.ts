@@ -11,19 +11,10 @@ export class SidebarComponent implements OnInit{
   username: string;
   roles:String[];
  loggedInEmpEmail:string;
-  router: any;
-  employees: any;
-  route: any;
+ constructor(private employeeService:EmployeeService){}
   ngOnInit(): void {
     this.username = localStorage.getItem('username');
     this.roles = localStorage.getItem('roles')?.split(',') || [];
-    this.getEmployeeEmail(localStorage.getItem('token'));
+    this.loggedInEmpEmail=this.employeeService.getEmployeeEmailFromToken();
   }
-
-  private getEmployeeEmail(token: string) {
-    const decodedToken: any = jwt_decode(token);
-    this.loggedInEmpEmail=decodedToken.email;
-     }
-
-
 }

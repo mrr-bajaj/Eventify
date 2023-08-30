@@ -32,6 +32,9 @@ export class EventsComponent implements OnInit, OnDestroy{
       this.location = location;
       this.initialize();
     });
+    this.eventsService.eventUpdate$.subscribe(data => {
+      this.initialize();
+    })
     this.roles = localStorage.getItem('roles')?.split(',') || [];
   }
 

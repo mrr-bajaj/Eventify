@@ -1,26 +1,34 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
   
-  private baseUrl = 'http://localhost:3000/api/events';
+  private baseUrl = `${environment.apiUrl}/api/events`;
   private pieUpdateSubject = new Subject<boolean>();
   private LineUpdateSubject = new Subject<boolean>();
   private totalUpcomingEventCount: number = 0;
   private totalPastEventCount: number = 0;
   private locationDataSubject = new BehaviorSubject<string>('All');
+  private eventUpdateSubject = new BehaviorSubject<boolean>(true);
   location:string = 'All';
   locationData$ = this.locationDataSubject.asObservable();
+  eventUpdate$ = this.eventUpdateSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private datePipe: DatePipe) {}
 
   sendLocationData(newLocation: string) {
     this.location = newLocation;
     this.locationDataSubject.next(newLocation);
+  }
+
+  sendEventData(){
+    this.eventUpdateSubject.next(true);
   }
 
   sendPieDataEvent(data: boolean) {
@@ -52,7 +60,7 @@ export class EventsService {
   }
 
   getAllUpcomingEvents(): Observable<any>{
-    const date = new Date();
+    const date = this.datePipe.transform(new Date(), 'dd MMM yyyy');
     return this.http.get(`${this.baseUrl}/upcoming-event?date=${date}`)
         .pipe(tap(resData => {
         // Compare function for sorting by date property
@@ -71,7 +79,7 @@ export class EventsService {
   }
 
   getAllPastEvents(): Observable<any>{
-    const date = new Date();
+    const date = this.datePipe.transform(new Date(), 'dd MMM yyyy');
     return this.http.get(`${this.baseUrl}/past-event?date=${date}`)
     .pipe(tap(resData => {
       // Compare function for sorting by date property

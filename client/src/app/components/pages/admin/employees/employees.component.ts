@@ -19,7 +19,7 @@ export class EmployeesComponent implements OnInit,OnDestroy {
   searchTerm:string;
   subscriptions: Subscription[]=[];
   location: string;
-  constructor(private employeeService: EmployeeService, private searchService: SearchService,private router:Router,private route:ActivatedRoute,private eventsService: EventsService) { }
+  constructor(private employeeService: EmployeeService, private searchService: SearchService, private router: Router, private route: ActivatedRoute, private eventsService: EventsService) { }
 
   ngOnInit() {
     this.eventsService.locationData$.subscribe(location => {

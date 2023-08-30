@@ -12,7 +12,13 @@
     <app-data-card [icon]="icons[3]" [title]="'Upcoming Events'" [value]="totalUpcomingEventCount"></app-data-card>
   </div>
 </div>
-<app-line-chart [attendedData]="attendedData" [registeredData]="registeredData"></app-line-chart>
+<div class="chart-container">
+  <app-line-chart class="line-chart" [attendedData]="attendedData" [registeredData]="registeredData"></app-line-chart>
+  <div class="bar-chart-container">
+    <app-bar [monthlyData]="attendedBarDataMonthly" [labelName]="'Attended Employees'"></app-bar>
+    <app-bar [monthlyData]="registeredBarDataMonthly" [labelName]="'Registered Employees'"></app-bar>
+  </div>
+</div>
 <div class="event-container mt-5">
   <div class="upcoming-event">
     <div class="header">
