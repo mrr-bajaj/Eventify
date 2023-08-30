@@ -30,6 +30,7 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard],
+    data: { roles: ['admin'] },
     children: [
       {
         path: '',
@@ -75,12 +76,12 @@ const routes: Routes = [
       {
         path: 'edit-event',
         component: AddEventComponent,
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
       },
       {
         path: 'edit-event/:id',
         component: AddEventComponent,
-        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
       },
     ],
   },
@@ -88,6 +89,7 @@ const routes: Routes = [
     path: 'user',
     component: AdminComponent,
     canActivate: [AuthGuard],
+    data: { roles: ['user'] },
     children: [
       {
         path: '',
@@ -114,7 +116,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,{ useHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

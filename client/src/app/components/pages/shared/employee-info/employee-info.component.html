@@ -1,3 +1,62 @@
-<button (click)="showRegiration()" class="btn btn-primary" type="button">Show  {{isRegistration ? 'Attendance' : 'Registration'}}</button>
-<h1>List of {{isRegistration ? 'Registered' : 'Attended' }} Events</h1>
-<app-table [displayedColumns]="displayedColumns" [dataSource]="isRegistration ? registeredDataSource : attendedDataSource" [searchTerm]="searchTerm"></app-table>
+<div class="btn-header">
+  <button (click)="showRegiration()" class="btn btn-primary" type="button">
+    Show {{ isRegistration ? "Attendance" : "Registration" }}
+  </button>
+</div>
+<div class="data-container">
+  <mat-card *ngIf="employee" class="employee-card">
+    <div class="card-content">
+      <div class="left-side">
+        <img
+          mat-card-image
+          class="employee-photo"
+          [src]="
+            employee.profileImagePath
+              ? employee.profileImagePath
+              : 'assets/images/employee-placeholder-img.png'
+          "
+          alt="Photo Placeholder"
+        />
+      </div>
+      <div class="right-side">
+        <mat-card-header>
+          <mat-card-title>{{
+            employee.name ? employee.name : "Name Unavailable"
+          }}</mat-card-title>
+          <mat-card-subtitle class="employee-email">
+            {{ employee.email }}
+            <h2>
+              {{ employee.department ? employee.department : "Department Unavailable" }} 
+            </h2>
+          </mat-card-subtitle>
+        </mat-card-header>
+      </div>
+    </div>
+  </mat-card>
+  
+  <div class="data-chart-container">
+    <div class="row">
+      <div class="col">
+        <app-data-card
+          [icon]="icons[0]"
+          [title]="'Registered Events'"
+          [value]="registeredEventsCount"
+        ></app-data-card>
+      </div>
+      <div class="col">
+        <app-data-card
+          [icon]="icons[1]"
+          [title]="'Attended Events'"
+          [value]="attendedEventsCount"
+        ></app-data-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1>List of {{ isRegistration ? "Registered" : "Attended" }} Events</h1>
+<app-table
+  [displayedColumns]="displayedColumns"
+  [dataSource]="isRegistration ? registeredDataSource : attendedDataSource"
+  [searchTerm]="searchTerm"
+></app-table>

@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit, OnDestroy{
   isAttend:string= '';
   departmentOptions = [ 'Digital Energy', 'Digital Wells', 'Digital Ocean'];
   locationOptions = ['India','Norway'];
+  genderOptions=['Male','Female','Other'];
   constructor(private authService: AuthService, private router: Router,private route:ActivatedRoute) {  }
 
   ngOnInit(): void {

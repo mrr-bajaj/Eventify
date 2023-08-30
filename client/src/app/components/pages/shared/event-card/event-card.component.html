@@ -19,4 +19,9 @@
       <button  *ngIf="!isPast" class="button-row" mat-raised-button color="primary" (click)="downloadQrCode()" style="background-color:#1abc9c;">Download QR Code</button>
     </div >
   </ng-template>
+  <ng-template [ngIf]="this.roles?.includes('user')">
+    <div class="button-container m-2">
+      <button  *ngIf="!isPast" class="button-row btn btn-primary" mat-raised-button color="primary" (click)="onRegister(event.id)" >Register</button>
+    </div >
+  </ng-template>
 </mat-card>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -41,6 +41,7 @@ import { LineChartComponent } from './components/pages/shared/charts/line-chart/
 import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts';
 import { ConfirmationDialogComponent } from './components/pages/shared/confirmation-dialog/confirmation-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { BarComponent } from './components/pages/shared/charts/bar/bar.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     PieComponent,
     DataCardComponent,
     LineChartComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    BarComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +91,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CanvasJSAngularChartsModule,
     MatDialogModule
   ],
-  providers: [AuthGuard,SearchPipe,DatePipe],
+  providers: [AuthGuard,SearchPipe,DatePipe,{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

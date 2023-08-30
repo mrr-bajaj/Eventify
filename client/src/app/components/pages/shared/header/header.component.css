@@ -10,12 +10,19 @@
 }
 
 .header{
+  display: flex;
   height: 60px;
 }
 
-.location-dropdown{
-  width: 8%;
-  margin-left: 60%;
+.search{
+  display: flex;
+  justify-content: center;
+}
+
+.btn-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 /* Styling the select dropdown */
@@ -25,6 +32,7 @@ select {
   padding: 8px;
   font-size: 16px;
   border: 1px solid #ccc;
+  border-radius: 10px;
   background-color: #fff;
   color: #333;
   transition: border-color 0.3s ease;

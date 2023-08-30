@@ -5,6 +5,7 @@ import { EmployeeService } from 'src/app/services/employees/employee.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { SearchService } from 'src/app/services/search/search.service';
 import { faUsers, faCalendar, faHistory, faClock } from '@fortawesome/free-solid-svg-icons';
+import { Attendance } from 'src/app/models/attendance';
 
 @Component({
   selector: 'app-dashboard',
@@ -26,6 +27,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
   registeredData: {label:string,y:number}[] = [];
   icons = [faUsers,faCalendar,faHistory,faClock];
   location:string;
+  attendedBarDataMonthly: number[]=Array(12).fill(0);
+  registeredBarDataMonthly: number[]=Array(12).fill(0);
   constructor(private eventsService : EventsService,private searchService: SearchService,private employeeService:EmployeeService){}
   
   ngOnInit(): void {
@@ -38,7 +41,9 @@ export class DashboardComponent implements OnInit, OnDestroy{
   async initialize(){
     this.attendedData = [];
     this.registeredData = [];
-    await this.upcomingEvent();
+    this.attendedBarDataMonthly =Array(12).fill(0);
+    this.registeredBarDataMonthly =Array(12).fill(0);
+    this.upcomingEvent();
     await this.pastEvent();
     this.search();
     this.getStatsData();
@@ -65,7 +70,7 @@ export class DashboardComponent implements OnInit, OnDestroy{
     this.totalUpcomingEventCount = this.eventsService.getTotalUpcomingEventCount();
   }
 
-  async upcomingEvent() {
+  upcomingEvent() {
     return new Promise<void>((resolve, reject) => {
       const subs = this.eventsService.getAllUpcomingEvents().subscribe((resData: EventModel[]) => {
         if(this.location === 'All'){
@@ -103,28 +108,75 @@ export class DashboardComponent implements OnInit, OnDestroy{
     }
   }
 
-  async getLineChartData(){
-    for (let event of this.allPastEvents) {
-      await this.getAttendedData(event);
-      await this.getRegisteredData(event);
-    }
+  // async getLineChartData(){
+  //   for (let event of this.allPastEvents) {
+  //     await this.getAttendedData(event);
+  //     await this.getRegisteredData(event);
+  //   }
+  //   this.eventsService.sendLineDataEvent(true);
+  // }
+  // async getAttendedData(event: EventModel){
+  //   const date = new Date(event.date);
+  //   const month = date.getMonth() ;
+  //   let pastEventAttendanceData: {label:string,y:number} = {label: '', y: 0};
+  //     pastEventAttendanceData.label = event.name;
+  //     const attendance = await this.eventsService.getAttendance(event.id).toPromise();
+  //     const attendanceCount = attendance.employees.length
+  //     pastEventAttendanceData.y = attendanceCount;
+  //     this.attendedData.push(pastEventAttendanceData);
+  //     this.attendedBarDataMonthly[month]+=attendanceCount;
+  // }
+
+  // async getRegisteredData(event: EventModel){
+  //   const date = new Date(event.date);
+  //   const month = date.getMonth() ;
+  //   let pastEventRegisteredData: {label:string,y:number} = {label: '', y: 0};
+  //     pastEventRegisteredData.label = event.name;
+  //     const registeration = await this.eventsService.getRegistration(event.id).toPromise();
+  //     const registrationCount = registeration.employees.length
+  //     pastEventRegisteredData.y = registrationCount;
+  //     this.registeredData.push(pastEventRegisteredData);
+  //     this.registeredBarDataMonthly[month]+=registrationCount;
+  // }
+
+  async getLineChartData() {
+    const attendedPromises = this.allPastEvents.map(event => this.eventsService.getAttendance(event.id).toPromise());
+    const registeredPromises = this.allPastEvents.map(event => this.eventsService.getRegistration(event.id).toPromise());
+  
+    // Wait for all attended and registered data to be fetched
+    await Promise.all([Promise.all(attendedPromises),Promise.all(registeredPromises)])
+    .then(([attendedItemValues,registeredItemValues])=>{
+      for(let i=0;i<attendedItemValues.length;i++){
+        this.getAttendedData(attendedItemValues[i],this.allPastEvents[i]);
+        this.getRegisteredData(registeredItemValues[i],this.allPastEvents[i]);
+      }
+    })
+    
+    // Now, both attendedData and registeredData arrays should be populated correctly
+  
     this.eventsService.sendLineDataEvent(true);
   }
-
-  async getAttendedData(event: EventModel){
+  
+  async getAttendedData(attendance:Attendance,event:EventModel){
+    const date = new Date(event.date);
+    const month = date.getMonth() ;
     let pastEventAttendanceData: {label:string,y:number} = {label: '', y: 0};
       pastEventAttendanceData.label = event.name;
-      const attendance = await this.eventsService.getAttendance(event.id).toPromise();
-      pastEventAttendanceData.y = attendance.employees.length;
+      const attendanceCount = attendance.employees.length
+      pastEventAttendanceData.y = attendanceCount;
       this.attendedData.push(pastEventAttendanceData);
+      this.attendedBarDataMonthly[month]+=attendanceCount;
   }
 
-  async getRegisteredData(event: EventModel){
+  async getRegisteredData(registeration:Attendance,event: EventModel){
+    const date = new Date(event.date);
+    const month = date.getMonth() ;
     let pastEventRegisteredData: {label:string,y:number} = {label: '', y: 0};
       pastEventRegisteredData.label = event.name;
-      const registeration = await this.eventsService.getRegistration(event.id).toPromise();
-      pastEventRegisteredData.y = registeration.employees.length;
+      const registrationCount = registeration.employees.length
+      pastEventRegisteredData.y = registrationCount;
       this.registeredData.push(pastEventRegisteredData);
+      this.registeredBarDataMonthly[month]+=registrationCount;
   }
   
 

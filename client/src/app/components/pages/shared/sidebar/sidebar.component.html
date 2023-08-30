@@ -9,7 +9,7 @@
       <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['dashboard']" routerLinkActive="active">Dashboard</a>
       </li>
       <li><a routerLink="events" routerLinkActive="active">Events</a></li>
-      <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['employees']" routerLinkActive="active">Employees</a>
+      <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['employees']" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active">Employees</a>
       </li>
       <li *ngIf="this.roles?.includes('admin')"><a [routerLink]="['admin-roles']" routerLinkActive="active">Admin
           Roles</a></li>

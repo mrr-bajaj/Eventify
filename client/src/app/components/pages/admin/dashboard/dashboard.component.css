@@ -44,3 +44,14 @@
   height: 60px;
 }
 
+.chart-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.bar-chart-container{
+  width: 40%;
+}
+.line-chart{
+  width: 85%;
+}

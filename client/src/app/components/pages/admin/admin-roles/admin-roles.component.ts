@@ -27,6 +27,9 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
       this.location = location;
       this.initialize();
     });
+    this.employeeService.adminRoleUpdate$.subscribe(data =>{
+      this.initialize();
+    })
   }
 
   initialize(){
@@ -75,7 +78,8 @@ export class AdminRolesComponent implements OnInit, OnDestroy{
   }
 
   addAdmin(){
-    const subs = this.employeeService.addAdminByEmail(this.addEmail).
+    const adminEmail = this.employeeService.getEmployeeEmailFromToken();
+    const subs = this.employeeService.addAdminByEmail(this.addEmail,adminEmail).
       subscribe((res)=>{
         if(res.message === 'Admin role added'){
           this.initialize();

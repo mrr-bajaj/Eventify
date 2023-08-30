@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="filteredData">
   <ng-container *ngFor="let col of displayedColumns">
     <ng-container  [matColumnDef]="col">
-      <th mat-header-cell *matHeaderCellDef>{{col}}</th>
+      <th mat-header-cell *matHeaderCellDef>{{col | uppercase}}</th>
       <td mat-cell *matCellDef="let row; let i = index">
         <!-- Check if the current column is the "action" column -->
         <ng-container *ngIf="col === 'action'">

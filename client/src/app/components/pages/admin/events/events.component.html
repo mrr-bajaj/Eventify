@@ -1,32 +1,18 @@
 <div class="events">
-    <!-- <button class="add-event-btn" mat-fab extended (click)="onAddEvent()">
-      <mat-icon>add_box</mat-icon>
-      Add Event
-  </button> -->
-  <div class="event-header">
-    <div class="form-group location-dropdown">
-      <select id="location" name="location" (change)="onSelectLocation($event)" ngModel required>
-        <option value="" disabled selected>Location</option>
-        <option
-          *ngFor="let option of locationOptions"
-          [value]="option"
-        >
-          {{ option }}
-        </option>
-      </select>
-    </div>
-    <ng-template [ngIf]="this.roles?.includes('admin')">
+  <ng-template [ngIf]="this.roles?.includes('admin')">
+    <div class="event-header">
     <button class="btn btn-primary add-event-btn" type="button" extended (click)="onAddEvent()" >
       <mat-icon class="add-icon">add_box</mat-icon>
      <span>Add Event</span>
       </button>
-      </ng-template>
   </div>
+
+  </ng-template>
   <div class="event-section">
     <div class="header">
       <h1>Upcoming Events</h1>
     </div>
-    <div class="alert" *ngIf="upcomingEvents.length === 0">
+    <div class="alert" *ngIf="filteredUpcomingEvents.length === 0">
       No Upcoming events!
     </div>
     <div class="card-container">
@@ -37,7 +23,7 @@
     <div class="header">
       <h1>Past Events</h1>
     </div>
-    <div class="alert" *ngIf="pastEvents.length === 0">
+    <div class="alert" *ngIf="filteredPastEvents.length === 0">
       No Past events!
     </div>
     <div class="card-container">

@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventModel } from 'src/app/models/event';
 import { EventsService } from 'src/app/services/events/events.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import Swal from 'sweetalert2';
+import { EmployeeService } from 'src/app/services/employees/employee.service';
 
 @Component({
   selector: 'app-event-card',
@@ -18,7 +20,7 @@ export class EventCardComponent implements OnInit{
   qrCodeImage: string;
   @Input() isPast : boolean = false;
 
-  constructor(private router: Router,private route: ActivatedRoute,private eventsService:EventsService, private dialog: MatDialog){}
+  constructor(private router: Router,private route: ActivatedRoute,private eventsService:EventsService, private dialog: MatDialog, private employeeService:EmployeeService){}
 
   ngOnInit(): void {
    this.convertTime();
@@ -64,7 +66,7 @@ export class EventCardComponent implements OnInit{
       if (result === true) {
         this.eventsService.deleteEvent(this.event.id).subscribe(res => {
           if(res.message === 'Event deleted successfully'){
-            window.location.reload();   //TOCHANGE
+            this.eventsService.sendEventData();
           }
         }, err => {
           console.log(err);
@@ -72,4 +74,26 @@ export class EventCardComponent implements OnInit{
       }
     });
   }
+
+  onRegister(eventId: any) {
+    const email = this.employeeService.getEmployeeEmailFromToken();
+    this.eventsService.addRegistration(email, eventId).subscribe((res) => {
+      if (res.message === 'Registered event successfully') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: "You've Successfully Registered For The Event!\nSee You There!!!",
+        });
+      } else if (res.message === 'Already registered') {
+        Swal.fire({
+          icon: 'info',
+          title: 'Already Registered',
+          text: "You've Already Registered For The Event!",
+        });
+      }
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
 }

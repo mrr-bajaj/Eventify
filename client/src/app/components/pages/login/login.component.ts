@@ -3,9 +3,9 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeLoginInfo } from 'src/app/models/employee';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import jwt_decode from 'jwt-decode';
 import { EventsService } from 'src/app/services/events/events.service';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -73,23 +73,29 @@ export class LoginComponent implements OnInit, OnDestroy{
             return;
           }
           if(response.message === 'Successful Login'){
-            const roles = this.getRolesFromToken(response.token);
+            const roles = this.authService.getRolesFromToken(response.token);
             this.authService.setToken(response.token);
             localStorage.setItem('username',response.name);
             localStorage.setItem('roles',response.roles);
-           // this.router.navigate(['admin']);
-            if(roles.includes('admin') && !this.eventId){
+            if(roles.includes('admin') && (this.eventId.length === 0)){
               this.router.navigate(['admin']);
             }else if(roles.includes('user')){
-              this.router.navigate(['user']);
              if(this.buttonSubmitName === 'Register'){
                 const subs = this.eventsService.addRegistration(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                   if(res.message === 'Registered event successfully'){
                     form.reset();
-                    alert('You\'ve Successfully Registered For The Event!\nSee You There!!!');
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Success!',
+                      text: "You've Successfully Registered For The Event!\nSee You There!!!",
+                    });
                   }else if(res.message === 'Already registered'){
                     form.reset();
-                    alert('You\'ve Already Registered For The Event!');
+                    Swal.fire({
+                      icon: 'info',
+                      title: 'Already Registered',
+                      text: "You've Already Registered For The Event!",
+                    });
                   }
                 },(error)=>{
                   console.log(error)
@@ -99,15 +105,26 @@ export class LoginComponent implements OnInit, OnDestroy{
                 const subs = this.eventsService.addAttendance(this.employeeLoginInfo.email,this.eventId).subscribe((res)=>{
                   if(res.message === 'Attendance saved successfully'){
                     form.reset();
-                    alert('Yuppppp!!!! Congratzzzz!!\nYou\'re Attendance Saved Successfully!');
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Success!',
+                      text: "Yuppppp!!!! Congratzzzz!!\nYour Attendance Saved Successfully!'",
+                    });
                   }else if(res.message === 'Already attended'){
                     form.reset();
-                    alert('Your Attendance Is Already Marked For The Event!\nSee You There!!');
+                    Swal.fire({
+                      icon: 'info',
+                      title: 'Already Attended',
+                      text: "Your Attendance Is Already Marked For The Event!\nSee You There!!",
+                    });
                   }
                 },(error)=>{
                   console.log(error)
                 });
                 this.subscriptions.push(subs);
+              }
+              if(!roles.includes('admin') && this.buttonSubmitName === 'Login'){
+                this.router.navigate(['user']);
               }
             }
           }
@@ -120,10 +137,6 @@ export class LoginComponent implements OnInit, OnDestroy{
     this.subscriptions.push(subs);
   }
 
-  private getRolesFromToken(token: string): string[] {
-    const decodedToken: any = jwt_decode(token);
-    return decodedToken.roles;
-  }
 
   onSignUp(){
     if(this.eventId){
@@ -136,7 +149,6 @@ export class LoginComponent implements OnInit, OnDestroy{
       this.router.navigate(['/signup'])
     }
   }
-  
   ngOnDestroy() {
     // Unsubscribe from each subscription in the array to prevent memory leaks
     this.subscriptions.forEach(subscription => subscription.unsubscribe());

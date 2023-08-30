@@ -44,26 +44,41 @@
       { label: 'Digital Ocean', value: 'Digital Ocean' },
       { label: 'Digital Wells', value: 'Digital Wells' },
     ];
+    location: string;
+    selectedDepartment:string = 'All';
+    genderPieData:{
+      key:string[],
+      value:number[]
+    }={key:[],value:[]};
     constructor(private route: ActivatedRoute, private eventsService: EventsService,private employeeService: EmployeeService,private searchService: SearchService){
     }
 
     ngOnInit(): void {
-      this.initialize();
+      this.eventsService.locationData$.subscribe(location => {
+        this.location = location;
+        this.initialize();
+      });
     }
 
     async initialize(){
+      this.registeredEmployeesInfo = [];
+      this.attendedEmployeesInfo = [];
       await this.getEventId();
       await this.getEventDetails();
       await this.getAttendedEmployeesList();
       await this.getRegisteredEmployeesList();
+      this.getFilterByDepartment(this.selectedDepartment);
       await this.getEmployeeCount();
       this.chartInitialize();
       this.search();
     }
 
     async getEmployeeCount(){
-      this.employeeService.getEmployees().subscribe(res => {
-        const totalEmployee = res.length;
+      this.employeeService.getEmployees().subscribe(employees => {
+        if(this.location !== 'All'){
+          employees = employees.filter(data => data.location === this.location);
+        }
+        const totalEmployee = employees.length;
         this.attendedEmployeeCount = this.filteredAttendedDataSource.length;
         this.registeredEmployeeCount = this.filteredRegisteredDataSource.length;
         this.attendedPer = Math.round((this.attendedEmployeeCount/totalEmployee)*100);
@@ -84,9 +99,9 @@
     
     chartInitialize(){
       if(this.isRegistration){
-        this.findPieData(this.registeredDataSource) 
+        this.findPieData(this.filteredRegisteredDataSource) 
       }else{
-        this.findPieData(this.attendedDataSource) 
+        this.findPieData(this.filteredAttendedDataSource) 
       }
       this.eventsService.sendPieDataEvent(true);
     }
@@ -94,6 +109,10 @@
     findPieData(dataSource){
       this.pieData.key = null;
       this.pieData.value = null;
+      this.genderPieData.key=null;
+      this.genderPieData.value=null;
+      const gender=[];
+      const genderBasedCount=[];
       const departments = [];
       const employeeCounts = [];
       dataSource.forEach(data => {
@@ -106,9 +125,20 @@
             employeeCounts[departmentIndex]++;
           }
         }
+        if (data.gender) {
+          const genderIndex = gender.indexOf(data.gender);
+          if (genderIndex === -1) {
+            gender.push(data.gender);
+            genderBasedCount.push(1);
+          } else {
+            genderBasedCount[genderIndex]++;
+          }
+        }
       });
       this.pieData.key = departments;
       this.pieData.value = employeeCounts;
+      this.genderPieData.key = gender;
+      this.genderPieData.value = genderBasedCount;
     }
 
     async getEventId(){
@@ -139,6 +169,14 @@
       if(time){
         employee.time = this.convertTime(time);
       }
+      if(this.location === 'All'){
+        this.pushEmployeeData(isRegister,employee);
+      }else if(this.location === employee.location){
+        this.pushEmployeeData(isRegister,employee);
+      }
+    }
+
+    pushEmployeeData(isRegister:boolean,employee: any){
       if(isRegister){
         this.registeredEmployeesInfo.push(employee);
       }else{
@@ -162,10 +200,10 @@
       const formattedHours = this.formatNumber(Number(hours) % 12 || 12);
       const formattedMinutes = this.formatNumber(Number(minutes));
       const period = Number(hours) < 12 ? 'AM' : 'PM';
-    
+
       return `${formattedHours}:${formattedMinutes} ${period}`;
     }
-    
+
     private formatNumber(value: number): string {
       return value.toString().padStart(2, '0');
     }
@@ -178,8 +216,9 @@
     }
 
     onSelectDepartment(event: any){
-      const selectedDepartment = event.target.value;
-      this.getFilterByDepartment(selectedDepartment)
+      this.selectedDepartment = event.target.value;
+      this.getFilterByDepartment(this.selectedDepartment);
+      this.chartInitialize();
       this.getEmployeeCount();
     }
 
