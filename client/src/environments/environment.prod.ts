@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://eventify-server.azurewebsites.net'
+  apiUrl: 'https://bajaj-eventify-server.onrender.com'
 };
